@@ -1,0 +1,135 @@
+// wrapperElement
+// -----------
+
+// TODO: Add relative center to remaining space
+
+@import 'mixins'
+
+wrap
+wrap-per
+.wrap
+  position relative
+  display inline-block
+  box-sizing border-box
+  micro-clearfix()
+
+  &[fill=width]
+  &[data-fill=width]
+  &.wrap-fill--width
+    display block
+
+  &[fill=height]
+  &[data-fill=height]
+  &.wrap-fill--height
+    height 100%
+
+  &[fill=both]
+  &[data-fill=both]
+  &.wrap-fill--both
+    display block
+    height 100%
+
+  &[fill=float]
+  &[data-fill=float]
+  &.wrap-fill--float
+    display block
+    overflow hidden
+
+  &[align=left]
+  &[data-align=left]
+  &.wrap-align--left
+    float left
+
+  &[align=right]
+  &[data-align=right]
+  &.wrap-align--right
+    float right
+
+  &[align=center]
+  &[data-align=center]
+  &.wrap-align--center
+    position relative
+    left 50%
+    transform(translateX(-50%))
+
+  &[align=center-parent]
+  &[data-align=center-parent]
+  &.wrap-align--center-parent
+    position absolute
+    left 50%
+    top 50%
+    transform(translateX(-50%) translateY(-50%))
+
+  &[align=center-screen]
+  &[data-align=center-screen]
+  &.wrap-align--center-screen
+    position fixed
+    left 50%
+    top 50%
+    transform(translateX(-50%) translateY(-50%))
+
+  &[distribute~=left]
+  &[data-distribute~=left]
+  &.wrap-distribute--left
+    text-align left
+    > *
+      display inline-block
+      text-align initial
+
+  &[distribute~=right]
+  &[data-distribute~=right]
+  &.wrap-distribute--right
+    text-align right
+
+  &[distribute~=top]
+  &[data-distribute~=top]
+  &.wrap-distribute--top
+    fullheight-align(top)
+
+  &[distribute~=bottom]
+  &[data-distribute~=bottom]
+  &.wrap-distribute--bottom
+    fullheight-align(bottom)
+
+  &[distribute~=center-x]
+  &[data-distribute~=center-x]
+  &.wrap-distribute--center-x
+    text-align center
+    > *
+      display inline-block
+      text-align initial
+
+  &[distribute~=center-y]
+  &[data-distribute~=center-y]
+  &.wrap-distribute--center-y
+    fullheight-align(middle)
+
+  &[clear]
+  &[data-clear]
+  &.wrap-clear
+    clear both
+
+  // Debug
+  // -----------
+
+  &[debug]
+  &[data-debug]
+  &.wrap-debug
+  /.debug &
+    border 1px solid rebeccapurple
+    padding 5px
+  
+    &:after
+      content 'wrap'
+      position absolute
+      display inline-block
+      right 0
+      top 0
+      margin -1px -1px 0 0
+      transform(translateX(100%))
+      background-color rebeccapurple
+      color white
+      font-size 10px
+      font-style italic
+      padding 3px 6px
+      clear both
