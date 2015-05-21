@@ -1,0 +1,34 @@
+/* -------------------
+  gonzo-ui | mixins
+  ------------------- */
+
+clearfix() // Gallagher
+  &:after
+  &:before
+    content ''
+    display table
+  &:after
+    clear both
+
+hide-text() // Kellum
+  text-indent 100%
+  white-space nowrap
+  overflow hidden
+
+truncate(width)
+  max-width width or 100%
+  white-space nowrap
+  overflow hidden
+  text-overflow ellipsis
+
+pseudo(display)
+  content ''
+  display display or block
+
+background-retina(file, width, height)
+  background-image url(file)
+  background-size width height
+  @media $retina2x
+    background-image url(pathjoin(dirname(file), basename(file, extname(file)) + '@2x' + extname(file)))
+  @media $retina3x
+    background-image url(pathjoin(dirname(file), basename(file, extname(file)) + '@3x' + extname(file)))
