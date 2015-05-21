@@ -1,0 +1,30 @@
+{
+  "name": "gonzo-seed",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp": "^3.8.11"
+  },
+  "devDependencies": {
+    "autoprefixer-core": "^5.1.11",
+    "gulp": "^3.8.11",
+    "gulp-postcss": "^5.1.6",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-stylus": "^2.0.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/salsita/gonzo-seed.git"
+  },
+  "author": "mystrdat",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/salsita/gonzo-seed/issues"
+  },
+  "homepage": "https://github.com/salsita/gonzo-seed"
+}
