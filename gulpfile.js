@@ -5,7 +5,7 @@ var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer-core');
 
 gulp.task('build-styles', function () {
-  gulp.src('./src/css/_main.styl')
+  gulp.src('./src/main.styl')
     .pipe(stylus({
       compress: true,
       'include css': true
@@ -16,7 +16,7 @@ gulp.task('build-styles', function () {
 });
 
 gulp.task('watch', function() {
-  gulp.watch('./src/css/**/*.styl', ['build-styles']);
+  gulp.watch('./src/**/*.styl', ['build-styles']);
 });
 
 gulp.task('default', ['build-styles', 'watch']);
