@@ -7,7 +7,7 @@ var autoprefixer = require('autoprefixer-core');
 var minifycss = require('gulp-minify-css');
 
 gulp.task('build-styles', function () {
-  gulp.src('./src/css/main.styl')
+  gulp.src('./src/css/_main.styl')
     .pipe(stylus({
       compress: true
     }))
