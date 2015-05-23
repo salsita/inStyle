@@ -1,0 +1,31 @@
+/* -------------------
+  gonzo-ui | icon
+  ------------------- */
+
+@font-face
+  font-family 'icons'
+  src url('assets/font/icons.eot')
+  src url('assets/font/icons.eot?#iefix') format('eot'),
+    url('assets/font/icons.woff') format('woff'),
+    url('assets/font/icons.ttf') format('truetype'),
+    url('assets/font/icons.svg#icons') format('svg')
+  font-weight normal
+  font-style normal
+
+[class*='icon-']:before
+  display inline-block
+  vertical-align middle
+  font-family 'icons'
+  font-style normal
+  font-weight normal
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+
+.icon-chevron-left:before
+  content '\E001'
+
+.icon-chevron-right:before
+  content '\E002'
+
+.icon-mail59:before
+  content '\E003'

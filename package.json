@@ -1,18 +1,19 @@
 {
   "name": "gonzo-seed",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "",
   "main": "gulpfile.js",
   "dependencies": {
-    "gulp": "^3.8.11"
+    "gulp": "^3.8.11",
+    "lodash": "^3.9.1"
   },
   "devDependencies": {
     "autoprefixer-core": "^5.1.11",
-    "gulp": "^3.8.11",
+    "gulp-consolidate": "^0.1.2",
+    "gulp-iconfont": "^1.0.1",
     "gulp-minify-css": "^1.1.1",
     "gulp-postcss": "^5.1.6",
     "gulp-rename": "^1.2.2",
-    "gulp-sourcemaps": "^1.5.2",
     "gulp-stylus": "^2.0.2"
   },
   "scripts": {

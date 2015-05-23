@@ -1,22 +1,21 @@
 /* -------------------
   gonzo-ui | form
   ------------------- */
-  
-button
-.button
-input[type='text']
-  height $formHeight
 
 // Buttons
 
 button
-  -webkit-appearance none
+  appearance none
   border 0
   outline 0
 
 button
 .button
-  height $formHeight
+  padding ($indentX/2) $indentX
+  border-radius $borderRadius
+  
+  &[class*='icon-']:before
+    margin-right ($indentX/2)
 
 // Inputs
 

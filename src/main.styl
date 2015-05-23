@@ -4,27 +4,19 @@
   2015 MIT
   ------------------- */
 
-// Configuration
-
-@import 'core/config'
-@import 'skin/default/config' // load skin config before other core components
-
 // Core
 
-@import 'core/lib/normalize.css/normalize.css'
-@import 'core/lib/wrapperElement/wrap'
-@import 'core/generic'
+@import 'core/normalize.css'
+@import 'core/config'
+@import 'core/mixins'
+@import 'core/base'
 
 // Effects
 
-@import 'core/effects/animate.css/animate.min.css'
+@import 'core/effects/animate.min.css'
 @import 'core/effects/easing'
 
 // Components
 
-@import 'components/icon'
-@import 'components/form'
-
-// Skin
-
-@import 'skin/default/_main'
+@import 'components/icons'
+@import 'components/forms'
