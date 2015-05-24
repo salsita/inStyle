@@ -2,7 +2,7 @@
 
 No default skin. No useless grids. Very few opinions.  
   
-A Stylus-based responsive CSS seed for UI developers that promotes high usability abstractions in favor of bootstrapism and hacking on overweight frameworks.  
+A Stylus-based responsive CSS seed for hands-on UI developers that promotes high usability abstractions in favor of bootstrapism and hacking on overweight frameworks.  
   
 ## Installation
 
@@ -39,6 +39,7 @@ header
 
 ### Distribute
 
+Aligning children inside elements is easy.  
 Mixins available for both `inline-block` and `flexbox` child distribution methods on x/y axis.
 
 ```css
@@ -59,4 +60,4 @@ background-retina('path/to/image.png', 100px, auto)
 
 ### Debug
 
-A visual debug mode is available when the `$debug` variable is set to `true` in `main.styl`.
+A visual debug mode is available when the `$debug` variable is set to `true` in `config.styl`. Idea repackaged from [inuitcss](https://github.com/inuitcss).
