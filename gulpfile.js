@@ -24,10 +24,10 @@ gulp.task('build-iconfont', function () {
             fontName: fontName,
             fontPath: fontPath
           }))
-          .pipe(rename({ basename: fontName }))
+          .pipe(rename('icons.styl'))
           .pipe(gulp.dest('./src/components/'));
     })
-  .pipe(gulp.dest('./build/'+fontPath));
+  .pipe(gulp.dest('./build/' + fontPath));
 });
 
 gulp.task('build-styles', function () {

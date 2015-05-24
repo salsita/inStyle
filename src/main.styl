@@ -4,6 +4,8 @@
   2015 MIT
   ------------------- */
 
+$debug = true
+
 // Core
 
 @import 'core/normalize.css'
@@ -20,3 +22,6 @@
 
 @import 'components/icons'
 @import 'components/forms'
+
+if $debug
+  @import 'core/debug'
