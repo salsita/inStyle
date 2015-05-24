@@ -43,7 +43,7 @@ header
 
 ### Effects
 
-`animate.css` and Robert Penner's `easing.styl` functions.
+Mature `animate.css` and Robert Penner's `easing.styl` functions.
 
 ### Distribute
 
