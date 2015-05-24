@@ -11,15 +11,23 @@ A Stylus-based responsive CSS seed for hands-on UI developers that promotes high
   
 ## Features
 
-### Normalize
+### Normalize / Reset
 
-`gonzo-seed` currently uses [normalize.css](http://necolas.github.io/normalize.css/) to achieve vendor consistency.
+`gonzo-seed` currently uses [normalize.css](http://necolas.github.io/normalize.css/) to achieve vendor consistency, to be replaced with a more lightweight solution.
+A custom "HTML-defaults" reset is available as a mixin for any element.
+
+```
+.widget
+  reset()
+```
 
 ### IconFont
 
 `gonzo-seed` will automatically build all `.svg` images in the `src/components/icons` directory into all possible webfont versions and copy the resulting font files into `build/assets/font`.
 
 ### Responsive
+
+Stylus leverages media queries beautifully as element variations, pixel-based shortcuts for the most common device types are available.
 
 ```
 header
@@ -39,7 +47,7 @@ header
 
 ### Distribute
 
-Aligning children inside elements is easy.  
+Aligning children inside parent elements is easy.  
 Mixins available for both `inline-block` and `flexbox` child distribution methods on x/y axis.
 
 ```css
