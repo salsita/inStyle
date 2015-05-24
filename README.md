@@ -1,8 +1,8 @@
 # gonzo-seed
 
-No default skin. No useless grids. Very few opinions.  
+No default skin. No learning process. Very few opinions.  
   
-A Stylus-based responsive CSS seed for hands-on UI developers that promotes high usability abstractions in favor of bootstrapism and hacking on overweight frameworks.  
+A Stylus-based responsive CSS seed for hands-on UI developers that promotes high usability abstractions in favor of bootstrapism and overcomplicated architecture.  
   
 ## Installation
 
@@ -27,7 +27,7 @@ A custom "HTML-defaults" reset is available as a mixin for any element.
 
 ### Responsive
 
-Stylus leverages media queries beautifully as element variations, pixel-based shortcuts for the most common device types are available.
+Stylus leverages media queries beautifully as element variations and pixel-based shortcuts for the most common device types are available.
 
 ```
 header
@@ -43,7 +43,7 @@ header
 
 ### Effects
 
-Mature `animate.css` and Robert Penner's `easing.styl` functions.
+Mature `animate.css` support and Robert Penner's `easing.styl` functions.
 
 ### Distribute
 
