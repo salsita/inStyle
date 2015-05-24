@@ -2,7 +2,7 @@
 
 No default skin. No useless grids. Very few opinions.  
   
-A Stylus based responsive CSS seed for UI developers that promotes high usability abstractions in favor of bootstrapism and hacking on overweight frameworks.  
+A Stylus-based responsive CSS seed for UI developers that promotes high usability abstractions in favor of bootstrapism and hacking on overweight frameworks.  
   
 ## Installation
 

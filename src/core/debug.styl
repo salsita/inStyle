@@ -1,36 +1,77 @@
-/* -------------------
-  gonzo-ui | generic
-  ------------------- */
+// Empty element check
 
-*
-  box-sizing border-box
+:empty
+    outline 5px solid yellow
 
-html
-  position relative
-  min-height 100%
-  font-size 62.5% // 1rem = 10px
+// Alt attribute in images
 
-h1
-  font-size 3.2rem
+img
+  outline 5px solid red
 
-h2
-  font-size 2.4rem
+img[alt]
+    outline none
 
-h3
-h4
-h5
-h6
-  font-size 1.8rem
+img[alt=""]
+    outline 5px solid yellow
 
-p
-li
-span
-button
-input
-  font-size $fontSizeX
+// Check javascript-based links
 
-.wrap
-  distribute(center, center)
+a[href="#"]
+a[href*="javascript"]
+    outline 5px solid yellow
 
-.wrap-flex
-  distribute-flex(right, bottom)
+// List nesting errors
+
+ul
+ol
+  > *:not(li)
+    outline:5px solid red;
+
+// Scope for th
+
+th
+  outline 5px solid yellow
+
+th[scope]
+    outline none
+
+// No direct tr children in tables
+
+table > tr
+  outline 5px solid yellow
+
+// Tfoot before tbody
+
+tbody + tfoot
+  outline 5px solid yellow
+
+// Form requires action attribute
+
+form
+  outline 5px solid red
+
+form[action]
+  outline none
+
+// Input and textarea require attributes
+
+textarea
+input 
+  outline 5px solid red
+
+input[type]
+  outline none
+
+textarea[rows][cols]
+  outline none
+
+input[type=submit]
+  outline 5px solid red
+
+input[type=submit][value]
+  outline none
+
+// Inline style detection
+
+[style]
+  outline 5px solid yellow
