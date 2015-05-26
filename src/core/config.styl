@@ -4,15 +4,9 @@
 
 $debug = false
 
-$indent = 10px
-$indentX = 1rem
-$formHeight = 24px
-$iconSize = 18px
-
-// Typography
-
-$fontSize = 16px
-$fontSizeX = 1.6rem
+$scale = 62.5% // 1rem = 10px, accounts for webkit minimum font-size
+$indent = remify(10)
+$fontSize = remify(16)
 
 // Colors
 
@@ -23,7 +17,7 @@ $colorBlack = #000
 
 $transitionDuration = .2s
 $easing = easeInOutSine
-$borderRadius = 5px
+$borderRadius = remify(5)
 
 // Responsive
 

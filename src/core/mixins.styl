@@ -2,6 +2,9 @@
   gonzo-seed | mixins
   ============================== */
 
+remify(px)
+  unit(px/(0.16*unit($scale, '')), 'rem')
+
 clearfix()
   &:after
   &:before
@@ -50,7 +53,7 @@ distribute(x = left, y = center)
   &:before
   &:after
   & > *
-    font-size $fontSizeX
+    font-size $fontSize
   &:before
     content ''
     display inline-block
