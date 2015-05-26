@@ -1,6 +1,6 @@
 # gonzo-seed
 
-No default skin. No learning process. Very few opinions.  
+No default skin. No learning process. Few opinions.  
   
 A Stylus-based responsive CSS seed for hands-on UI developers that promotes high usability abstractions in favor of bootstrapism and overcomplicated architecture.  
   
