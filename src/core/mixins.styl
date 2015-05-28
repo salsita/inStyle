@@ -2,8 +2,8 @@
   gonzo-seed | mixins
   ============================== */
 
-remify(px)
-  unit(px/(0.16*unit($scale, '')), 'rem')
+rem(px)
+  unit(px/(0.16*$scale), 'rem')
 
 clearfix()
   &:after
