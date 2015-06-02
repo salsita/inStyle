@@ -36,7 +36,7 @@ gulp.task('build-styles', function () {
       compress: true,
       'include css': true
     }))
-    .pipe(rename('gonzo.css'))
+    .pipe(rename('chilli.css'))
     .pipe(postcss([ autoprefixer({ browsers: ['last 2 version'] }) ]))
     .pipe(minifyCss())
     .pipe(gulp.dest('./build/'));

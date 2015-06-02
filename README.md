@@ -1,19 +1,19 @@
-# gonzo-seed
+# chilli-seed
 
-No default skin. No learning process. Few opinions.  
-  
-A Stylus-based responsive CSS seed for hands-on UI developers that promotes high usability abstractions in favor of bootstrapism and overcomplicated architecture.  
-  
+No default skin. No learning process. Few opinions.
+
+A Stylus-based responsive CSS seed for hands-on UI developers that promotes high usability abstractions in favor of bootstrapism and overcomplicated architecture.
+
 ## Installation
 
-`npm install`  
-`gulp`  
-  
+`npm install`
+`gulp`
+
 ## Features
 
 ### Normalize / Reset
 
-`gonzo-seed` currently uses [normalize.css](http://necolas.github.io/normalize.css/) to achieve vendor consistency, to be replaced with a more lightweight solution.
+`chilli-seed` currently uses [normalize.css](http://necolas.github.io/normalize.css/) to achieve vendor consistency, to be replaced with a more lightweight solution.
 A custom "HTML-defaults" reset is available as a mixin for any element.
 
 ```
@@ -23,7 +23,7 @@ A custom "HTML-defaults" reset is available as a mixin for any element.
 
 ### IconFont
 
-`gonzo-seed` will automatically build all `.svg` images in the `src/components/icons` directory into all possible webfont versions and copy the resulting font files into `build/assets/font`.
+`chilli-seed` will automatically build all `.svg` images in the `src/components/icons` directory into all possible webfont versions and copy the resulting font files into `build/assets/font`.
 
 ### Responsive
 
@@ -47,7 +47,7 @@ Mature `animate.css` support and Robert Penner's `easing.styl` functions.
 
 ### Distribute
 
-Aligning children inside parent elements is easy.  
+Aligning children inside parent elements is easy.
 Mixins available for both `inline-block` and `flexbox` child distribution methods on x/y axis.
 
 ```css

@@ -1,5 +1,5 @@
 /*
-  gonzo-seed | mixins
+  chilli-seed | mixins
   ============================== */
 
 rem(px)
@@ -85,7 +85,10 @@ unstyled-list()
   margin 0
   padding 0
 
-hide()
-  position absolute
-  pointer-events none
-  visibility hidden
+hide(method = display)
+  if method is display
+    display none
+  else
+    position absolute
+    pointer-events none
+    visibility hidden

@@ -1,5 +1,5 @@
 {
-  "name": "gonzo-seed",
+  "name": "chilli-seed",
   "version": "0.2.0",
   "description": "",
   "main": "gulpfile.js",
@@ -21,12 +21,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/salsita/gonzo-seed.git"
+    "url": "https://github.com/salsita/chilli-seed.git"
   },
   "author": "mystrdat",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/salsita/gonzo-seed/issues"
+    "url": "https://github.com/salsita/chilli-seed/issues"
   },
-  "homepage": "https://github.com/salsita/gonzo-seed"
+  "homepage": "https://github.com/salsita/chilli-seed"
 }
