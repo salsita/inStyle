@@ -2,7 +2,7 @@
 
 No default skin. No learning process. Few opinions.
 
-A minimal Stylus-based responsive CSS seed for hands-on UI developers that promotes high usability abstractions in favor of bootstrapism and overcomplicated architecture.
+A minimal Stylus-based responsive CSS seed that promotes high usability abstractions in favor of bootstrapism and complex architecture.
 
 ## Installation
 
