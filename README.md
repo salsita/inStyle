@@ -6,7 +6,7 @@ A minimal Stylus-based responsive CSS seed for hands-on UI developers that promo
 
 ## Installation
 
-`npm install`  
+`npm install`
 `gulp`
 
 ## Features
@@ -65,6 +65,14 @@ The `background-retina` mixin switches `background-image` sources based on `devi
 ```css
 background-retina('path/to/image.png', 100px, auto)
 ```
+
+### Forms
+
+Basic form concepts, including icon usage and checkbox/radio switchers, are available.
+
+### Dialog
+
+A clean and barebone dialog/popover pattern is available.
 
 ### Debug
 
