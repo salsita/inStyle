@@ -109,32 +109,55 @@ show(method = display)
     pointer-events all
     transition opacity $transitionDuration $animationEasing
 
+circle()
+  border-radius 100%
+
+triangle(orientation = down, bg = $colorBlack, size = 5px)
+  pseudo(block)
+  width 0
+  height 0
+  if orientation is up
+    border-left size solid transparent
+    border-right @border-left
+    border-bottom size solid bg
+  else if orientation is right
+    border-top size solid transparent
+    border-bottom @border-top
+    border-left size solid bg
+  else if orientation is down
+    border-left size solid transparent
+    border-right @border-left
+    border-top size solid bg
+  else if orientation is left
+    border-top size solid transparent
+    border-bottom @border-top
+    border-right size solid bg
+
 chevron(pos = top, bg = $colorWhite, border = $border, size = 12px)
-  &:before
-    pseudo(block)
-    position absolute
-    width size
-    height @width
-    background-color bg
-    border-top border
-    border-left @border-top
-    box-shadow $boxShadow
-    clip-path polygon(0 0, 102% 0, 0 102%)
-    if pos is top
-      transform rotate(45deg)
-      left 50%
-      top (size/-2)
-    else if pos is right
-      transform rotate(135deg)
-      right (size/-2)
-      top 50%
-      margin-top @right
-    else if pos is bottom
-      transform rotate(225deg)
-      left 50%
-      bottom (size/-2)
-    else if pos is left
-      transform rotate(-45deg)
-      left (size/-2)
-      top 50%
-      margin-top @left
+  pseudo(block)
+  position absolute
+  width size
+  height @width
+  background-color bg
+  border-top border
+  border-left @border-top
+  box-shadow $boxShadow
+  clip-path polygon(0 0, 102% 0, 0 102%)
+  if pos is top
+    transform rotate(45deg)
+    left 50%
+    top (size/-2)
+  else if pos is right
+    transform rotate(135deg)
+    right (size/-2)
+    top 50%
+    margin-top @right
+  else if pos is bottom
+    transform rotate(225deg)
+    left 50%
+    bottom (size/-2)
+  else if pos is left
+    transform rotate(-45deg)
+    left (size/-2)
+    top 50%
+    margin-top @left

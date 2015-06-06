@@ -3,17 +3,18 @@
   ============================== */
 
 $tooltipBgColor = $colorBlack
+$tooltipDistance = 15px
+$tooltipSize = 8px
 
 [aria-label][tooltip]:after
 [aria-label][data-tooltip]:after
+  display inline-block
+  line-height 1.5
   content attr(aria-label)
-  &:first-letter
-    font-size $fontS
 
 [aria-label][tooltip]
 [aria-label][data-tooltip]
   position relative
-  cursor help
 
   &:before
   &:after
@@ -22,6 +23,10 @@ $tooltipBgColor = $colorBlack
   &:hover:before
   &:hover:after
     show(fade)
+    z-index 100
+
+  &:before
+    position absolute
 
   &:after
     position absolute
@@ -33,21 +38,83 @@ $tooltipBgColor = $colorBlack
     background-color $tooltipBgColor
     white-space pre
 
+  // Top
+
   &[tooltip='top']
   &[data-tooltip='top']
-    chevron(bottom, $tooltipBgColor, 1px solid  $tooltipBgColor, 8px)
 
+    &:before
     &:after
       left 50%
       top 0
-      transform translateX(-50%)
-      margin-top -35px
+      margin-top -($tooltipDistance)
 
     &:before
-      bottom 28px
-      box-shadow none
+      triangle(down)
+      transform translateX(-50%)
+
+    &:after
+      transform translateX(-50%) translateY(-100%)
+
+  // Right
+
+  &[tooltip='right']
+  &[data-tooltip='right']
+
+    &:before
+    &:after
+      right 0
+      top 50%
+      margin-right -($tooltipDistance)
+
+    &:before
+      triangle(left)
+      transform translateY(-50%)
+
+    &:after
+      transform translateX(100%) translateY(-50%)
+
+  // Bottom
+
+  &[tooltip='bottom']
+  &[data-tooltip='bottom']
+
+    &:before
+    &:after
+      left 50%
+      bottom 0
+      margin-bottom -($tooltipDistance)
+
+    &:before
+      triangle(up)
+      transform translateX(-50%)
+
+    &:after
+      transform translateX(-50%) translateY(100%)
+
+  // Left
+
+  &[tooltip='left']
+  &[data-tooltip='left']
+
+    &:before
+    &:after
+      left 0
+      top 50%
+      margin-left -($tooltipDistance)
+
+    &:before
+      triangle(right)
+      transform translateY(-50%)
+
+    &:after
+      transform translateX(-100%) translateY(-50%)
+
+
+// Elements
 
 span[aria-label][tooltip]
 span[aria-label][data-tooltip]
   padding-bottom 2px
   border-bottom 1px dashed $colorGrey
+  cursor help
