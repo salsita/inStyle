@@ -42,12 +42,12 @@ gulp.task('build-styles', function () {
     .pipe(gulp.dest('./build/'));
 });
 
-gulp.task('watch', function() {
+gulp.task('watch-styles', function() {
   gulp.watch('./src/**/*.styl', ['build-styles']);
 });
 
-gulp.task('watch-font-template', function() {
+gulp.task('watch-iconfont-template', function() {
   gulp.watch('./src/components/icons/template.styl', ['build-iconfont']);
 });
 
-gulp.task('default', ['build-iconfont', 'build-styles', 'watch', 'watch-font-template']);
+gulp.task('default', ['build-iconfont', 'build-styles', 'watch-styles', 'watch-iconfont-template']);

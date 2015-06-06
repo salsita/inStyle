@@ -1,0 +1,50 @@
+/*
+  chilli-seed | tooltip
+  ============================== */
+
+$tooltipBgColor = $colorBlack
+
+[aria-label][tooltip]:after
+[aria-label][data-tooltip]:after
+  content attr(aria-label)
+
+[aria-label][tooltip]
+[aria-label][data-tooltip]
+  position relative
+
+  &:before
+  &:after
+    hide(fade)
+
+  &:hover:before
+  &:hover:after
+    show(fade)
+
+  &:after
+    position absolute
+    max-width 400px
+    padding ($indent/2) $indent
+    border-radius $borderRadius
+    font-size $fontXS
+    color $colorWhite
+    background-color $tooltipBgColor
+    white-space pre
+
+  &[tooltip='top']
+  &[data-tooltip='top']
+    chevron(bottom, $tooltipBgColor, 1px solid  $tooltipBgColor, 8px)
+
+    &:after
+      left 50%
+      top 0
+      transform translateX(-50%)
+      margin-top -35px
+
+    &:before
+      bottom 28px
+      box-shadow none
+
+span[aria-label][tooltip]
+span[aria-label][data-tooltip]
+  padding-bottom 2px
+  border-bottom 1px dashed $colorGrey

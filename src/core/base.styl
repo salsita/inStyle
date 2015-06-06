@@ -10,11 +10,11 @@
 html
   position relative
   min-height 100%
-  font-size $scale
+  font-size $fontScale
 
 body
   margin 0
-  font-size $fontSize
+  font-size $fontM
 
 p, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form,
 fieldset, legend, input, button, textarea, blockquote, th, td
@@ -39,21 +39,29 @@ img
   width auto
   height auto
 
-button
-  appearance none
-  border 0
-  outline 0
+label
+  user-select none
 
-input[type='text']
-  padding 0
+
 
 [hidden]
+[aria-hidden]
   hide(display)
 
 [disabled]
+[aria-disabled]
   opacity 0.5
 
-// Demo
+// Natural grid
+
+button + input
+input + button
+input + input
+input + label
+  margin-left $indent
+
+
+// Demo purposes
 
 .wrap
   distribute(center, center)

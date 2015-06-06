@@ -3,6 +3,7 @@
 <head>
   <title>Chilli Seed</title>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
   <link rel='stylesheet' type='text/css' href='demo.css'>
   <link rel='stylesheet' type='text/css' href='../build/chilli.css'>
 </head>
@@ -13,27 +14,30 @@
 <h2>heading2</h2>
 
 <button type='button'>Button!</button>
-<button type='button' disabled>Button!</button>
-<button type='button' class='icon-chevron-left'>Go back</button>
-<button type='button' class='icon-mail59'>Follow</button>
+<button type='button' disabled>Disabled</button>
+<button type='button' class='icon-chevron-left'> Go back</button>
+<button type='button' class='icon-star'> Follow</button>
+<button type='button' class='icon-chevron-right'></button>
 
 <div class='wrap'>
-  <input type='text'>
+  <input type='text' placeholder='input field'>
   <span>some text</span>
   <i class='icon-chevron-right'></i>
 </div>
 
 <div class='wrap-flex'>
-  <input type='text'>
+  <input type='text' placeholder='input field'>
   <span>some text</span>
   <i class='icon-chevron-right'></i>
 </div>
 
-<p>This is a paragraph with an <i class='icon-mail59'></i> in the text.</p>
+<p>This is a paragraph with an <i class='icon-calendar'></i> in the text.</p>
 
-<p>This is a paragraph with an <input type='text' placeholder='input field'> that expands the line height.</p>
+<p>This is a paragraph with an <input type='text' placeholder='input field'><button type='button' class='icon-clock'> Hurry!</button> that expands the line height.</p>
 
-<aside class='dialog popover-bottom'>This is dialog content.</aside>
+<p>This is a paragraph with <span aria-label='Woot! This is the tooltip content, simpru!' tooltip='top'>a tooltip</span></p>.
+
+<aside class='popover-bottom'>This is popover content.</aside>
 
 </body>
 </html>

@@ -3,7 +3,7 @@
   ============================== */
 
 rem(px)
-  unit(px/(0.16*$scale), 'rem')
+  unit(px/(0.16*$fontScale), 'rem')
 
 clearfix()
   &:after
@@ -53,7 +53,7 @@ distribute(x = left, y = center)
   &:before
   &:after
   & > *
-    font-size $fontSize
+    font-size $fontM
   &:before
     content ''
     display inline-block
@@ -88,7 +88,53 @@ unstyled-list()
 hide(method = display)
   if method is display
     display none
-  else
+  else if method is flow
+    opacity 0
     position absolute
     pointer-events none
-    visibility hidden
+  else if method is fade
+    opacity 0
+    pointer-events none
+    transition opacity $transitionDuration $transitionEasing
+
+show(method = display)
+  if method is display
+    display block
+  else if method is flow
+    opacity 1
+    position static
+    pointer-events all
+  else if method is fade
+    opacity 1
+    pointer-events all
+    transition opacity $transitionDuration $animationEasing
+
+chevron(pos = top, bg = $colorWhite, border = $border, size = 12px)
+  &:before
+    pseudo(block)
+    position absolute
+    width size
+    height @width
+    background-color bg
+    border-top border
+    border-left @border-top
+    box-shadow $boxShadow
+    clip-path polygon(0 0, 102% 0, 0 102%)
+    if pos is top
+      transform rotate(45deg)
+      left 50%
+      top (size/-2)
+    else if pos is right
+      transform rotate(135deg)
+      right (size/-2)
+      top 50%
+      margin-top @right
+    else if pos is bottom
+      transform rotate(225deg)
+      left 50%
+      bottom (size/-2)
+    else if pos is left
+      transform rotate(-45deg)
+      left (size/-2)
+      top 50%
+      margin-top @left

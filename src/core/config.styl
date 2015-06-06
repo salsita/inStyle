@@ -2,24 +2,40 @@
   chilli-seed | config
   ============================== */
 
-$debug = false
+$debug  = false
 
-$scale = 62.5% // 1rem = 10px, accounts for webkit minimum font-size
+// Proportional
+
 $indent = rem(10)
-$fontSize = rem(16)
+$lineHeight = rem(32)
+
+// Typography
+
+$fontScale = 62.5% // 1rem = 10px
+$fontM     = rem(16)
+$fontS     = rem(14)
+$fontXS    = rem(12)
+$fontXXS   = rem(10)
+$fontL     = rem(18)
+$fontXL    = rem(24)
+$fontXXL   = rem(32)
 
 // Colors
 
 $colorWhite = #fff
 $colorBlack = #000
-$colorGrey = #ccc
+$colorGrey  = #ccc
+$colorRed   = #e2363c
+$colorBlue  = #4778d1
 
 // Effects
 
 $transitionDuration = .2s
-$easing = easeInOutSine
-$borderRadius = 5px
-$boxShadow = 0 0 10px $colorGrey
+$animationDuration = .4s
+$transitionEasing = easeInOutSine
+$animationEasing = linear
+$borderRadius = 3px
+$boxShadow = 0 0 10px lighten($colorGrey, 10%)
 $border = 1px solid $colorGrey
 
 // Responsive

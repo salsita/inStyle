@@ -1,6 +1,7 @@
 body {
 	margin: 0;
   padding: 10px;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
 .wrap,
@@ -8,4 +9,9 @@ body {
   height: 200px;
   border: 1px solid grey;
   margin: 20px 0;
+}
+
+.dialog {
+  width: 300px;
+  height: 200px;
 }

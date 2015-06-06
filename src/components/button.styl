@@ -1,0 +1,26 @@
+/*
+  chilli-seed | button
+  ============================== */
+
+$buttonColor = $colorBlue
+
+button
+  appearance none
+  border 0
+  outline 0
+
+button
+.button
+  line-height $lineHeight
+  padding 0 $indent
+  border-radius $borderRadius
+  color $colorWhite
+  background-color $buttonColor
+  transition background-color $transitionDuration $transitionEasing
+
+  &:hover:not([disabled])
+    background-color darken(@background-color, 20%)
+
+  &:active:not([disabled])
+    transition none
+    background-color darken(@background-color, 40%)

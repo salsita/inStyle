@@ -70,9 +70,9 @@ background-retina('path/to/image.png', 100px, auto)
 
 Basic form concepts, including icon usage and checkbox/radio switchers, are available.
 
-### Dialog
+### Popover / Tooltip
 
-A clean and barebone dialog/popover pattern is available.
+Simple popovers and JavaScript-less tooltips conjured out of pseudoelements, yea.
 
 ### Debug
 
