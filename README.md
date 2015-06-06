@@ -6,7 +6,7 @@ A minimal Stylus-based responsive CSS seed that promotes high usability abstract
 
 ## Installation
 
-`npm install`
+`npm install`  
 `gulp`
 
 ## Features
