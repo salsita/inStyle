@@ -3,7 +3,7 @@
   ============================== */
 
 input[type='text']
-  line-height $lineHeight
+  height $lineHeight
   padding 0 $indent
   border 0
   border-bottom $border
@@ -12,3 +12,9 @@ input[type='text']
 
   &:focus
     border-color $colorBlue
+
+  &[required]:valid
+    border-color $colorGreen
+
+  &:invalid
+    border-color $colorRed

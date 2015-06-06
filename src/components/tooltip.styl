@@ -7,10 +7,13 @@ $tooltipBgColor = $colorBlack
 [aria-label][tooltip]:after
 [aria-label][data-tooltip]:after
   content attr(aria-label)
+  &:first-letter
+    font-size $fontS
 
 [aria-label][tooltip]
 [aria-label][data-tooltip]
   position relative
+  cursor help
 
   &:before
   &:after
