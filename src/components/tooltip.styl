@@ -3,7 +3,7 @@
   ============================== */
 
 $tooltipBgColor = $colorBlack
-$tooltipDistance = 15px
+$tooltipDistance = 20px
 $tooltipSize = 8px
 
 [aria-label][tooltip]:after
@@ -18,11 +18,11 @@ $tooltipSize = 8px
 
   &:before
   &:after
-    hide(fade)
+    hide(fade, all)
 
   &:hover:before
   &:hover:after
-    show(fade)
+    show(fade, all)
     z-index 100
 
   &:before
@@ -43,6 +43,10 @@ $tooltipSize = 8px
   &[tooltip='top']
   &[data-tooltip='top']
 
+    &:hover:before
+    &:hover:after
+      margin-top -($tooltipDistance - 5px)
+
     &:before
     &:after
       left 50%
@@ -60,6 +64,10 @@ $tooltipSize = 8px
 
   &[tooltip='right']
   &[data-tooltip='right']
+
+    &:hover:before
+    &:hover:after
+      margin-right -($tooltipDistance - 5px)
 
     &:before
     &:after
@@ -79,6 +87,10 @@ $tooltipSize = 8px
   &[tooltip='bottom']
   &[data-tooltip='bottom']
 
+    &:hover:before
+    &:hover:after
+      margin-bottom -($tooltipDistance - 5px)
+
     &:before
     &:after
       left 50%
@@ -96,6 +108,10 @@ $tooltipSize = 8px
 
   &[tooltip='left']
   &[data-tooltip='left']
+
+    &:hover:before
+    &:hover:after
+      margin-left -($tooltipDistance - 5px)
 
     &:before
     &:after

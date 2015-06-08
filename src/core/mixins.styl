@@ -85,7 +85,7 @@ unstyled-list()
   margin 0
   padding 0
 
-hide(method = display)
+hide(method = display, animate = opacity)
   if method is display
     display none
   else if method is flow
@@ -95,9 +95,9 @@ hide(method = display)
   else if method is fade
     opacity 0
     pointer-events none
-    transition opacity $transitionDuration $transitionEasing
+    transition animate $transitionDuration $transitionEasing
 
-show(method = display)
+show(method = display, animate = opacity)
   if method is display
     display block
   else if method is flow
@@ -107,7 +107,7 @@ show(method = display)
   else if method is fade
     opacity 1
     pointer-events all
-    transition opacity $transitionDuration $animationEasing
+    transition animate $transitionDuration $animationEasing
 
 circle()
   border-radius 100%
