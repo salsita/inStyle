@@ -14,13 +14,25 @@ button
   line-height $lineHeight
   padding 0 $indent
   border-radius $borderRadius
-  color $colorWhite
-  background-color $buttonColor
-  transition background-color $transitionDuration $transitionEasing
+  color $buttonColor
+  background-color $colorWhite
+  border $border
+  border-color $colorGreyAlt
+  transition-property border-color, box-shadow, transform
+  transition-duration $transitionDuration
+  transition-timing-function $transitionEasing
 
   &:hover:not([disabled])
-    background-color darken(@background-color, 20%)
+    border-color $colorGrey
+    box-shadow 0 1px 1px lighten($colorGrey, 50%)
+    transform translateY(-1px)
 
   &:active:not([disabled])
-    transition none
-    background-color darken(@background-color, 40%)
+    box-shadow 0 2px 3px lighten($colorGrey, 50%)
+    transition-property border-color
+    transform none
+
+  &[disabled]
+    color $colorGrey
+    background-color $colorGreyLight
+    border-color $colorGreyLight
