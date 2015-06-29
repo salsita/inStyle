@@ -12,7 +12,7 @@
   font-weight normal
   font-style normal
 
-[class*='icon-']:before
+$icon
   margin-top -4px // icon offset for Chrome 45
   display inline-block
   vertical-align middle
@@ -21,6 +21,10 @@
   font-weight normal
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
+
+[class*='icon-']:before
+  @extends $icon
+
 
 $icon-add = '\E001'
 $icon-arrow-down = '\E002'
