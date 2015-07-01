@@ -12,9 +12,11 @@
   font-weight normal
   font-style normal
 
-$icon
-  margin-top -4px // icon offset for Chrome 45
+icon(type)
+  if type
+    content type
   display inline-block
+  line-height 1
   vertical-align middle
   font-family 'icons'
   font-style normal
@@ -22,48 +24,43 @@ $icon
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
 
-[class*='icon-']:before
-  @extends $icon
-
-
 $icon-add = '\E001'
-$icon-arrow-down = '\E002'
-$icon-calendar = '\E003'
-$icon-chevron-left = '\E004'
-$icon-chevron-right = '\E005'
-$icon-clock = '\E006'
-$icon-delete = '\E007'
-$icon-list = '\E008'
-$icon-star = '\E009'
-$icon-trash = '\E00A'
-
 .icon-add:before
-  content $icon-add
+  icon($icon-add)
 
+$icon-arrow-down = '\E002'
 .icon-arrow-down:before
-  content $icon-arrow-down
+  icon($icon-arrow-down)
 
+$icon-calendar = '\E003'
 .icon-calendar:before
-  content $icon-calendar
+  icon($icon-calendar)
 
+$icon-chevron-left = '\E004'
 .icon-chevron-left:before
-  content $icon-chevron-left
+  icon($icon-chevron-left)
 
+$icon-chevron-right = '\E005'
 .icon-chevron-right:before
-  content $icon-chevron-right
+  icon($icon-chevron-right)
 
+$icon-clock = '\E006'
 .icon-clock:before
-  content $icon-clock
+  icon($icon-clock)
 
+$icon-delete = '\E007'
 .icon-delete:before
-  content $icon-delete
+  icon($icon-delete)
 
+$icon-list = '\E008'
 .icon-list:before
-  content $icon-list
+  icon($icon-list)
 
+$icon-star = '\E009'
 .icon-star:before
-  content $icon-star
+  icon($icon-star)
 
+$icon-trash = '\E00A'
 .icon-trash:before
-  content $icon-trash
+  icon($icon-trash)
 

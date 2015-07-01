@@ -12,22 +12,19 @@
   font-weight normal
   font-style normal
 
-$icon
-  margin-top -4px // icon offset for Chrome 45
+icon(type)
+  if type
+    content type
   display inline-block
+  line-height 1
   vertical-align middle
   font-family '<%= fontName %>'
   font-style normal
   font-weight normal
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
-
-[class*='icon-']:before
-  @extends $icon
-
 <% _.each(glyphs, function(glyph) { %>
-$icon-<%= glyph.name %> = '\<%= glyph.codepoint.toString(16).toUpperCase() %>'<% }); %>
-<% _.each(glyphs, function(glyph) { %>
+$icon-<%= glyph.name %> = '\<%= glyph.codepoint.toString(16).toUpperCase() %>'
 .icon-<%= glyph.name %>:before
-  content $icon-<%= glyph.name %>
+  icon($icon-<%= glyph.name %>)
 <% }); %>

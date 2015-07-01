@@ -16,7 +16,7 @@ body
   margin 0
   font-size $fontM
 
-p, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form,
+p, dl, dt, dd, li, h1, h2, h3, h4, h5, h6, pre, code, form,
 fieldset, legend, input, button, textarea, blockquote, th, td
   margin 0
   padding 0
@@ -29,6 +29,10 @@ main, article, aside, details, figcaption, figure, footer, header, menu, nav, se
 h1, h2, h3, h4, h5, h6,
 p, pre, ul, ol, dl, hr, legend, address, table, blockquote
   margin-bottom .67em
+
+ul, ol
+  padding-left ($indent*2)
+  margin-top .67em
 
 pre
   code
@@ -57,13 +61,3 @@ input + button
 input + input
 input + label
   margin-left $indent
-
-// Demo purposes
-
-.wrap
-  distribute(center, center)
-  span
-    reset()
-
-.wrap-flex
-  distribute-flex(right, bottom)

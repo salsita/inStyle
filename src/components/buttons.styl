@@ -1,0 +1,63 @@
+/*
+  chilli-seed | button
+  ============================== */
+
+$buttonColor = $colorBlue
+
+button-clear()
+  &
+  &:hover
+  &:active
+  &[disabled]
+    unless @border-color
+      border-color transparent
+    unless @background-color
+      background-color transparent
+    unless @box-shadow
+      box-shadow none
+    unless @outline
+      outline 0
+
+$button
+  display inline-block
+  line-height $lineHeight
+  appearance none
+  border $border
+  outline 0
+  padding 0 $indent
+  border-radius $borderRadius
+  color $buttonColor
+  font-size $fontS
+  text-decoration none
+  cursor pointer
+  button-clear()
+
+  &:hover
+    text-decoration none
+
+  &[disabled]
+    cursor default
+
+button
+.button
+[class^='button-']
+[class*=' button-']
+  @extends $button
+  background-color $colorWhite
+  border-color $colorGreyAlt
+  transition-property border-color, box-shadow
+  transition-duration $transitionDuration
+  transition-timing-function $transitionEasing
+
+  &:hover
+    border-color $colorGrey
+    box-shadow 0 1px 1px lighten($colorGrey, 50%)
+
+  &:active
+    box-shadow 0 2px 3px lighten($colorGrey, 50%)
+    transition-property border-color
+
+  &[disabled]
+    color $colorGrey
+    background-color $colorGreyLight
+    border-color $colorGreyLight
