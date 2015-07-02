@@ -90,8 +90,10 @@ hide(method = display, animate = opacity)
     display none
   else if method is flow
     opacity 0
+    visibility hidden
     position absolute
     pointer-events none
+    clip rect(0 0 0 0)
   else if method is fade
     opacity 0
     pointer-events none
@@ -102,8 +104,10 @@ show(method = display, animate = opacity)
     display block
   else if method is flow
     opacity 1
+    visibility visible
     position static
     pointer-events all
+    clip rect(auto auto auto auto)
   else if method is fade
     opacity 1
     pointer-events all
