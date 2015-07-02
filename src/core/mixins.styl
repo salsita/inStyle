@@ -67,7 +67,7 @@ distribute(x = left, y = center)
     display inline-block
     vertical-align y
 
-distribute-flex(x = left, y = center)
+distribute-flex(x = left, y = center, dir = row)
   if x is left
     x = flex-start
   if x is right
@@ -77,8 +77,9 @@ distribute-flex(x = left, y = center)
   if y is bottom
     y = flex-end
   display flex
-  justify-content x
-  align-items y
+  align-items x
+  justify-content y
+  flex-direction dir
 
 unstyled-list()
   list-style none
