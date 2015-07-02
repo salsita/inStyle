@@ -19,12 +19,14 @@ icon(type)
   display inline-block
   line-height 1
   vertical-align middle
-  margin-top -2px
+  margin-top -3px
   font-family '<%= fontName %>'
   font-style normal
   font-weight normal
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
+  /body:not(:-moz-handler-blocked) &
+    margin-top 0
 <% _.each(glyphs, function(glyph) { %>
 $icon-<%= glyph.name %> = '\<%= glyph.unicode[0].charCodeAt(0).toString(16).toUpperCase() %>'
 .icon-<%= glyph.name %>:before

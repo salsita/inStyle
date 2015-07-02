@@ -19,12 +19,14 @@ icon(type)
   display inline-block
   line-height 1
   vertical-align middle
-  margin-top -2px
+  margin-top -3px
   font-family 'icons'
   font-style normal
   font-weight normal
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
+  /body:not(:-moz-handler-blocked) &
+    margin-top 0
 
 $icon-add = '\EA01'
 .icon-add:before

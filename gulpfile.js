@@ -17,7 +17,8 @@ gulp.task('build-iconfont', function () {
       fontName: fontName,
       fontHeight: 1001,
       normalize: true,
-      appendUnicode: true
+      appendUnicode: true,
+      descent: 200
     }))
       .on('glyphs', function(glyphs, options) {
         gulp.src('./src/components/icons/template.styl')
