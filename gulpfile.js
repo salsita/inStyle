@@ -47,7 +47,7 @@ gulp.task('watch-styles', function() {
 });
 
 gulp.task('watch-iconfont-template', function() {
-  gulp.watch('./src/components/icons/template.styl', ['build-iconfont']);
+  gulp.watch('.src/components/icons/*.*', ['build-iconfont']);
 });
 
 gulp.task('default', ['build-iconfont', 'build-styles', 'watch-styles', 'watch-iconfont-template']);

@@ -4,17 +4,17 @@
   "description": "",
   "main": "gulpfile.js",
   "dependencies": {
-    "gulp": "^3.8.11",
-    "lodash": "^3.9.1"
+    "gulp": "^3.9.0",
+    "lodash": "^3.10.0"
   },
   "devDependencies": {
-    "autoprefixer-core": "^5.1.11",
+    "autoprefixer-core": "^5.2.1",
     "gulp-consolidate": "^0.1.2",
-    "gulp-iconfont": "^1.0.1",
-    "gulp-minify-css": "^1.1.1",
-    "gulp-postcss": "^5.1.6",
+    "gulp-iconfont": "^1.0.2",
+    "gulp-minify-css": "^1.2.0",
+    "gulp-postcss": "^5.1.9",
     "gulp-rename": "^1.2.2",
-    "gulp-stylus": "^2.0.2"
+    "gulp-stylus": "^2.0.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

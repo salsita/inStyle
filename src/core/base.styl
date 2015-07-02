@@ -11,6 +11,8 @@ html
   position relative
   min-height 100%
   font-size $fontScale
+  -ms-text-size-adjust 100%
+  -webkit-text-size-adjust 100%
 
 body
   margin 0
@@ -21,7 +23,7 @@ fieldset, legend, input, button, textarea, blockquote, th, td
   margin 0
   padding 0
 
-main, article, aside, details, figcaption, figure, footer, header, menu, nav, section
+main, article, aside, details, figcaption, figure, footer, header, menu, nav, section, summary
   display block
   margin 0
   padding 0
@@ -52,7 +54,7 @@ label
 
 [disabled]
 [aria-disabled]
-  background-color $colorGrey
+  cursor default
 
 // Natural grid
 
