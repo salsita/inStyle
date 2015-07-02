@@ -10,7 +10,7 @@
   "devDependencies": {
     "autoprefixer-core": "^5.2.1",
     "gulp-consolidate": "^0.1.2",
-    "gulp-iconfont": "^1.0.2",
+    "gulp-iconfont": "^3.0.2",
     "gulp-minify-css": "^1.2.0",
     "gulp-postcss": "^5.1.9",
     "gulp-rename": "^1.2.2",

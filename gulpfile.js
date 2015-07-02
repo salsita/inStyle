@@ -15,12 +15,14 @@ gulp.task('build-iconfont', function () {
   gulp.src(['./src/components/icons/*.svg'])
     .pipe(iconfont({
       fontName: fontName,
-      normalize: true
+      fontHeight: 1001,
+      normalize: true,
+      appendUnicode: true
     }))
-      .on('codepoints', function(codepoints) {
+      .on('glyphs', function(glyphs, options) {
         gulp.src('./src/components/icons/template.styl')
           .pipe(consolidate('lodash', {
-            glyphs: codepoints,
+            glyphs: glyphs,
             fontName: fontName,
             fontPath: fontPath
           }))
