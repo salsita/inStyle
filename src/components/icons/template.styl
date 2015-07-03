@@ -33,5 +33,5 @@ icon(type, dir = false, margin = true)
 <% _.each(glyphs, function(glyph) { %>
 $icon-<%= glyph.name %> = '\<%= glyph.unicode[0].charCodeAt(0).toString(16).toUpperCase() %>'
 .icon-<%= glyph.name %>:before
-  icon($icon-<%= glyph.name %>, false)
+  icon($icon-<%= glyph.name %>)
 <% }); %>
