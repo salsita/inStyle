@@ -13,58 +13,61 @@
   font-weight normal
   font-style normal
 
-icon(type)
+icon(type, dir = false, margin = true)
   if type
     content type
   display inline-block
-  line-height 1
-  vertical-align middle
-  margin-top -3px
   font-family 'icons'
   font-style normal
   font-weight normal
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
-  /body:not(:-moz-handler-blocked) &
-    margin-top 0
+  if dir is left // Fixes height/valign for icons in buttons
+    float left
+    if margin
+      margin-right ($indent/2)
+  if dir is right
+    float right
+    if margin
+      margin-left ($indent/2)
 
 $icon-add = '\EA01'
 .icon-add:before
-  icon($icon-add)
+  icon($icon-add, false)
 
 $icon-arrow-down = '\EA02'
 .icon-arrow-down:before
-  icon($icon-arrow-down)
+  icon($icon-arrow-down, false)
 
 $icon-calendar = '\EA03'
 .icon-calendar:before
-  icon($icon-calendar)
+  icon($icon-calendar, false)
 
 $icon-chevron-left = '\EA04'
 .icon-chevron-left:before
-  icon($icon-chevron-left)
+  icon($icon-chevron-left, false)
 
 $icon-chevron-right = '\EA05'
 .icon-chevron-right:before
-  icon($icon-chevron-right)
+  icon($icon-chevron-right, false)
 
 $icon-clock = '\EA06'
 .icon-clock:before
-  icon($icon-clock)
+  icon($icon-clock, false)
 
 $icon-delete = '\EA07'
 .icon-delete:before
-  icon($icon-delete)
+  icon($icon-delete, false)
 
 $icon-list = '\EA08'
 .icon-list:before
-  icon($icon-list)
+  icon($icon-list, false)
 
 $icon-star = '\EA09'
 .icon-star:before
-  icon($icon-star)
+  icon($icon-star, false)
 
 $icon-trash = '\EA0A'
 .icon-trash:before
-  icon($icon-trash)
+  icon($icon-trash, false)
 

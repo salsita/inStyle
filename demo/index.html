@@ -14,10 +14,17 @@
 <h2>heading2</h2>
 
 <button type='button'>Button!</button>
-<button type='button' class='icon-chevron-left'> Go back</button>
-<button type='button' class='icon-star button-star'> Follow</button>
+<button type='button' class='back'>Go back</button>
+<button type='button' class='follow'>Follow</button>
 <button type='button' aria-label='This button hates you! Find out why in 30  simple steps...' tooltip='bottom' disabled>Disabled</button>
-<button type='button' class='icon-chevron-right'></button>
+<button type='button' class='forward'></button>
+
+<div>
+  <a href='#' role='button'>Button</a>
+  <a href='#' role='button' class='back'>Go back</a>
+  <a href='#' role='button' class='follow'>Follow</a>
+  <a href='#' role='button' class='forward'></a>
+</div>
 
 <div class='wrap'>
   <input type='text' placeholder='input field' required>
@@ -38,7 +45,7 @@
 }
 </code></pre>
 
-<p>This is a paragraph with an <input type='text' placeholder='input field'><button type='button' class='icon-clock'> Hurry!</button> that expands the line height.</p>
+<p>This is a paragraph with an <input type='text' placeholder='input field'><button type='button' class='clock'> Hurry!</button> that expands the line height.</p>
 
 <p>This is a paragraph with <span aria-label="Quite aria friendly." tooltip='top'>a tooltip</span> and another <span aria-label="True pseudo-abuse." tooltip='right'>pure css specimen</span> aimed another way.</p>
 

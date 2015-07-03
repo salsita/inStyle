@@ -17,8 +17,7 @@ gulp.task('build-iconfont', function () {
       fontName: fontName,
       fontHeight: 1001,
       normalize: true,
-      appendUnicode: true,
-      descent: 200
+      appendUnicode: true
     }))
       .on('glyphs', function(glyphs, options) {
         gulp.src('./src/components/icons/template.styl')
@@ -47,10 +46,7 @@ gulp.task('build-styles', function () {
 
 gulp.task('watch-styles', function() {
   gulp.watch('./src/**/*.styl', ['build-styles']);
+  gulp.watch('./src/components/icons/template.styl', ['build-iconfont'])
 });
 
-gulp.task('watch-iconfont', function() {
-  gulp.watch('.src/components/icons/*.*', ['build-iconfont']);
-});
-
-gulp.task('default', ['build-iconfont', 'watch-iconfont', 'build-styles', 'watch-styles']);
+gulp.task('default', ['build-iconfont', 'build-styles', 'watch-styles']);

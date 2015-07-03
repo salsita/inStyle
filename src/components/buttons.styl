@@ -20,6 +20,8 @@ button-clear()
 
 $button
   display inline-block
+  vertical-align middle
+  font-size $fontS
   line-height $lineHeight
   appearance none
   border $border
@@ -27,7 +29,6 @@ $button
   padding 0 $indent
   border-radius $borderRadius
   color $buttonColor
-  font-size $fontS
   text-decoration none
   cursor pointer
   button-clear()
@@ -39,6 +40,7 @@ $button
 
 button
 .button
+[role='button']
 [class^='button-']
 [class*=' button-']
   @extends $button

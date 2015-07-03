@@ -13,22 +13,25 @@
   font-weight normal
   font-style normal
 
-icon(type)
+icon(type, dir = false, margin = true)
   if type
     content type
   display inline-block
-  line-height 1
-  vertical-align middle
-  margin-top -3px
   font-family '<%= fontName %>'
   font-style normal
   font-weight normal
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
-  /body:not(:-moz-handler-blocked) &
-    margin-top 0
+  if dir is left // Fixes height/valign for icons in buttons
+    float left
+    if margin
+      margin-right ($indent/2)
+  if dir is right
+    float right
+    if margin
+      margin-left ($indent/2)
 <% _.each(glyphs, function(glyph) { %>
 $icon-<%= glyph.name %> = '\<%= glyph.unicode[0].charCodeAt(0).toString(16).toUpperCase() %>'
 .icon-<%= glyph.name %>:before
-  icon($icon-<%= glyph.name %>)
+  icon($icon-<%= glyph.name %>, false)
 <% }); %>

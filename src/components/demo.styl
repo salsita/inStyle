@@ -21,3 +21,19 @@ body
 .wrap-flex
   distribute-flex(right, center, column)
 
+// Buttons
+
+button.back:before
+[role=button].back:before
+  icon($icon-chevron-left, left)
+
+button.follow:after
+[role=button].follow:after
+  icon($icon-star, right)
+
+button.forward:before
+[role=button].forward:before
+  icon($icon-chevron-right, right, false)
+
+button.clock:before
+  icon($icon-clock, left)
