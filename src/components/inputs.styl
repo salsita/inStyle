@@ -2,6 +2,10 @@
   chilli-seed | inputs
   ============================== */
 
+$checkboxSize = $fontM
+
+// Text
+
 input[type='text']
   height $lineHeight
   padding 0 $indent
@@ -28,3 +32,35 @@ input[type='text']
     color $colorGrey
     background-color $colorGreyLight
     border-color $colorGreyAlt
+
+// Checkbox, Radio
+
+checkbox(type = checkbox)
+  hide(display)
+
+  + label
+    position relative
+    display inline-block
+    line-height inherit
+
+    &:before
+    &:after
+      cursor pointer
+
+    &:before
+      if type is checkbox
+        icon($icon-checkbox, left)
+      else if type is radio
+        icon($)
+      color $colorGrey
+
+  &:checked + label:after
+    icon($icon-checkmark)
+    position absolute
+    left 0
+    top 50%
+    transform translateY(-50%)
+
+input[type='checkbox']
+input[type='radio']
+  checkbox()
