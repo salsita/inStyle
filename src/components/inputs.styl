@@ -84,7 +84,7 @@ checkbox(type = checkbox, pos = left)
         width $checkboxSize
         height @width
         background transparent url('assets/img/checkmark.svg') no-repeat 50% 50%
-        background-size ($checkboxSize*.75) auto
+        background-size ($checkboxSize*.7) auto
         transform translateY(-50%) scale(0.6) rotate(-30deg)
         if pos is left
           left 0
@@ -102,7 +102,7 @@ checkbox(type = checkbox, pos = left)
           right ($checkboxSize/2)
           transform translateX(50%) translateY(-50%) scale(0.1)
 
-  &:checked + span
+  &:checked + span:first-of-type
 
     &:before
       border-color $colorBlue
