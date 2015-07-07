@@ -44,7 +44,10 @@ checkbox(type = checkbox, pos = left)
   + span:first-of-type
     display inline-block
     position relative
-    padding-left ($checkboxSize + 5px)
+    if pos is left
+      padding-left ($checkboxSize + 5px)
+    else if pos is right
+      padding-right ($checkboxSize + 5px)
     cursor pointer
     transform-style preserve-3d
 
@@ -55,7 +58,10 @@ checkbox(type = checkbox, pos = left)
       top 50%
 
     &:before
-      left 0
+      if pos is left
+        left 0
+      else if pos is right
+        right 0
       transform translateY(-50%)
       width $checkboxSize
       height @width
@@ -72,27 +78,38 @@ checkbox(type = checkbox, pos = left)
       will-change transform
       if type is checkbox
         icon($icon-checkmark)
-        left 3px
         color $colorBlue
         font-size $checkmarkSize
         transform translateY(-50%) scale(0.6) rotate(-30deg)
+        if pos is left
+          left 3px
+        else if pos is right
+          right 3px
       else if type is radio
         width $checkmarkSize
         height @width
-        circle()
-        left ($checkboxSize/2)
         background-color $colorBlue
-        transform translateX(-50%) translateY(-50%) scale(0.1)
+
+        circle()
+        if pos is left
+          left ($checkboxSize/2)
+          transform translateX(-50%) translateY(-50%) scale(0.1)
+        else if pos is right
+          right ($checkboxSize/2)
+          transform translateX(50%) translateY(-50%) scale(0.1)
 
   &:checked + span:after
     opacity 1
     if type is checkbox
       transform translateY(-50%)
     else if type is radio
-      transform translateX(-50%) translateY(-50%)
+      if pos is left
+        transform translateX(-50%) translateY(-50%)
+      else if pos is right
+        transform translateX(50%) translateY(-50%)
 
 input[type='checkbox']
   checkbox()
 
 input[type='radio']
-  checkbox(radio)
+  checkbox(radio, right)
