@@ -1,39 +1,8 @@
 /*
-  chilli-seed | inputs
+  chilli-seed | checkbox
   ============================== */
 
 $checkboxSize = 20px
-
-// Text
-
-input[type='text']
-  height $lineHeight
-  padding 0 $indent
-  border $border
-  border-radius $borderRadius
-  border-color $colorGreyAlt
-  outline 0
-  transition border-color $transitionDuration $transitionEasing
-
-  &:hover:not([disabled])
-    border-color $colorGrey
-
-  &:focus:not([disabled])
-    border-color $colorBlue
-
-  &[required]:valid:not([disabled])
-    border-color $colorGreen
-
-  &:invalid:not([disabled])
-    color $colorRed
-    border-color $colorRed
-
-  &[disabled]
-    color $colorGrey
-    background-color $colorGreyLight
-    border-color $colorGreyAlt
-
-// Checkbox, Radio
 
 checkbox(type = checkbox, pos = left)
   hide(display)
@@ -73,7 +42,7 @@ checkbox(type = checkbox, pos = left)
         circle()
 
     &:hover:before
-      border-color $colorGreyAlt
+      border-color darken($colorGrey, 12%)
 
     &:after
       opacity 0

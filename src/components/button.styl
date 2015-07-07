@@ -1,5 +1,5 @@
 /*
-  chilli-seed | buttons
+  chilli-seed | button
   ============================== */
 
 $buttonColor = $colorBlue
@@ -52,11 +52,11 @@ button
   transition-duration $transitionDuration
   transition-timing-function $transitionEasing
 
-  &:hover
+  &:hover:not([disabled])
     border-color $colorGrey
-    box-shadow 0 1px 1px lighten($colorGrey, 50%)
+    box-shadow $boxShadowInput
 
-  &:active
+  &:active:not([disabled])
     border-color $colorBlue
     transition-property box-shadow
 
