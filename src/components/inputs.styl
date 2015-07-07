@@ -3,7 +3,6 @@
   ============================== */
 
 $checkboxSize = 20px
-$checkmarkSize = 10px
 
 // Text
 
@@ -36,8 +35,6 @@ input[type='text']
 
 // Checkbox, Radio
 
-// TODO: solve the will-change blurry transform
-
 checkbox(type = checkbox, pos = left)
   hide(display)
 
@@ -56,6 +53,9 @@ checkbox(type = checkbox, pos = left)
       pseudo(inline-block)
       position absolute
       top 50%
+      transition-property background-color, border-color
+      transition-duration $transitionDuration
+      transition-easing $transitionEasing
 
     &:before
       if pos is left
@@ -66,30 +66,34 @@ checkbox(type = checkbox, pos = left)
       width $checkboxSize
       height @width
       border $border
+      background-color $colorBlueLightest
       if type is checkbox
         border-radius $borderRadius
       else if type is radio
         circle()
 
+    &:hover:before
+      border-color $colorGreyAlt
+
     &:after
       opacity 0
       transform-origin 50% 50%
       transition all $transitionDuration $transitionEasing
-      will-change transform
+      will-change transform // investigate the blur
       if type is checkbox
-        icon($icon-checkmark)
-        color $colorBlue
-        font-size $checkmarkSize
+        width $checkboxSize
+        height @width
+        background transparent url('assets/img/checkmark.svg') no-repeat 50% 50%
+        background-size ($checkboxSize*.75) auto
         transform translateY(-50%) scale(0.6) rotate(-30deg)
         if pos is left
-          left 3px
+          left 0
         else if pos is right
-          right 3px
+          right 0
       else if type is radio
-        width $checkmarkSize
+        width ($checkboxSize/2)
         height @width
         background-color $colorBlue
-
         circle()
         if pos is left
           left ($checkboxSize/2)
@@ -98,18 +102,26 @@ checkbox(type = checkbox, pos = left)
           right ($checkboxSize/2)
           transform translateX(50%) translateY(-50%) scale(0.1)
 
-  &:checked + span:after
-    opacity 1
-    if type is checkbox
-      transform translateY(-50%)
-    else if type is radio
-      if pos is left
-        transform translateX(-50%) translateY(-50%)
-      else if pos is right
-        transform translateX(50%) translateY(-50%)
+  &:checked + span
 
-input[type='checkbox']
-  checkbox()
+    &:before
+      background-color $colorWhite
 
-input[type='radio']
-  checkbox(radio, right)
+    &:after
+      opacity 1
+
+      if type is checkbox
+        transform translateY(-50%)
+      else if type is radio
+        if pos is left
+          transform translateX(-50%) translateY(-50%)
+        else if pos is right
+          transform translateX(50%) translateY(-50%)
+
+label
+
+  > input[type='checkbox']
+    checkbox()
+
+  > input[type='radio']
+    checkbox(radio)
