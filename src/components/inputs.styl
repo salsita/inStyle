@@ -2,7 +2,8 @@
   chilli-seed | inputs
   ============================== */
 
-$checkboxSize = $fontM
+$checkboxSize = 20px
+$checkmarkSize = 10px
 
 // Text
 
@@ -35,32 +36,63 @@ input[type='text']
 
 // Checkbox, Radio
 
-checkbox(type = checkbox)
+// TODO: solve the will-change blurry transform
+
+checkbox(type = checkbox, pos = left)
   hide(display)
 
-  + label
-    position relative
+  + span:first-of-type
     display inline-block
-    line-height inherit
+    position relative
+    padding-left ($checkboxSize + 5px)
+    cursor pointer
+    transform-style preserve-3d
 
     &:before
     &:after
-      cursor pointer
+      pseudo(inline-block)
+      position absolute
+      top 50%
 
     &:before
+      left 0
+      transform translateY(-50%)
+      width $checkboxSize
+      height @width
+      border $border
       if type is checkbox
-        icon($icon-checkbox, left)
+        border-radius $borderRadius
       else if type is radio
-        icon($)
-      color $colorGrey
+        circle()
 
-  &:checked + label:after
-    icon($icon-checkmark)
-    position absolute
-    left 0
-    top 50%
-    transform translateY(-50%)
+    &:after
+      opacity 0
+      transform-origin 50% 50%
+      transition all $transitionDuration $transitionEasing
+      will-change transform
+      if type is checkbox
+        icon($icon-checkmark)
+        left 3px
+        color $colorBlue
+        font-size $checkmarkSize
+        transform translateY(-50%) scale(0.6) rotate(-30deg)
+      else if type is radio
+        width $checkmarkSize
+        height @width
+        circle()
+        left ($checkboxSize/2)
+        background-color $colorBlue
+        transform translateX(-50%) translateY(-50%) scale(0.1)
+
+  &:checked + span:after
+    opacity 1
+    if type is checkbox
+      transform translateY(-50%)
+    else if type is radio
+      transform translateX(-50%) translateY(-50%)
 
 input[type='checkbox']
-input[type='radio']
   checkbox()
+
+input[type='radio']
+  checkbox(radio)
