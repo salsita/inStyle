@@ -15,6 +15,7 @@ body
 
 .wrap
   distribute(center, center)
+
   span
     reset()
 
@@ -37,3 +38,39 @@ button.forward:before
 
 button.clock:before
   icon($icon-clock, left)
+
+
+// Grid
+
+.row1
+  margin-bottom ($indent*2)
+
+.col1
+.col2
+  text-align center
+  line-height 3
+  vertical-align middle
+
+.row1
+  row()
+  background-color $colorBlue
+
+  > .col1
+    col(30%)
+    background-color orange
+
+  > .col2
+    col()
+    background-color lighten(orange, 20%)
+
+    .row2
+      row()
+
+      .col1
+        col(50%)
+        background-color lighten(orange, 40%)
+
+      .col2
+        col()
+        background-color lighten(orange, 60%)
+
