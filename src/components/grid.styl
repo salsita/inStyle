@@ -3,7 +3,10 @@
   CSS3 Grid Layout as CSS Tables
   ============================== */
 
-row(width = 100%, maxWidth = 100%, height = auto, spacing = 0, collapse = separate)
+grid()
+  row(arguments)
+
+row(maxWidth = 100%, width = 100%, height = auto, spacing = 0, collapse = separate)
   display table
   table-layout fixed
   width width
@@ -12,7 +15,7 @@ row(width = 100%, maxWidth = 100%, height = auto, spacing = 0, collapse = separa
   border-spacing spacing
   border-collapse collapse
 
-col(width = auto, maxWidth = 100%, height = auto, valign = middle)
+col(width = auto, height = auto, maxWidth = 100%, valign = middle)
   display table-cell
   width auto
   max-width maxWidth
