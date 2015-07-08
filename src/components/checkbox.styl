@@ -3,6 +3,7 @@
   ============================== */
 
 $checkboxSize = 20px
+$checkmarkSrc = 'assets/img/checkmark.svg'
 
 checkbox(type = checkbox, pos = left)
   hide(display)
@@ -52,7 +53,7 @@ checkbox(type = checkbox, pos = left)
       if type is checkbox
         width $checkboxSize
         height @width
-        background transparent url('assets/img/checkmark.svg') no-repeat 50% 50%
+        background transparent url($checkmarkSrc) no-repeat 50% 50%
         background-size ($checkboxSize*.7) auto
         transform translateY(-50%) scale(0.6) rotate(-30deg)
         if pos is left
