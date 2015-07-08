@@ -43,50 +43,56 @@ button.clock:before
 
 #game
   grid(960px)
+  height 500px
   margin 0 auto
+  color $colorWhite
   border 1px solid $colorGrey
   border-radius $borderRadius
   margin-bottom ($indent*2)
 
+  .row
+    row()
+
   #title
-  #scores
-    col(300px, 150px)
+  #score
+    col(200px)
+    height 100px
+    background-color rebeccapurple
 
   #menu
-    col(300px)
+    col(200px)
+    background-color lighten(rebeccapurple, 20%)
+
+  #main
+  #main-header
+  #main-footer
+    col()
+    background-color lighten(rebeccapurple, 40%)
 
 
 // Grid
 
 .row1
   margin-bottom ($indent*2)
-
 .col1
 .col2
   text-align center
   line-height 3
   vertical-align middle
-
 .row1
-  row()
+  grid()
   background-color $colorBlue
-
   > .col1
     col(30%)
     background-color orange
-
   > .col2
     col()
     background-color lighten(orange, 20%)
-
     .row2
-      row()
-
+      grid()
       .col1
         col(50%)
         background-color lighten(orange, 40%)
-
       .col2
         col()
         background-color lighten(orange, 60%)
-

@@ -3,21 +3,21 @@
   CSS3 Grid Layout as CSS Tables
   ============================== */
 
-grid()
-  row(arguments)
-
-row(maxWidth = 100%, width = 100%, height = auto, spacing = 0, collapse = separate)
+grid(maxWidth = 100%, width = 100%, spacing = 0, collapse = separate)
   display table
   table-layout fixed
   width width
   max-width maxWidth
-  height height
   border-spacing spacing
   border-collapse collapse
 
-col(width = auto, height = auto, maxWidth = 100%, valign = middle)
-  display table-cell
-  width auto
+row(maxWidth = 100%, width = 100%)
+  display table-row
+  width width
   max-width maxWidth
-  height height
+
+col(width = auto, maxWidth = 100%, valign = middle)
+  display table-cell
+  width width
+  max-width maxWidth
   vertical-align valign
