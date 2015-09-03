@@ -1,66 +1,85 @@
 /*
-  chilli-seed | button
+  chilli-seed | buttons
   ============================== */
 
-$buttonColor = $colorBlue
+$buttonColorDefault = $colorBlue
 
-button-clear()
-  &
-  &:hover
-  &:active
-  &[disabled]
-    unless @border-color
-      border-color transparent
-    unless @background-color
-      background-color transparent
-    unless @box-shadow
-      box-shadow none
-    unless @outline
-      outline 0
+// Base text-like button
 
 $button
-  display inline-block
-  vertical-align middle
-  font-size $fontS
-  line-height $lineHeight
-  min-width @line-height
-  appearance none
-  border $border
-  outline 0
-  padding 0 $indent
-  border-radius $borderRadius
-  color $buttonColor
+  unstyled-button()
+  color $buttonColorDefault
+  text-align center
   text-decoration none
   cursor pointer
-  text-align center
-  button-clear()
+  text-transform capitalize
+  vertical-align middle
+  transition all ($transitionDuration/2) $transitionEasing
+
+  &:hover
+    text-decoration underline
+
+// Button with hitbox
+
+$button-hitboxed
+  @extends $button
+  padding 0 $indent
+  line-height $lineHeight
+  border $borderBlank
+  border-radius $borderRadius
+
+// Default button skin
+
+$button-default
+  @extends $button-hitboxed
+  color $colorWhite
+  background-color $buttonColorDefault
+  border-color @background-color
+  font-size $fontXS
+  font-weight $fontSemiBold
+  text-transform uppercase
 
   &:hover
     text-decoration none
 
-// Default
-
-button
-.button
-[role='button']
-[class^='button-']
-[class*=' button-']
-  @extends $button
-  background-color $colorWhite
-  border-color $colorGreyAlt
-  transition-property border-color, box-shadow
-  transition-duration $transitionDuration
-  transition-timing-function $transitionEasing
-
-  &:hover:not([disabled])
-    border-color $colorGrey
-    box-shadow $boxShadowInput
-
-  &:active:not([disabled])
-    border-color $colorBlue
-    transition-property box-shadow
+  &:hover
+  &:focus
+    background-color darken(@background-color, 20%)
 
   &[disabled]
-    color $colorGrey
-    background-color $colorGreyLight
-    border-color $colorGreyLight
+    &:hover
+      background-color $buttonColorDefault
+
+
+// Alternate button skin
+
+$button-alt
+  @extends $button-hitboxed
+  color $buttonColorDefault
+  border $border
+  font-size $fontXS
+  font-weight $fontSemiBold
+  text-transform uppercase
+
+  &:hover
+    text-decoration none
+    border-color $colorGrey
+    box-shadow 0 1px 1px lighten($colorGrey, 50%)
+
+  &:active
+    box-shadow 0 2px 3px lighten($colorGrey, 50%)
+
+  &[disabled]
+    color $colorGreyDarker
+    background-color $colorGreyLightest
+    border-color $colorGreyLighter
+
+    &:hover
+      border-color @border-color
+      box-shadow none
+
+// Base button component
+
++component(button)
+  & // https://github.com/stylus/stylus/issues/1507
+    @extends $button-default
