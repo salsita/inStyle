@@ -1,8 +1,6 @@
 # chilli-seed
 
-No default skin. No learning process. Few opinions.
-
-A minimal Stylus-based responsive CSS seed that promotes high usability abstractions in favor of bootstrapism and complex architecture.
+A minimal Stylus-based responsive CSS seed skeleton that promotes high usability abstractions in favor of bootstrapism and complex architecture.
 
 ## Installation
 
@@ -11,13 +9,24 @@ A minimal Stylus-based responsive CSS seed that promotes high usability abstract
 
 ## Features
 
-### Normalize / Reset
-
-`chilli-seed` currently uses [normalize.css](http://necolas.github.io/normalize.css/) to achieve vendor consistency, to be replaced with a more lightweight solution.
-A custom "HTML-defaults" reset is available as a mixin for any element.
+### Componens
+`chilli-seed` boldly assumes universal HTML components as base elements in the following format.
 
 ```
-.widget
++component(widget)
+  widget
+  .widget
+  [class^=widget-]
+  [class*= widget-]
+  [role=widget]
+```
+
+### Normalize / Reset
+
+`chilli-seed` currently uses [normalize.css](http://necolas.github.io/normalize.css/) to achieve vendor consistency, to be replaced with a more lightweight solution. Various other reset types (based on nib) available as a mixins.
+
+```
+.element
   reset()
 ```
 
