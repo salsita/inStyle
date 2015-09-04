@@ -36,6 +36,11 @@ pseudo(display = block)
   content ''
   display display
 
+scrollable(x = auto, y = auto)
+  overflow-x x
+  overflow-y y
+  -webkit-overflow-scrolling touch
+
 background-retina(file, width, height)
   background-image url(file)
   background-size width height
