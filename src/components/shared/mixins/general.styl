@@ -2,22 +2,29 @@
   chilli-seed | mixins - general
   ============================== */
 
-component(type)
-  fuck = selector()
-  {type}, [role={type}]
-    {block}
+component(type, element = false)
+  if element
+    {type}, [role={type}]
+      {block}
+  else
+    [role={type}]
+      {block}
 
-state(names, el = null)
-  for state in names
-    if el is null
-      &[state~={state}]
+variant(types)
+  for type in types
+    &[data-variant~={type}]
+    &.{type}
+      {block}
+
+state(types, root = false)
+  for state in types
+    if root is false
       &[data-state~={state}]
-      &.state--{state}
+      &.{state}
         {block}
     else
-      /{el}[state~={state}] &
-      /{el}[data-state~={state}] &
-      /{el}.state--{state} &
+      /[data-state~={state}]&
+      /.{state}&
         {block}
 
 ng-transition(cls, state = enter, props = all, dur = $transitionDuration, ease = $transitionEasing)
