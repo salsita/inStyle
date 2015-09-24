@@ -1,0 +1,30 @@
+/*
+  chilli-seed | docs
+  ============================== */
+
+@import 'shared'
+
+// Component
+
+body
+  margin 0
+  padding 10px
+  font-family 'Source Sans Pro', sans-serif
+
++component(docs)
+  background-color blue
+
+  +state(opened closed)
+    background-color red
+
+  +component(button)
+    color red
+
+    +state(denied fixed, fuck)
+      color black
+
+
+
+
+.back:before
+  icon($icon-arrow-left, left)

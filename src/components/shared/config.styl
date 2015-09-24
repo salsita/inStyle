@@ -2,13 +2,12 @@
   chilli-seed | config
   ============================== */
 
-$debug = false
-
 // Proportional
 
-$indent     = rem(10)
-$textMargin = .67em
-$lineHeight = rem(30)
+$indent           = rem(10)
+$textMargin       = .67em
+$lineHeight       = rem(30)
+$lineHeightBorder = rem(28)
 
 // Typography
 
@@ -42,7 +41,7 @@ $colorBlueLightest = #f9fbfe
 
 $transitionDuration = .2s
 $animationDuration  = .4s
-$transitionEasing   = easeInOutSine
+$transitionEasing   = $easeInOutSine
 $animationEasing    = linear
 $borderRadius       = 2px
 $boxShadow          = 0 0 10px rgba(0, 0, 0, .25)
@@ -53,7 +52,7 @@ $border             = 1px solid $colorGrey
 
 $documentMinWidth   = 320px
 $mobileMaxWidth     = 736px // iPhone 6+
-$tabletMinWidth     = 737px
+$tabletMinWidth     = $mobileMaxWidth - 1
 $tabletMaxWidth     = 1279px
 $widescreenMinWidth = 1600px
 

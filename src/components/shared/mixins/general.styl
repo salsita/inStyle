@@ -1,14 +1,37 @@
 /*
-  chilli-seed | mixins
+  chilli-seed | mixins - general
   ============================== */
 
-component(cls)
-  .{cls}
-  {cls}
-  [class^={cls}-]
-  [class*= {cls}-]
-  [role={cls}]
+component(type)
+  fuck = selector()
+  {type}, [role={type}]
     {block}
+
+state(names, el = null)
+  for state in names
+    if el is null
+      &[state~={state}]
+      &[data-state~={state}]
+      &.state--{state}
+        {block}
+    else
+      /{el}[state~={state}] &
+      /{el}[data-state~={state}] &
+      /{el}.state--{state} &
+        {block}
+
+ng-transition(cls, state = enter, props = all, dur = $transitionDuration, ease = $transitionEasing)
+  .{cls}-enter
+  .{cls}-leave
+    transition props dur ease
+  if state is enter
+    .{cls}-enter
+    .{cls}-leave.{cls}-leave-active
+      {block}
+  if state is leave
+    .{cls}-leave
+    .{cls}-enter.{cls}-enter-active
+      {block}
 
 rem(px)
   unit(px/(.16*$fontScale), 'rem')
@@ -107,29 +130,21 @@ unstyled-button()
   border none
   outline none
 
-hide(method = display, animate = opacity)
+hide(method = display)
   if method is display
     display none
   else if method is flow
     opacity 0
     position absolute
     pointer-events none
-  else if method is fade
-    opacity 0
-    pointer-events none
-    transition animate $transitionDuration $transitionEasing
 
-show(method = display, animate = opacity, transparency = 1)
+show(method = display)
   if method is display
     display block
   else if method is flow
-    opacity transparency
+    opacity 1
     position static
     pointer-events all
-  else if method is fade
-    opacity transparency
-    pointer-events all
-    transition animate $transitionDuration $transitionEasing
 
 circle()
   border-radius 100%

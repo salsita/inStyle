@@ -2,6 +2,11 @@
   chilli-seed | base
   ============================== */
 
+@import 'vendor/*.css'
+@import 'shared'
+
+// Component
+
 *
 *:before
 *:after
@@ -11,12 +16,18 @@ html
   position relative
   min-height 100%
   font-size $fontScale
+  -ms-text-size-adjust 100%
+  -webkit-text-size-adjust 100%
 
 body
   margin 0
   font-size $fontM
   line-height 1.5
   min-width $documentMinWidth
+
+audio, canvas, progress, video
+  display inline-block
+  vertical-align baseline
 
 p, dl, dt, dd, li, h1, h2, h3, h4, h5, h6, pre, code, form,
 fieldset, legend, input, button, textarea, blockquote, th, td

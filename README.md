@@ -1,6 +1,6 @@
 # chilli-seed
 
-A minimal Stylus-based responsive CSS seed skeleton that promotes high usability abstractions in favor of bootstrapism and complex architecture.
+`chilli-seed` is a CSS skeleton framework for application interfaces that promotes high usability abstractions, simple to follow componentization logic and favors concise methodologies.
 
 ## Installation
 
@@ -9,26 +9,16 @@ A minimal Stylus-based responsive CSS seed skeleton that promotes high usability
 
 ## Features
 
-### Componens
-`chilli-seed` boldly assumes universal HTML components as base elements in the following format.
+### Components
+`chilli-seed` assumes universal component roles independent of element defaults, the following is therefore equal.
 
 ```
-+component(widget)
-  widget
-  .widget
-  [class^=widget-]
-  [class*= widget-]
-  [role=widget]
+<button>Submit</button>
+<a role='button' href='/someurl'>Submit</a>
 ```
 
-### Normalize / Reset
+### ngAnimate-like
 
-`chilli-seed` currently uses [normalize.css](http://necolas.github.io/normalize.css/) to achieve vendor consistency, to be replaced with a more lightweight solution. Various other reset types (based on nib) available as a mixins.
-
-```
-.element
-  reset()
-```
 
 ### IconFont
 

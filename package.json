@@ -4,8 +4,10 @@
   "description": "",
   "main": "gulpfile.js",
   "dependencies": {
+    "animate.css": "^3.4.0",
     "gulp": "^3.9.0",
-    "lodash": "^3.10.0"
+    "lodash": "^3.10.0",
+    "normalize.css": "^3.0.3"
   },
   "devDependencies": {
     "autoprefixer-core": "^5.2.1",

@@ -2,8 +2,12 @@
   chilli-seed | checkbox
   ============================== */
 
+@import 'shared'
+
 $checkboxSize = 20px
 $checkmarkSrc = 'assets/img/checkmark.svg'
+
+// Component
 
 checkbox(type = checkbox, pos = left)
   hide(display)
@@ -25,7 +29,7 @@ checkbox(type = checkbox, pos = left)
       top 50%
       transition-property background-color, border-color
       transition-duration $transitionDuration
-      transition-easing $transitionEasing
+      transition-timing-function $transitionEasing
 
     &:before
       if pos is left
