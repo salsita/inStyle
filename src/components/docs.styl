@@ -33,14 +33,18 @@ body
   +state(opened closed)
     background-color red
 
-  +component(button)
-    color red
+  +component(button, true)
+    color white
 
-    +state(denied fixed, fuck)
+    &:hover
+      color red
+
+    +variant(pretty)
+      background-color pink
+      color white
+
+    +state(denied fixed, true)
       color black
-
-
-
 
 .back:before
   icon($icon-arrow-left, left)
