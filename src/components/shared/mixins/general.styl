@@ -2,23 +2,40 @@
   chilli-seed | mixins - general
   ============================== */
 
-component(type)
-  fuck = selector()
-  {type}, [role={type}]
-    {block}
+component(name, types = element)
+  for type in types
+    if type is element
+      {name}
+    else if type is role
+      [role={name}]
+    else if type is class
+      .{name}
+        {block}
 
-state(names, el = null)
+state(names, el = null, pseudo = false)
   for state in names
     if el is null
       &[state~={state}]
       &[data-state~={state}]
       &.state--{state}
+      &:{state} if pseudo
         {block}
     else
       /{el}[state~={state}] &
       /{el}[data-state~={state}] &
       /{el}.state--{state} &
+      /{el}:{state} if pseudo
         {block}
+
+size(display = inline-block, width = auto, height = auto)
+  display display
+  width width
+  height height
+
+position(type = static, left = 0, top = 0)
+  position type
+  left left
+  top top
 
 ng-transition(cls, state = enter, props = all, dur = $transitionDuration, ease = $transitionEasing)
   .{cls}-enter
@@ -64,7 +81,7 @@ scrollable(x = auto, y = auto)
   overflow-y y
   -webkit-overflow-scrolling touch
 
-background-retina(file, width, height)
+background-retina(file, width = auto, height = auto)
   background-image url(file)
   background-size width height
   @media $retina2x
@@ -199,6 +216,7 @@ chevron(pos = top, bg = $colorWhite, border = $border, size = 12px)
     top 50%
     margin-top @left
 
-indent-children(dist = $indent)
-  & > *:not(:last-child)
-    margin-right dist
+indent-children(dirs = right, dist = $indent, exclude = last)
+  & > *:not(:{exclude}-child)
+    for dir in dirs
+      margin-{dir} dist

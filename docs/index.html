@@ -4,24 +4,52 @@
   <meta charset='UTF-8'>
   <title>chilli-seed</title>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
-  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
   <link rel='stylesheet' type='text/css' href='../build/chilli.css'>
+  <link rel='stylesheet' type='text/css' href='vendor/codemirror.css'>
+  <link rel='stylesheet' type='text/css' href='vendor/monokai.css'>
+  <script type='text/javascript' src='vendor/codemirror.js'></script>
+  <link href='https://fonts.googleapis.com/css?family=Maven+Pro' rel='stylesheet' type='text/css'>
 </head>
 <body role='docs'>
 
 <header>
   <h1>chilli-seed</h1>
-  <p>Something something great framework.</p>
+  <p>Things. Frameworks. Bullsch.</p>
 </header>
 
-
 <article>
+
+  <h2>Components, Variants, States</h2>
+
+  <p>Modern apps need flexible HTML semantics.<br>
+  A chilli-seed component is defined by its element type and/or role attribute as equivalent, producing the same design.</p>
+
+  Customized components are called variants, defined by their `.class` or
+
+<textarea class='code'>
++component(form)
+    border 1px solid black
+
+    +component(input)
+        font-family inherit
+
+        +state(invalid) // state of input
+            border-color red
+
+        +state(disabled, form) // state of form influencing input
+            opacity .5
+            pointer-events none
+
+        +media(tablet)
+            width 90%
+</textarea>
+
   <button>Button!</button>
   <button class='back' data-state='denied'>Go back</button>
   <a role='button' href='/login'>Login</a>
 </article>
 
-
+<script type="text/javascript" src="js/app.js"></script>
 
 </body>
 </html>
