@@ -1,9 +1,12 @@
 @import 'shared'
 
 +component('button .button [role=button]')
+
+  +variant('.phat')
+    font-weight 700
   
-  +state(':hover .disabled', body)
-    display inline
+    +state(':hover .disabled', html)
+      display inline
   
   +component(docus)
     display block

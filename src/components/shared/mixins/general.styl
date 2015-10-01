@@ -2,20 +2,6 @@
   chilli-seed | mixins - general
   ============================== */
 
-component(names)
-  {join(',', split(' ', names))}
-    {block}
-
-state(names, el = null)
-  states = join(',', split(' ', names))
-  if el is null
-    &{states}
-      {block}
-  else
-    /{el}
-      &{states}
-        {block}
-
 size(display = inline-block, width = auto, height = auto)
   display display
   width width

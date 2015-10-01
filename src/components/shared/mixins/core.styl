@@ -1,0 +1,24 @@
+/*
+  chilli-seed | mixins - core
+  ============================== */
+
+component(names)
+  {join(',', split(' ', '' + names))}
+    {block}
+
+variant(names)
+	&{join(',', split(' ', '' + names))}
+		{block}
+
+state(names, eles = null)
+  states = split(' ', '' + names)
+  elements = split(' ', '' + eles)
+  statesQuery = join(',', statesArr)
+  if eles is null
+    &{statesQuery}
+      {block}
+  else
+    for el in elements  // TODO: render a single query, problem with '&' context
+      for state in states
+        /{el}{state} &
+          {block}
