@@ -2,39 +2,29 @@
   chilli-seed | mixins - general
   ============================== */
 
-component(name, types = element)
-  for type in types
-    if type is element
-      {name}
-    else if type is role
-      [role={name}]
-    else if type is class
-      .{name}
-        {block}
+component(names)
+  {join(',', split(' ', names))}
+    {block}
 
-state(names, el = null, pseudo = false)
-  for state in names
-    if el is null
-      &[state~={state}]
-      &[data-state~={state}]
-      &.state--{state}
-      &:{state} if pseudo
+state(names, el = null)
+  states = join(',', split(' ', names))
+  if el is null
+    &{states}
+      {block}
+  else
+    /{el}
+      &{states}
         {block}
-    else
-      /{el}[state~={state}] &
-      /{el}[data-state~={state}] &
-      /{el}.state--{state} &
-      /{el}:{state} if pseudo
 
 size(display = inline-block, width = auto, height = auto)
   display display
   width width
   height height
 
-position(type = static, left = 0, top = 0)
+position(type = static, x = 0, y = 0)
   position type
-  left left
-  top top
+  left x
+  top y
 
 ng-transition(cls, state = enter, props = all, dur = $transitionDuration, ease = $transitionEasing)
   .{cls}-enter

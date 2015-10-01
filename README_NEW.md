@@ -1,44 +1,43 @@
 # chilli-seed
 
-`chilli-seed` is a UI skeleton framework that embraces natural HTML5 concepts and Stylus features to simplify and beautify the way you write CSS.
+`chilli-seed` is a UI skeleton framework that embraces natural HTML5 concepts and Stylus syntax sugar to simplify and beautify the way you write CSS.
 
 ## Why use it?
 
-Write nested states and media queries, making your source cleaner and better structured.  
+Write nested states and media queries, making your source cleaner and better structured.
 
 ```
 +component(form)
-	border 1px solid black
+  border 1px solid black
 
-	+component(input)
-		font-family inherit
+  +component(input)
+    font-family inherit
 
-		+state(:invalid) // state of input
-			border-color red
+    +state(:invalid) // state of input
+      border-color red
 
-		+state(.disabled, form) // state of form influencing input
-			opacity .5
-			pointer-events none
+    +state(.disabled, form) // state of form influencing input
+      opacity .5
+      pointer-events none
 
-		+media(tablet) // media query for input in form
-			width 90%
+    +media(tablet) // media query for input in form
+      width 90%
 ```
 
-Use embedded functions to craft fundamental CSS relations quickly and keep the source footprint minimal.
+Use embedded functions to craft fundamental CSS relations quickly and keep the source footprint minimal and well readable.
 
 ```
 +component(header)
-	size(block, 100%, 200px)
-	position(fixed, top, left)
+  size(block, 100%, 200px)
+  position(fixed, top, left)
 
-	.logo
-		background-retina(logo.png, 200px)
-		hide-text()
+  .logo
+    background-retina(logo.png, 200px)
+    hide-text()
 
-	.right-side
-		distribute-flex(left, center)
-		indent-children(right bottom, 10px)
-
+  .right-side
+    distribute-flex(left, center)
+    indent-children(right, bottom, 10px)
 ```
 
 ## Installation
@@ -50,10 +49,10 @@ Use embedded functions to craft fundamental CSS relations quickly and keep the s
 
 ### Components
 
-In ideal semantic HTML, components are defined by their nodeName (element type) or by their assigned WAI-ARIA role. By default, a component is created as an element only, but the following is equivalent and produces the same design for all usecases:
+In semantic HTML, components are best defined by their nodeName (element type) or by their assigned WAI-ARIA role. By default, a component is assigned as an element only, but the following is equivalent and produces the same visual design for all usecases:
 
 ```
-+component(button, element role class)
++component(button .button [role=button])
 	display inline-block
 ```
 
@@ -65,14 +64,16 @@ In ideal semantic HTML, components are defined by their nodeName (element type) 
 
 ### States
 
-In ideal semantic HTML, state of a component is defined by its pseudoclass and/or attributes. Since pseudoclasses cannot be modified, we can still make of use custom attributes or classes to carry additional state values.
+In semantic HTML, state of a component is defined by its pseudoclass and/or attributes. Since pseudoclasses cannot be modified, we can still make of use custom attributes or traditional classes to carry custom state values. The `state` block extend provides a unified wrapper for this intention that can apply either to the current element or any of its parent components that were defined earlier in the chain, body or html.
 
 ```
 +component(button)
-	+state(:hover :focus)
-		background blue
-	+state(.disabled [disabled])
-		background grey
+  +state(:hover :focus)
+    background blue
+  +state([disabled])
+    background grey
+  +state(.nojs, body)
+    display none
 ```
 
 
