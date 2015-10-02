@@ -1,14 +1,14 @@
 /*
-  chilli-seed | mixins - general
+  chili | mixins - general
   ============================== */
 
-size(display = inline-block, width = auto, height = auto)
-  display display
+size(display = initial, width = auto, height = auto)
+  display display unless @display
   width width
   height height
 
-position(type = static, x = 0, y = 0)
-  position type
+position(type = static, x = 0, y = 0, offset = 0/0)
+  position type unless @position
   left x
   top y
 

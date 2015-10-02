@@ -1,22 +1,23 @@
-# chilli-seed
+# chili
 
-`chilli-seed` is a UI skeleton framework that embraces natural HTML5 concepts and Stylus syntax sugar to simplify and beautify the way you write CSS.
+`chili` is a UI skeleton framework/seed that embraces natural HTML5 concepts and the wonderful syntax sugar of Stylus to simplify and beautify the way you write CSS.
 
 ## Why use it?
 
-Write nested states and media queries, making your source cleaner and better structured.
+Enjoy a balls to the wall simple code architecture.  
+Write nested states for all things, making your source cleaner and better structured.
 
 ```
-+component(form)
++component('form')
   border 1px solid black
 
-  +component(input)
+  +component('input')
     font-family inherit
 
-    +state(:invalid) // state of input
+    +state(':invalid') // state of input
       border-color red
 
-    +state(.disabled, form) // state of form influencing input
+    +state('[disabled]', form) // state of form influencing input
       opacity .5
       pointer-events none
 
@@ -24,18 +25,29 @@ Write nested states and media queries, making your source cleaner and better str
       width 90%
 ```
 
-Use embedded functions to craft fundamental CSS relations quickly and keep the source footprint minimal and well readable.
+Use your preferred namespacing methodology, no matter how ridiculous it is. Optional global prefixing of components, variants and states is configurable (does not prefix pseudoclasses).
+```
++component('#+--__xXxDeAtHlOrDxXx__--+')
+	transition transform
 
+	+variant('.__360--noscope')
+		transform rotate(360deg)
+		zoom 1 !important
+```
+
+Use meaningful embedded functions to craft fundamental CSS relations quickly and keep the source footprint minimal and well readable. Or not, you don't have to.
 ```
 +component(header)
   size(block, 100%, 200px)
   position(fixed, top, left)
 
   .logo
+  	hide-text()
     background-retina(logo.png, 200px)
-    hide-text()
 
-  .right-side
+  nav
+  	size(50%, 100%)
+  	position(float, right)
     distribute-flex(left, center)
     indent-children(right, bottom, 10px)
 ```
@@ -49,10 +61,11 @@ Use embedded functions to craft fundamental CSS relations quickly and keep the s
 
 ### Components
 
-In semantic HTML, components are best defined by their nodeName (element type) or by their assigned WAI-ARIA role. By default, a component is assigned as an element only, but the following is equivalent and produces the same visual design for all usecases:
+In semantic HTML, components are best defined by their nodeName (element type) or by their assigned WAI-ARIA role. The following would produce the same visual design for all matches (the `reset()` mixin stripping element defaults):
 
 ```
-+component(button .button [role=button])
++component('button .button [role=button]')
+	reset()
 	display inline-block
 ```
 
@@ -62,18 +75,24 @@ In semantic HTML, components are best defined by their nodeName (element type) o
 <span class='button'>Login</span>
 ```
 
+### Variants
+
+
+
 ### States
 
 In semantic HTML, state of a component is defined by its pseudoclass and/or attributes. Since pseudoclasses cannot be modified, we can still make of use custom attributes or traditional classes to carry custom state values. The `state` block extend provides a unified wrapper for this intention that can apply either to the current element or any of its parent components that were defined earlier in the chain, body or html.
 
 ```
-+component(button)
++component('button')
   +state(:hover :focus)
     background blue
   +state([disabled])
     background grey
-  +state(.nojs, body)
-    display none
+    pointer-events none
+  +variant('.ajax-submit')
+  	+state(.nojs, body) // changes button
+    	display none
 ```
 
 
@@ -81,7 +100,9 @@ In semantic HTML, state of a component is defined by its pseudoclass and/or attr
 
 
 
-#### Base
+### Automation
+
+
 
 
 

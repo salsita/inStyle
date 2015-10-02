@@ -1,24 +1,13 @@
-@import 'shared'
+@import 'chili'
 
-+component('button .button [role=button]')
++component(root, 'body')
+  margin 0
 
-  +variant('.phat')
-    font-weight 700
-  
-    +state(':hover .disabled', html)
+  +component(myButton, 'button, .button, [role=button]')
+    appearance none
+
+    +state(':hover, .disabled', root)
       display inline
-  
-  +component(docus)
-    display block
-
-+component(header footer)
-  size(block, 100%, 200px)
-  position(fixed, left, top)
-
-  .logo
-    background-retina('logo.png', 200px)
-    hide-text()
-
-  .right-side
-    distribute-flex(left, center)
-    indent-children(right, bottom, 10px)
+    
+    +component(docus, '.docus')
+      display block
