@@ -1,0 +1,35 @@
+$_components: (
+  'html' 'html',
+  'body' 'body'
+);
+
+=component($selector, $name: null)
+  @debug map-merge($_components, ($name: $selector))
+	#{$selector}
+		@content
+
+=state($state, $target: null)
+  @if target == null
+    @debug components
+    &#{$state}
+      @content
+  @else
+    @at-root #{$state}
+      font: 'WOOT'
+      @content
+
+html
+
+  +component(body, root)
+    margin: 0
+
+    nav
+      color: red
+
+      +state('.disabled', html)
+
+    +component('div')
+      color: blue
+
+      +state(':hover')
+        display: none

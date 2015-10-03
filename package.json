@@ -8,6 +8,7 @@
     "codemirror": "^5.7.0",
     "gulp": "^3.9.0",
     "lodash": "^3.10.1",
+    "node-sass": "^3.3.3",
     "normalize.css": "^3.0.3"
   },
   "devDependencies": {

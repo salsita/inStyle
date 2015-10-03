@@ -1,0 +1,11 @@
+html body {
+  margin: 0; }
+  html body nav {
+    color: red; }
+    html body nav .disabled {
+      font: 'WOOT'; }
+  html body div {
+    color: blue; }
+    html body div :hover {
+      font: 'WOOT';
+      display: none; }
