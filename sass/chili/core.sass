@@ -1,0 +1,21 @@
+$__componentStore: ()
+
+=component($selector, $name: null)
+  // Component already defined, warn user
+  @if $name and map-get($__componentStore, $name)
+    @warn $name + ' - Global component already defined.'
+  // New component, add to store
+  @else if $name
+    $__componentStore: map-merge($__componentStore, ($name: selector-parse($selector))) !global
+  // Render block
+  #{$selector}
+    @content
+
+=state($selector, $target: null)
+  @if target == null
+    &#{$selector}
+      @content
+  @else
+    @at-root #{$selector} &
+      font: 'WOOT'
+      @content

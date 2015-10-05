@@ -1,0 +1,35 @@
+// Global component map
+$__componentStore: ()
+
+// Add component to map helper
+@function __addComponent($name, $selector)
+  @debug 'Adding component: ';
+  $__componentStore: map-merge($__componentStore, ($name: selector-parse($selector))) !global
+
+// Enhance parent selector with specific component state
+@function __addStateToComponent($path, $component)
+  @debug $path
+
+// Component mixin
+=component($selector, $name: null)
+  // Component already defined, warn user
+  @if $name and map-get($__componentStore, $name)
+    @warn $name + ' - Global component already defined.'
+  // New component, add to store
+  @else if $name
+    __addComponent($name, $selector)
+  // Render block
+  #{$selector}
+    @content
+
+// State mixin
+=state($selector, $target: null)
+  // State of self
+  @if target is null
+    &#{$selector}
+      @content
+  // State of other component
+  @else
+    @at-root #{$selector} &
+      font: 'WOOT'
+      @content

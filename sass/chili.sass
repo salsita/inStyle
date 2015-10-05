@@ -1,0 +1,21 @@
+/*
+  chili-sass
+  github.com/salsita/chili
+  2015 | MIT
+  ============================== */
+
+@import 'chili/core'
+
++component('body, html body', root)
+  margin: 0
+
+  nav
+    color: red
+
+    +state('.disabled', html)
+
+  +component('div', roots)
+    color: blue
+
+    +state(':hover')
+      display: none
