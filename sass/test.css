@@ -2,10 +2,10 @@ html body {
   margin: 0; }
   html body nav {
     color: red; }
-    html body nav .disabled {
+    .disabled html body nav {
       font: 'WOOT'; }
   html body div {
     color: blue; }
-    html body div :hover {
+    :hover html body div {
       font: 'WOOT';
       display: none; }

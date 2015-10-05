@@ -1,20 +1,18 @@
-$_components: (
-  'html' 'html',
-  'body' 'body'
-);
+$components: (html: 'html')
 
 =component($selector, $name: null)
-  @debug map-merge($_components, ($name: $selector))
-	#{$selector}
-		@content
+  @if $name
+    $components: map-merge($components, ($name: $selector)) !global
+  @debug $components
+  #{$selector}
+    @content
 
 =state($state, $target: null)
   @if target == null
-    @debug components
     &#{$state}
       @content
   @else
-    @at-root #{$state}
+    @at-root #{$state} &
       font: 'WOOT'
       @content
 
@@ -28,8 +26,10 @@ html
 
       +state('.disabled', html)
 
-    +component('div')
+    +component('div', lol)
       color: blue
 
       +state(':hover')
         display: none
+
+@debug $components
