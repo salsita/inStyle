@@ -4,9 +4,12 @@
   2015 | MIT
   ============================== */
 
-@import 'chili/core'
+@import 'chili/core' // Import once
 
-// Just a touch...
+// Configuration
+//@import 'chili/presets/media' // Media Query presets
+@import 'chili/presets/easing' // Penner easing presets
+@import 'config' // Main configuration file
 
-+component('body', root)
-  margin: 0
+// Components
+@import 'components/base' // root, body, normalize.css
