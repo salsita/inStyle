@@ -1,78 +1,80 @@
-# chilli-seed
+# chili
 
-`chilli-seed` is a CSS skeleton framework for application interfaces that promotes high usability abstractions, simple to follow componentization logic and favors concise methodologies.
+`chili` is a UI skeleton framework-wannabe that embraces natural HTML5 concepts and the wonderful syntax sugar of SASS/Stylus(back soon!&trade;) to simplify and beautify the way you write and think about CSS.
+
+## Why use it?
+
+Write nested states for all things, making your source cleaner and better structured.
+
+```
++component('form')
+  border: 1px solid black
+
+  +component('input')
+    font-family: inherit
+
+    +state(':invalid') // state of input
+      border-color: red
+
+    +state('.disabled, [aria-disabled]', form) // states of form influencing input
+      opacity: .5
+      pointer-events: none
+
+    +media(tablet) // media query for input in form
+      width: 90%
+```
+
+Define abstract components with your preferred class-butchering methodology and reference them anywhere.
+
+```
++component('h1, h2, h3, .--hdngBG', headings)
+  font-size: 9001rem
+
+main
+  article
+    +component(headings)
+      font-weight: bold
+```
+
+Use included functions to craft fundamental CSS relations quickly, keep the source footprint minimal and well readable and add visual effects EZ (support for AngularJS and React).
+```
++component(header)
+  size(block, 100%, 200px)
+  position(fixed, top 0, left 0)
+
+  .logo
+  	hide-text()
+    background-retina(logo.png, 200px)
+
+  nav
+    distribute-children(left 10px, center, row)
+    indent-children(right 10px, bottom 10px)
+
+    +state('.nav-hidden', root)
+      ng-animate(leave, fadeOutLeft)
+```
 
 ## Installation
 
 `npm install`  
 `gulp`
 
-## Features
+`chili.sass` should be your central point for importing all components.  
+Build paths can be changed in `gulpfile.js`.  
+Currently only available in SASS, until [this](https://github.com/stylus/stylus/issues/1703) is fixed.
 
-### Components
-`chilli-seed` assumes universal component roles independent of element defaults, the following is therefore equal.
+## Components
 
-```
-<button>Submit</button>
-<a role='button' href='/someurl'>Submit</a>
-```
+Readme in progress.
 
-### ngAnimate-like
+### Base
 
+### Iconfont
 
-### IconFont
+### Media presets
 
-`chilli-seed` will automatically build all `.svg` images in the `src/components/icons` directory into all possible webfont versions and copy the resulting font files into `build/assets/font`.
+### Animation
 
-### Responsive
+## Functions / Mixins
 
-Stylus leverages media queries beautifully as element variations and pixel-based shortcuts for the most common device types are available.
-
-```
-header
-  height 40px
-  @media $mobile
-    position fixed
-    height 20px
-  @media $widescreen
-    float left
-    width 200px
-    height 100%
-```
-
-### Effects
-
-Mature `animate.css` support and Robert Penner's `easing.styl` functions.
-
-### Distribute
-
-Aligning children inside parent elements is easy.
-Mixins available for both `inline-block` and `flexbox` child distribution methods on x/y axis.
-
-```css
-header
-  distribute(left, center)
-
-footer
-  distribute-flex(center, bottom)
-```
-
-### Retina
-
-The `background-retina` mixin switches `background-image` sources based on `device-pixel-ratio` media queries. In the following case, `image@2x.png` or `image@3x.png` would be used on supporting devices.
-
-```css
-background-retina('path/to/image.png', 100px, auto)
-```
-
-### Forms
-
-Basic form concepts, including icon usage and checkbox/radio switchers, are available.
-
-### Popover / Tooltip
-
-Simple popovers and JavaScript-less tooltips conjured out of pseudoelements, yea.
-
-### Debug
-
-A visual debug mode is available when the `$debug` variable is set to `true` in `config.styl`. Idea repackaged from [inuitcss](https://github.com/inuitcss).
+Readme in progress.

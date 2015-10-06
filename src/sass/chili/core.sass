@@ -1,0 +1,58 @@
+/*
+  chili-sass
+  github.com/salsita/chili
+  2015 | MIT
+  ============================== */
+
+// Global component map
+$__componentStore: ()
+
+// Enhance parent selector with specific component state
+@function __addComponentState($chain, $component, $states)
+  $selector: ()
+  $hasComponent: false
+  $componentQuery: map-get($__componentStore, $component)
+  // Is component defined?
+  @if not $componentQuery
+    @warn 'Component \'#{$component}\' is undefined.'
+  @else
+    @each $parent in $chain
+      @each $identifier in $componentQuery
+        // Component is in parent selector
+        @if index($parent, inspect($identifier))
+          $hasComponent: true
+          // Append all states to the component node
+          @each $state in $states
+            $newParent: selector-replace($parent, $identifier, unquote($identifier + $state))
+            $selector: append($selector, $newParent, 'comma')
+  // Parent has no such component - TODO: treat component as top level parent state in such case?
+  @if not $hasComponent
+    @warn 'Parent selector chain has no component \'#{$component}\'.'
+  @return $selector
+  
+// Component mixin
+=component($selector, $name: false)
+  $selector: selector-parse($selector)
+  // Component already defined, warn user
+  @if $name and map-has-key($__componentStore, $name)
+    @warn 'Component \'#{$name}\' is already defined as \'#{map-get($__componentStore, $name)}\'.'
+  // New component, add to store
+  @else if $name
+    $__componentStore: map-merge($__componentStore, ($name: $selector)) !global
+  // Is it an existing component call?
+  @else if map-has-key($__componentStore, quote($selector))
+    $selector: map-get($__componentStore, quote($selector))
+  // Render block
+  #{$selector}
+    @content
+
+// State mixin
+=state($selector, $component: false)
+  // State of self
+  @if not $component
+    &#{$selector}
+      @content
+  // State of other component
+  @else
+    @at-root #{__addComponentState(&, $component, selector-parse($selector))}
+      @content

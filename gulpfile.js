@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var stylus = require('gulp-stylus');
+var sass = require('gulp-sass');
 var rename = require("gulp-rename");
 var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer-core');
@@ -34,11 +35,8 @@ gulp.task('build-iconfont', function () {
 });
 
 gulp.task('build-styles', function () {
-  gulp.src('./src/main.styl')
-    .pipe(stylus({
-      compress: true,
-      'include css': true
-    }))
+  gulp.src('./src/sass/chili.sass')
+    .pipe(sass({indentedSyntax: true}))
     .pipe(rename('chilli.css'))
     .pipe(postcss([ autoprefixer({ browsers: ['last 2 version'] }) ]))
     .pipe(minifyCss())
@@ -50,4 +48,4 @@ gulp.task('watch-styles', function() {
   gulp.watch('./src/components/icons/template.styl', ['build-iconfont'])
 });
 
-gulp.task('default', ['build-iconfont', 'build-styles', 'watch-styles']);
+gulp.task('default', ['build-styles', 'watch-styles']);
