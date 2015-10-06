@@ -6,7 +6,7 @@
 
 Write nested states for all things, making your source cleaner and better structured.
 
-```
+```Sass
 +component('form')
   border: 1px solid black
 
@@ -26,7 +26,7 @@ Write nested states for all things, making your source cleaner and better struct
 
 Define abstract components with your preferred class-butchering methodology and reference them anywhere.
 
-```
+```Sass
 +component('h1, h2, h3, .--hdngBG', headings)
   font-size: 9001rem
 
@@ -37,7 +37,7 @@ main
 ```
 
 Use included functions to craft fundamental CSS relations quickly, keep the source footprint minimal and well readable and add visual effects EZ (support for AngularJS and React).
-```
+```Sass
 +component(header)
   size(block, 100%, 200px)
   position(fixed, top 0, left 0)
