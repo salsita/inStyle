@@ -4,7 +4,20 @@
 
 ## Why use it?
 
-Write nested states for all things, making your source cleaner and better structured.
+*Components* and *States*, wooooo!
+
+Define abstract components with your preferred class-butchering methodology and reference them anywhere.
+
+```Sass
++component('h1, h2, h3, .--hdngBG', headings)
+  font-weight: bold   
+
+article
+  +component(headings)
+    font-size: 9001rem
+```
+
+Write nested states for components, making your source cleaner and better structured.
 
 ```Sass
 +component('form')
@@ -24,19 +37,7 @@ Write nested states for all things, making your source cleaner and better struct
       width: 90%
 ```
 
-Define abstract components with your preferred class-butchering methodology and reference them anywhere.
-
-```Sass
-+component('h1, h2, h3, .--hdngBG', headings)
-  font-size: 9001rem
-
-main
-  article
-    +component(headings)
-      font-weight: bold
-```
-
-Use included functions to craft fundamental CSS relations quickly, keep the source footprint minimal and well readable and add visual effects EZ (support for AngularJS and React).
+Use included functions to craft fundamental CSS relations quickly, keep the source footprint minimal and well readable and add visual effects EZ (support for Angular and React).
 ```Sass
 +component(header)
   size(block, 100%, 200px)
@@ -46,11 +47,11 @@ Use included functions to craft fundamental CSS relations quickly, keep the sour
   	hide-text()
     background-retina(logo.png, 200px)
 
-  nav
+  +component(nav)
     distribute-children(left 10px, center, row)
     indent-children(right 10px, bottom 10px)
 
-    +state('.nav-hidden', root)
+    +state('.nav-hidden', header)
       ng-animate(leave, fadeOutLeft)
 ```
 
