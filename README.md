@@ -33,7 +33,7 @@ Write nested states for components, making your source cleaner and better struct
       opacity: .5
       pointer-events: none
 
-    +media(tablet) // media query for input in form
+    +media('<tablet') // media query for input in form
       width: 90%
 ```
 
@@ -52,7 +52,7 @@ Use included functions to craft fundamental CSS relations quickly, keep the sour
     indent-children(right 10px, bottom 10px)
 
     +state('.nav-hidden', header)
-      ng-animate(leave, fadeOutLeft)
+      ng-animate(leave fadeOutLeft)
 ```
 
 ## Installation
@@ -60,22 +60,65 @@ Use included functions to craft fundamental CSS relations quickly, keep the sour
 `npm install`  
 `gulp`
 
-`chili.sass` should be your central point for importing all components.  
+### SASS
+
+`main.sass` should be your central point for importing all components or serving as a base import when adding separate components later as they are loaded by your framework.  
 Build paths can be changed in `gulpfile.js`.  
+
+
+### Stylus
+
 Currently only available in SASS, until [this](https://github.com/stylus/stylus/issues/1703) is fixed.
 
 ## Components
 
-Readme in progress.
+`chili` comes with a few helpful components to get you started on a project.
 
 ### Base
 
+Base uses [normalize.css](https://github.com/necolas/normalize.css/) as default and defines 2 top level components - `root` (html) and `body`. This is useful for referencing top level attributes coming from libraries like Modernizr or states that change the whole page scaffold.
+
+```Sass
+.button-submit
+  +state('.no-js', root)
+    display: none
+
+.wrapper
+  +state('.dialog-visible', body)
+    overflow hidden
+```
+
 ### Iconfont
 
-### Media presets
+The `gulp` build process automagically converts all your `.svg` icon sources into webfonts and renders the `icons` component. That allows you to easily use icons on pseudoelements and tweak their colors based on your design unlike your average closet .png.
+
+### Media
+
+In SASS, media query logic is provided by [include-media](https://github.com/eduardoboucas/include-media), a genius mixin created from the unison of a dancer and a goblin. Allows very flexible and expressive media conditioning - refer to its documentation for details.
+
+```Sass
+article
+  max-width 960px
+
+  +media('>phone', '<desktop')
+    max-width 480px
+```
 
 ### Animation
 
+Modern CSS transitions and animations are subject to a refined technical lifetime as they are impractical to use without some JavaScript switching `display` values and/or adding classes at the right moment. Modern UI frameworks like Angular or React know this and provide features to make this lifetime manageable. `chili` currently supports `ngAnimate` and `CSSTransitionGroup`, while the effect bank is provided by [animate.css](https://github.com/daneden/animate.css/).
+
+```Sass
+.ng-doodle
+  ng-animate(enter $bounceInLeft, leave $bounceInRight)
+
+.rx-doodle
+  react-animate(enter $doubleUp)
+```
+
 ## Functions / Mixins
+
+`chili` is equipped with many helper functions to simplify your writing style.  
+Give in, you might like it!
 
 Readme in progress.

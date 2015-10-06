@@ -4,17 +4,14 @@
   2015 | MIT
   ============================== */
 
-//@import 'base/normalize'
+@import 'base/normalize'
 
 +component('html', root)
-  position: relative
-  min-height: 100%
+  position: relative // always have a relative positioning parent
+  min-height: 100% // extend the html element as far as actual content
   font-size: $fontScale
-  -ms-text-size-adjust: 100%
-  -webkit-text-size-adjust: 100%
+  text-size-adjust: 100%
 
 +component('body', body)
-  margin: 0
   font-size: $fontM
-  line-height: 1.5
-  min-width: $documentMinWidth
+  min-width: $documentMinWidth // never scale below this width

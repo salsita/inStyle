@@ -35,7 +35,7 @@ gulp.task('build-iconfont', function () {
 });
 
 gulp.task('build-styles', function () {
-  gulp.src('./src/sass/chili.sass')
+  gulp.src('./src/sass/main.sass')
     .pipe(sass({indentedSyntax: true}))
     .pipe(rename('chilli.css'))
     .pipe(postcss([ autoprefixer({ browsers: ['last 2 version'] }) ]))

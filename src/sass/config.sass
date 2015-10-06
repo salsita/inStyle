@@ -6,9 +6,11 @@
 
 // Proportional
 
-$indent:           rem(10)
-$textMargin:       .67em
-$lineHeight:       rem(30)
+$indent:            rem(10)
+$textMargin:        .67em
+$lineHeight:        rem(30)
+$documentMinWidth:  320px
+$documentSafeWidth: 960px
 
 // Typography
 
@@ -49,20 +51,3 @@ $borderRadius:       2px
 $boxShadow:          0 0 10px rgba(0, 0, 0, .25)
 $boxShadowInput:     0 1px 1px rgba(0, 0, 0, .12)
 $border:             1px solid $colorGrey
-
-// Responsive
-
-$documentMinWidth:   320px
-$mobileMaxWidth:     736px // iPhone 6+
-$tabletMinWidth:     $mobileMaxWidth - 1
-$tabletMaxWidth:     1279px
-$widescreenMinWidth: 1600px
-
-$mediaMobile:     'screen and (max-device-width: ' + $mobileMaxWidth + ')'
-$mediaTablet:     'screen and (min-device-width: ' + $tabletMinWidth + ') and (max-device-width: ' + $tabletMaxWidth + ')'
-$mediaWidescreen: 'screen and (min-width: ' + $widescreenMinWidth + ')'
-
-// Retina
-
-$retina2x: 'screen and (-webkit-min-device-pixel-ratio: 1.5)'
-$retina3x: 'screen and (-webkit-min-device-pixel-ratio: 3)'

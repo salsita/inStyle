@@ -24,7 +24,7 @@ $__componentStore: ()
           // Append all states to the component node
           @each $state in $states
             $newParent: selector-replace($parent, $identifier, unquote($identifier + $state))
-            $selector: append($selector, $newParent, 'comma')
+            $selector: append($selector, $newParent, comma)
   // Parent tree has no such component, treat component as top level superstate
   @if not $hasComponent
     @warn 'Parent selector chain has no component \'#{$component}\' for states \'#{$states}\', treating as superstate.'
@@ -33,7 +33,7 @@ $__componentStore: ()
         @each $state in $states
           $superStateNode: inspect($identifier + $state)
           $newParent: selector-parse($superStateNode + ' ' + inspect($parent))
-          $selector: append($selector, $newParent, 'comma')
+          $selector: append($selector, $newParent, comma)
   @return $selector
   
 // Component mixin
