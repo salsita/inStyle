@@ -10,7 +10,7 @@ Define abstract components with your preferred class-butchering methodology and 
 
 ```Sass
 +component('h1, h2, h3, .--hdngBG', headings)
-  font-weight: bold   
+  font-weight: bold
 
 article
   +component(headings)
@@ -62,8 +62,18 @@ Use included functions to craft fundamental CSS relations quickly, keep the sour
 
 ### SASS
 
-`main.sass` should be your central point for importing all components or serving as a base import when adding separate components later as they are loaded by your framework.  
-Build paths can be changed in `gulpfile.js`.  
+`chili` currently uses Ruby SASS due to libsass being slightly behind with features.
+
+1. Install Ruby [Win](http://rubyinstaller.org/) [Linux](https://www.ruby-lang.org/en/documentation/installation/#package-management-systems)
+
+2. [Install SASS](http://sass-lang.com/install)
+
+3. `npm install`
+
+4. `gulp sass`
+
+`main.sass` should be your central point for importing all components or serving as a base import when adding separate components later if you load them individually with modules in your framework.
+Build paths can be changed in `gulpfile.js`.
 
 
 ### Stylus
@@ -94,7 +104,7 @@ The `gulp` build process automagically converts all your `.svg` icon sources int
 
 ### Media
 
-In SASS, media query logic is provided by [include-media](https://github.com/eduardoboucas/include-media), a genius mixin created from the unison of a dancer and a goblin. Allows very flexible and expressive media conditioning - refer to its documentation for details.
+In SASS, media query logic is provided by [include-media](https://github.com/eduardoboucas/include-media), a wonderful mixin created by a dancer and a goblin. Allows very flexible and expressive media conditioning - refer to its [documentation](http://include-media.com/#features) for details.
 
 ```Sass
 article
@@ -110,15 +120,15 @@ Modern CSS transitions and animations are subject to a refined technical lifetim
 
 ```Sass
 .ng-doodle
-  ng-animate(enter $bounceInLeft, leave $bounceInRight)
+  +ng-animate(enter $bounceInLeft, leave $bounceInRight)
 
 .rx-doodle
-  react-animate(enter $doubleUp)
+  +react-animate(enter $doubleUp)
 ```
 
 ## Functions / Mixins
 
-`chili` is equipped with many helper functions to simplify your writing style.  
+`chili` is equipped with many helper functions to simplify your writing style.
 Give in, you might like it!
 
 Readme in progress.
