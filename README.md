@@ -41,24 +41,21 @@ Use included functions to craft fundamental CSS relations quickly, keep the sour
 ```Sass
 +component(header)
   size(block, 100%, 200px)
-  position(fixed, top 0, left 0)
+  position(fixed, top: 0, left: 0)
 
   .logo
   	hide-text()
     background-retina(logo.png, 200px)
 
   +component(nav)
-    distribute-children(left 10px, center, row)
-    indent-children(right 10px, bottom 10px)
+    distribute-children(left: 10px, center, row)
+    indent-children(right: 10px, bottom: 10px)
 
     +state('.nav-hidden', header)
       ng-animate(leave fadeOutLeft)
 ```
 
 ## Installation
-
-`npm install`  
-`gulp`
 
 ### SASS
 
@@ -120,10 +117,10 @@ Modern CSS transitions and animations are subject to a refined technical lifetim
 
 ```Sass
 .ng-doodle
-  +ng-animate(enter $bounceInLeft, leave $bounceInRight)
+  +ng-animate(enter: $bounceInLeft, leave: $bounceInRight)
 
 .rx-doodle
-  +react-animate(enter $doubleUp)
+  +react-animate(enter: $doubleUp)
 ```
 
 ## Functions / Mixins
