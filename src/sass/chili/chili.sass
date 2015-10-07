@@ -5,7 +5,7 @@
   ============================== */
 
 // Global component map
-$__componentStore: ()
+$__componentStore: () !default
 
 // Enhance parent selector with specific component state
 @function __addComponentState($chain, $component, $states)
@@ -47,9 +47,6 @@ $__componentStore: ()
   @else if $selector and map-has-key($__componentStore, $selector)
     $selector: map-get($__componentStore, $selector)
   // Render block
-  @debug $selector
-  @debug $__componentStore
-  @debug map-get($__componentStore, $selector)
   #{$selector}
     @content
 

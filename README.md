@@ -61,13 +61,13 @@ Use included functions to craft fundamental CSS relations quickly, keep the sour
 
 `chili` currently uses Ruby SASS due to libsass being slightly behind with features.
 
-1. Install Ruby [Win](http://rubyinstaller.org/) [Linux](https://www.ruby-lang.org/en/documentation/installation/#package-management-systems)
+- Install Ruby [Win](http://rubyinstaller.org/) [Linux](https://www.ruby-lang.org/en/documentation/installation/#package-management-systems)
 
-2. [Install SASS](http://sass-lang.com/install)
+- `gem install sass`
 
-3. `npm install`
+- `npm install`
 
-4. `gulp sass`
+- `gulp sass`
 
 `main.sass` should be your central point for importing all components or serving as a base import when adding separate components later if you load them individually with modules in your framework.
 Build paths can be changed in `gulpfile.js`.
