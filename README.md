@@ -1,6 +1,6 @@
 # chili
 
-`chili` is a UI skeleton framework-wannabe that embraces natural HTML5 concepts and the wonderful syntax sugar of SASS/Stylus(back soon!&trade;) to simplify and beautify the way you write and think about CSS.
+`chili` is a UI skeleton that embraces natural HTML5 concepts and the wonderful syntax sugar of SASS/Stylus(back soon!&trade;) to simplify and beautify the way you think about CSS.
 
 ## Why use it?
 
@@ -37,31 +37,31 @@ Write nested states for components, making your source cleaner and better struct
       width: 90%
 ```
 
-Use included functions to craft fundamental CSS relations quickly, keep the source footprint minimal and well readable and add visual effects EZ (support for Angular and React).
+Use included functions to craft fundamental CSS relations quickly, keep the source footprint minimal and well readable and add visual effects easily.
 ```Sass
 +component(header)
-  size(block, 100%, 200px)
-  position(fixed, top: 0, left: 0)
+  +size(block, 100%, 200px)
+  +position(fixed, top: 0, left: 0)
 
   .logo
-  	hide-text()
-    background-retina(logo.png, 200px)
+  	+hide-text()
+    +background-retina(logo.png, 200px)
 
   +component(nav)
-    distribute-children(left: 10px, center, row)
-    indent-children(right: 10px, bottom: 10px)
+    +distribute-children(left: 10px, center, row)
+    +indent-children(right: 10px, bottom: 10px)
 
     +state('.nav-hidden', header)
-      ng-animate(leave fadeOutLeft)
+      +ng-animate(leave: fadeOutLeft)
 ```
 
 ## Installation
 
 ### SASS
 
-`chili` currently uses Ruby SASS due to libsass being slightly behind with features.
+`chili` currently requires Ruby SASS due to 3.4 features.
 
-- Install Ruby [Win](http://rubyinstaller.org/) [Linux](https://www.ruby-lang.org/en/documentation/installation/#package-management-systems)
+- Install Ruby - [Win](http://rubyinstaller.org/), [Linux](https://www.ruby-lang.org/en/documentation/installation/#package-management-systems)
 
 - `gem install sass`
 
@@ -69,13 +69,13 @@ Use included functions to craft fundamental CSS relations quickly, keep the sour
 
 - `gulp sass`
 
-`main.sass` should be your central point for importing all components or serving as a base import when adding separate components later if you load them individually with modules in your framework.
+`main.sass` should be your central point for importing individual components.
 Build paths can be changed in `gulpfile.js`.
 
 
 ### Stylus
 
-Currently only available in SASS, until [this](https://github.com/stylus/stylus/issues/1703) is fixed.
+Currently only available in SASS. [1703](https://github.com/stylus/stylus/issues/1703)
 
 ## Components
 
@@ -101,7 +101,7 @@ The `gulp` build process automagically converts all your `.svg` icon sources int
 
 ### Media
 
-In SASS, media query logic is provided by [include-media](https://github.com/eduardoboucas/include-media), a wonderful mixin created by a dancer and a goblin. Allows very flexible and expressive media conditioning - refer to its [documentation](http://include-media.com/#features) for details.
+In SASS, media query logic is provided by [include-media](https://github.com/eduardoboucas/include-media). Allows very flexible and expressive media conditioning - refer to its [documentation](http://include-media.com/#features) for details.
 
 ```Sass
 article
@@ -113,13 +113,13 @@ article
 
 ### Animation
 
-Modern CSS transitions and animations are subject to a refined technical lifetime as they are impractical to use without some JavaScript switching `display` values and/or adding classes at the right moment. Modern UI frameworks like Angular or React know this and provide features to make this lifetime manageable. `chili` currently supports `ngAnimate` and `CSSTransitionGroup`, while the effect bank is provided by [animate.css](https://github.com/daneden/animate.css/).
+Modern CSS transitions and animations are subject to a refined technical lifetime with JavaScript switching `display` values and/or adding classes at the right moment. Modern UI frameworks like Angular or React know this and provide features to make this lifetime manageable. `chili` currently supports `ngAnimate` and `CSSTransitionGroup` wrappers, while the effect bank is provided by [animate.css](https://github.com/daneden/animate.css/).
 
 ```Sass
 .ng-doodle
   +ng-animate(enter: $bounceInLeft, leave: $bounceInRight)
 
-.rx-doodle
+.react-doodle
   +react-animate(enter: $doubleUp)
 ```
 

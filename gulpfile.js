@@ -1,3 +1,9 @@
+/*
+  chili
+  github.com/salsita/chili
+  2015 | MIT
+  ============================== */
+
 var gulp         = require('gulp');
 var stylus       = require('gulp-stylus');
 var sass         = require('gulp-sass');
@@ -37,7 +43,7 @@ gulp.task('build-stylus', function () {
     .pipe(gulp.dest(buildPath));
 });
 
-// Iconfont
+// Iconfont SASS
 gulp.task('build-iconfont-sass', function () {
   gulp.src([sassPath + 'components/icons/*.svg'])
     .pipe(iconfont({
@@ -68,7 +74,6 @@ gulp.task('watch-sass', function() {
 
 gulp.task('watch-stylus', function() {
   gulp.watch('./src/styl/*.styl', ['build-stylus']);
-  gulp.watch('./src/styl/components/icons/template.styl', ['build-iconfont-stylus']);
 });
 
 gulp.task('sass', ['build-iconfont-sass', 'build-sass', 'watch-sass']);

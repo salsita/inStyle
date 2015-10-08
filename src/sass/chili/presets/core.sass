@@ -1,0 +1,61 @@
+/*
+  chili-sass
+  github.com/salsita/chili
+  2015 | MIT
+  ============================== */
+
+// Global component map
+$__componentStore: () !default
+
+// Enhance parent selector with specific component state
+@function __addComponentState($chain, $component, $states)
+  $selector: ()
+  $hasComponent: false
+  $componentQuery: map-get($__componentStore, $component)
+  // Is component defined?
+  @if not $componentQuery
+    @error 'Component \'#{$component}\' is undefined.'
+  @else
+    @each $parent in $chain
+      @each $identifier in $componentQuery
+        // Is component in parent selector?
+        @if index($parent, inspect($identifier))
+          $hasComponent: true
+          // Append all states to the component node
+          @each $state in $states
+            $newParent: selector-replace($parent, $identifier, unquote($identifier + $state))
+            $selector: append($selector, $newParent, comma)
+  // Parent tree has no such component, treat component as top level superstate
+  @if not $hasComponent
+    @warn 'Parent selector chain has no component \'#{$component}\' for states \'#{$states}\', treating as superstate.'
+    @each $parent in $chain
+      @each $identifier in $componentQuery
+        @each $state in $states
+          $superStateNode: inspect($identifier + $state)
+          $newParent: selector-parse($superStateNode + ' ' + inspect($parent))
+          $selector: append($selector, $newParent, comma)
+  @return $selector
+
+// Component mixin
+=component($selector, $name: false)
+  $selector: unquote($selector)
+  // Component already defined, warn user
+  @if $name and map-has-key($__componentStore, $name)
+    @error 'Component \'#{$name}\' is already defined as \'#{map-get($__componentStore, $name)}\'.'
+  @else if $name
+    $__componentStore: map-merge($__componentStore, ($name: $selector)) !global
+  @else if $selector and map-has-key($__componentStore, $selector)
+    $selector: map-get($__componentStore, $selector)
+  // Render block
+  #{$selector}
+    @content
+
+// State mixin
+=state($selector, $component: false)
+  // State of self
+  @if not $component
+    &#{$selector}
+      @content
+  @else
+    @at-root #{__addComponentState(&, $component, selector-parse($selector))}
+      @content
