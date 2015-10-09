@@ -27,6 +27,10 @@ var fontPath   = 'assets/font/';
 gulp.task('build-sass', function () {
   return rubySass(sassPath + 'main.sass')
     .on('error', rubySass.logError)
+    .pipe(postcss([ autoprefixer({ browsers: ['last 2 version'] }) ]))
+    .pipe(minifyCss({
+      keepSpecialComments: 0
+    }))
     .pipe(gulp.dest(buildPath));
 });
 
