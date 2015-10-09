@@ -4,196 +4,184 @@
   2015 | MIT
   ============================== */
 
-size(display = initial, width = auto, height = auto)
-  display display unless @display
-  width width
-  height height
+// Helpers
 
-position(type = static, x = 0, y = 0, offset = 0/0)
-  position type unless @position
-  left x
-  top y
+@function __stripUnit($number)
+  @if type-of($number) == 'number' and not unitless($number)
+    @return $number / ($number * 0 + 1)
+  @return $number
 
-ng-transition(cls, state = enter, props = all, dur = $transitionDuration, ease = $transitionEasing)
-  .{cls}-enter
-  .{cls}-leave
-    transition props dur ease
-  if state is enter
-    .{cls}-enter
-    .{cls}-leave.{cls}-leave-active
-      {block}
-  if state is leave
-    .{cls}-leave
-    .{cls}-enter.{cls}-enter-active
-      {block}
+@function __isValidPosition($value)
+  @return (type-of($value) == 'number') or (index(auto initial inherit 0, $value) != null)
 
-rem(px)
-  unit(px/(.16*$fontScale), 'rem')
+// Proportional
 
-clearfix()
+=clearfix()
+  &:after, &:before
+    content: ''
+    display: table
   &:after
-  &:before
-    content ''
-    display table
-  &:after
-    clear both
+    clear: both
 
-hide-text()
-  text-indent 100%
-  white-space nowrap
-  overflow hidden
+=size($display: null, $args: ())
+  $displays: inline block flex inline-block inline-flex inline-table list-item run-in table table-caption table-column-group table-header-group table-footer-group table-row-group table-cell table-column table-row none initial inherit
+  // Is it a pseudo?
+  @if (str-index(inspect(&), ':before') != null) or (str-index(inspect(&), ':after') != null) and $display
+    content: ''
+    @if index($displays, $display) == null
+      display: block
+  @if index($displays, $display) == null
+    $args: $display
+  @else
+    display: $display
+  @if length($args) == 2
+    width: nth($args, 1)
+    height: nth($args, 2)
+  @else
+    @warn 'Invalid length of arguments \'#{length($args)}\' for size() in chain \'#{&}\'.'
 
-truncate-text(width = 100%)
-  max-width width
-  white-space nowrap
-  overflow hidden
-  text-overflow ellipsis
+// Based on http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
+=position($position, $args: ())
+  position: $position
+  @if $args == 'stretch'
+    top: 0
+    right: 0
+    bottom: 0
+    left: 0
+  @else
+    $offsets: top right bottom left
+    @each $offset in $offsets
+      $index: index($args, $offset)
+      @if $index
+        @if $index == length($args)
+          #{$offset}: 0
+        @else
+          $next: nth($args, $index + 1)
+          @if __isValidPosition($next)
+            #{$offset}: $next
+          @else if index($offsets, $next)
+            #{$offset}: 0
+          @else
+            @warn 'Invalid value \'#{$next}\' for position() \'#{$offset}\'.'
 
-pseudo(display = block)
-  content ''
-  display display
+=distribute($args: (), $dir: row)
+  $flexMap: (left: flex-start, right: flex-end, top: flex-start, bottom: flex-end, center: center)
+  @if length($args) == 2
+    display: flex
+    align-items: map-get($flexMap, nth($args, 1)) or nth($args, 1)
+    justify-content: map-get($flexMap, nth($args, 2)) or nth($args, 2)
+    flex-direction: $dir
+  @else
+    @warn 'Invalid length of arguments \'#{length($args)}\' for distribute() in chain \'#{&}\'.'
 
-scrollable(x = auto, y = auto)
-  overflow-x x
-  overflow-y y
-  -webkit-overflow-scrolling touch
+=indent($args: (), $exclude: null)
+  $offsets: top right bottom left
+  $selector: ()
+  @if $exclude
+    $selector: '& > *:not(:#{$exclude}-child)'
+  @else
+    $selector: '& > *'
+  #{$selector}
+    @each $offset in $offsets
+      $index: index($args, $offset)
+      @if $index
+        $next: nth($args, $index + 1)
+        @if type-of($next) == 'number'
+          margin-#{$offset}: $next
+        @else
+          @warn 'Invalid value \'#{$next}\' for indent() in chain \'#{&}\'.'
 
-background-retina(file, width = auto, height = auto)
-  background-image url(file)
-  background-size width height
-  @media $retina2x
-    background-image url(pathjoin(dirname(file), basename(file, extname(file)) + '@2x' + extname(file)))
-  @media $retina3x
-    background-image url(pathjoin(dirname(file), basename(file, extname(file)) + '@3x' + extname(file)))
+=offset($x: -50%, $y: -50%)
+  transform: translateX(#{$x}) translateY(#{$y})
 
-abs-center(style = transform)
-  position absolute
-  left 50%
-  top 50%
-  if style is margin
-    margin (@height/-2) 0 0 (@width/-2)
-  if style is transform
-    transform translate(-50%, -50%)
+// Typography
 
-distribute(x = left, y = center)
-  if y is center
-    y = middle
-  font-size 0
-  text-align x
-  &:before
-  &:after
-  & > *
-    font-size $fontM
-  &:before
-    content ''
-    display inline-block
-    vertical-align y
-    width 0
-    height 100%
-    min-height inherit
-    max-height inherit
-    padding 0
-  & > *
-    display inline-block
-    vertical-align y
+@function em($px, $scale: 62.5%, $unit: 'em')
+  @return unquote(__stripUnit($px)/(.16*__stripUnit($scale)) + $unit)
 
-distribute-flex(x = left, y = center, dir = row)
-  if x is left
-    x = flex-start
-  if x is right
-    x = flex-end
-  if y is top
-    y = flex-start
-  if y is bottom
-    y = flex-end
-  display flex
-  align-items x
-  justify-content y
-  flex-direction dir
+@function rem($px, $scale: 62.5%)
+  @return em($px, $scale, 'rem')
 
-unstyled-list()
-  list-style none
-  margin 0
-  padding 0
+=hide-text()
+  text-indent: 100%
+  white-space: nowrap
+  overflow: hidden
 
-unstyled-button()
-  display inline-block
-  padding 0
-  appearance none
-  background-color transparent
-  border none
-  outline none
+=truncate-text($width: 100%)
+  max-width: $width
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
 
-hide(method = display)
-  if method is display
-    display none
-  else if method is flow
-    opacity 0
-    position absolute
-    pointer-events none
+=unstyled-list()
+  list-style: none
+  margin: 0
+  padding: 0
 
-show(method = display)
-  if method is display
-    display block
-  else if method is flow
-    opacity 1
-    position static
-    pointer-events all
+=unstyled-button()
+  display: inline-block
+  padding: 0
+  appearance: none
+  background-color: transparent
+  border: none
+  outline: none
 
-circle()
-  border-radius 100%
+// Effects
 
-triangle(orientation = down, bg = $colorBlack, size = 5px)
-  pseudo(block)
-  width 0
-  height 0
-  if orientation is up
-    border-left size solid transparent
-    border-right @border-left
-    border-bottom size solid bg
-  else if orientation is right
-    border-top size solid transparent
-    border-bottom @border-top
-    border-left size solid bg
-  else if orientation is down
-    border-left size solid transparent
-    border-right @border-left
-    border-top size solid bg
-  else if orientation is left
-    border-top size solid transparent
-    border-bottom @border-top
-    border-right size solid bg
+=circle($radius)
+  border-radius: 100%
+  @if $radius
+    display: inline-block
+    width: ($radius*2)
 
-chevron(pos = top, bg = $colorWhite, border = $border, size = 12px)
-  pseudo(block)
-  position absolute
-  width size
-  height @width
-  background-color bg
-  border-top border
-  border-left @border-top
-  box-shadow $boxShadow
-  clip-path polygon(0 0, 100% 0, 0 100%)
-  if pos is top
-    transform rotate(45deg)
-    left 50%
-    top (size/-2)
-  else if pos is right
-    transform rotate(135deg)
-    right (size/-2)
-    top 50%
-    margin-top @right
-  else if pos is bottom
-    transform rotate(225deg)
-    left 50%
-    bottom (size/-2)
-  else if pos is left
-    transform rotate(-45deg)
-    left (size/-2)
-    top 50%
-    margin-top @left
+=triangle($orientation: down, $bg: #000, $size: 5px)
+  display: block
+  width: 0
+  height: 0
+  @if $orientation == up
+    border-left: $size solid transparent
+    border-right: $size solid transparent
+    border-bottom: $size solid $bg
+  @else if $orientation == right
+    border-top: $size solid transparent
+    border-bottom: $size solid transparent
+    border-left: $size solid $bg
+  @else if $orientation == down
+    border-left: $size solid transparent
+    border-right: $size solid transparent
+    border-top: $size solid $bg
+  @else if $orientation == left
+    border-top: $size solid transparent
+    border-bottom: $size solid transparent
+    border-right: $size solid $bg
 
-indent-children(dirs = right, dist = $indent, exclude = last)
-  & > *:not(:{exclude}-child)
-    for dir in dirs
-      margin-{dir} dist
+=chevron($pos: top, $bg: #fff, $border: $border, $size: 12px)
+  @if (str-index(inspect(&), ':before') != null) or (str-index(inspect(&), ':after') != null)
+    content: ''
+  display: block
+  position: absolute
+  width: $size
+  height: $size
+  background-color: $bg
+  border-top: $border
+  border-left: $border
+  box-shadow: $boxShadow
+  clip-path: polygon(0 0, 100% 0, 0 100%)
+  @if $pos == top
+    transform: rotate(45deg)
+    left: 50%
+    top: ($size/-2)
+  @else if $pos == right
+    transform: rotate(135deg)
+    right: ($size/-2)
+    top: 50%
+    margin-top: ($size/-2)
+  @else if $pos == bottom
+    transform: rotate(225deg)
+    left: 50%
+    bottom: ($size/-2)
+  @else if $pos == left
+    transform: rotate(-45deg)
+    left: ($size/-2)
+    top: 50%
+    margin-top: ($size/-2)

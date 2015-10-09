@@ -12,7 +12,7 @@
   font-weight: normal
   font-style: normal
 
-=icon($type, $dir: false, $margin: true)
+=icon($type, $margin: true)
   @if $type
     content: $type
   display: inline-block
@@ -21,14 +21,7 @@
   font-weight: normal
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
-  @if $dir is left // Fixes height/valign for icons in buttons
-    float: left
-    @if $margin
-      margin-right: ($indent/2)
-  @if $dir is right
-    float: right
-    @if $margin
-      margin-left: ($indent/2)
+
 
 $icon-add: '\EA01'
 .icon-add:before

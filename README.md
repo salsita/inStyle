@@ -83,7 +83,7 @@ Currently only available in SASS. [1703](https://github.com/stylus/stylus/issues
 
 ### Base
 
-Base uses [normalize.css](https://github.com/necolas/normalize.css/) as default and defines 2 top level components - `root` (html) and `body`. This is useful for referencing top level attributes coming from libraries like Modernizr or states that change the whole page scaffold.
+Base uses [normalize.css](https://github.com/necolas/normalize.css/) as default and defines 2 top level components - `root` (html) and `body`. This is useful for referencing top level attributes coming from libraries like Modernizr, states that change the whole page scaffold or any other exception necessary to propagate from a parent node.
 
 ```Sass
 .button-submit
@@ -97,11 +97,18 @@ Base uses [normalize.css](https://github.com/necolas/normalize.css/) as default 
 
 ### Iconfont
 
-The `gulp` build process automagically converts all your `.svg` icon sources into webfonts and renders the `icons` component. That allows you to easily use icons on pseudoelements and tweak their colors based on your design unlike your average closet .png.
+The `gulp` build process automagically converts all your `.svg` icon sources into webfonts and renders the `icons` component. That allows you to easily use icons on pseudoelements - variable names and classes are created for each icon based on filename.
+
+```
+// hamburglar.svg
+
+button:before
+  +icon($icon-hamburglar)
+```
 
 ### Media
 
-In SASS, media query logic is provided by [include-media](https://github.com/eduardoboucas/include-media). Allows very flexible and expressive media conditioning - refer to its [documentation](http://include-media.com/#features) for details.
+In SASS, media query logic is provided by [include-media](https://github.com/eduardoboucas/include-media), which allows very flexible and expressive media conditioning - refer to its [documentation](http://include-media.com/#features) for details.
 
 ```Sass
 article
@@ -117,15 +124,115 @@ Modern CSS transitions and animations are subject to a refined technical lifetim
 
 ```Sass
 .ng-doodle
-  +ng-animate(enter: $bounceInLeft, leave: $bounceInRight)
+  +ng-animate(enter: bounceInLeft, leave: bounceInRight)
 
 .react-doodle
-  +react-animate(enter: $doubleUp)
+  +react-animate(enter: fadeOutLeftBig) // extends animate.css/custom classes
 ```
 
 ## Functions / Mixins
 
-`chili` is equipped with many helper functions to simplify your writing style.
+`chili` is equipped with many helper functions to simplify your writing style and scaffold your layout in a more expressive way, substituting the most common parent > child relations.  
 Give in, you might like it!
 
-Readme in progress.
+### Proportional
+
+#### `size([display], width height)`
+
+```Sass
+nav
+  +size(flex, auto 80px)
+
+.icon:before
+  +size(16px 16px) // knows to add content: '', defaults unset display to block
+```
+
+#### `position(type, coords)`
+
+```Sass
+nav
+  +position(fixed, left top)
+
+div
+  +position(absolute, stretch) // keyword for top 0 right 0 etc.
+
+span
+  +position(relative, right 20px top 20px)
+```
+
+#### `offset([x, y])`
+
+Offset from current top left border position.
+
+```Sass
+.dialog
+  +position(absolute, left 50% top 50%)
+  +offset() // recenter
+```
+
+#### `distribute(x y, [direction])`
+
+Distributes direct children inside current element, translating into flexbox values.
+
+```Sass
+ul
+  +distribute(left center) // default row
+
++component(itemWrap)
+  +distribute(right top, column)
+```
+
+#### `indent(x y, [direction])`
+
+Indents each direct child's margin with optional exclusion.
+
+```Sass
+.gallery
+  +indent(right 10px bottom 10px)
+
+.vertical-list
+  +indent(bottom 5em, last)  // excludes last-child
+```
+
+#### `grid()`
+
+### Typography
+
+If the default base component is used, font scaling is set to 62.5% and `16px = rem(16)`.
+
+#### `em(px)`
+
+#### `rem(px)`
+
+#### `hide-text()`
+
+#### `truncate-text([width])`
+
+### Effects
+
+#### `circle(radius)`
+
+#### `triangle(orientation, bgcolor, size)`
+
+```Sass
++component(dialog)
+  :before
+    +triangle(up)
+    +position(absolute, left 50% top)
+```
+
+#### `chevron(position, background, size)`
+
+Draws a chevron from current element inside relative parent, recognizes a pseudoelement.
+
+### HTML
+
+#### `unstyled-list()`
+
+#### `unstyled-button()`
+
+#### `background-retina(path/file.png, width height)`
+
+Adds high resolution `background-image` sources for high DPI screens based on pattern `file.png > file@2x.png, file@3x.png`.
+
+#### `reset()`
