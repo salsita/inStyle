@@ -71,6 +71,7 @@ Use included functions to craft fundamental CSS relations quickly, keep the sour
 
 `main.sass` should be your central point for importing individual components.
 Build paths can be changed in `gulpfile.js`.
+The build process also autoprefixes properties, removes comments and optimizes/minifies your selectors.
 
 
 ### Stylus
@@ -182,7 +183,7 @@ ul
   +distribute(right top, column)
 ```
 
-#### `indent(x y, [direction])`
+#### `indent(x y, [exclude])`
 
 Indents each direct child's margin with optional exclusion.
 
@@ -198,7 +199,7 @@ Indents each direct child's margin with optional exclusion.
 
 ### Typography
 
-If the default base component is used, font scaling is set to 62.5% and `16px = rem(16)`.
+If the default base component is used, font scaling is set to 62.5% and `16px = rem(16)`. All values resulting from em/rem can be further processed.
 
 #### `em(px)`
 
