@@ -1,0 +1,20 @@
+/*
+  chili-sass
+  github.com/salsita/chili
+  2015 | MIT
+  ============================== */
+
+//@import 'animate/animate'
+
+@function __renderKeyframeAnimation($name)
+  @return true
+
+=ng-animate($dir: enter, $style: null, $duration: $animationDuration)
+  @if $style
+    &.ng-#{$dir}
+      animation-name: $style
+      animation-duration: $duration
+      animation-fill-mode: both
+  @else
+    &.ng-#{$dir}
+      @content
