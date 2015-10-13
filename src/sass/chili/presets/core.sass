@@ -4,8 +4,14 @@
   2015 | MIT
   ============================== */
 
+// Imported component map
+@import 'components.scss'
+
 // Global component map
 $__componentStore: () !default
+
+// Merge with imported
+$__componentStore: map-merge($__componentStore, $__componentMap) !global
 
 // Enhance parent selector with specific component state
 @function __addComponentState($chain, $component, $states)
@@ -41,7 +47,7 @@ $__componentStore: () !default
   $selector: unquote($selector)
   // Component already defined, warn user
   @if $name and map-has-key($__componentStore, $name)
-    @error 'Component \'#{$name}\' is already defined as \'#{map-get($__componentStore, $name)}\'.'
+    @warn 'Component \'#{$name}\' is already defined as \'#{map-get($__componentStore, $name)}\'.'
   @else if $name
     $__componentStore: map-merge($__componentStore, ($name: $selector)) !global
   @else if $selector and map-has-key($__componentStore, $selector)
