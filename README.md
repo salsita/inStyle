@@ -327,6 +327,13 @@ Adds high resolution `background-image` sources for high DPI screens based on pa
 
 If the default base component is used, font scaling is set to 62.5% and `16px = rem(16)`. All values resulting from em/rem can be further processed.
 
+```Sass
+$indent: rem(10)
+
+.item
+  padding: $indent * 2
+```
+
 #### `em(px)`
 
 #### `rem(px)`
