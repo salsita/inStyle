@@ -121,9 +121,9 @@ article
 
 ### Animation
 
-Modern CSS transitions and animations are subject to a refined technical lifetime with JavaScript switching `display` values and/or adding classes at the right moment. Modern UI frameworks like Angular or React know this and provide features to make this lifetime manageable. `chili` currently supports `ngAnimate` and `CSSTransitionGroup` wrappers for keyframe animations, effect bank provided by [animate.css](https://github.com/daneden/animate.css/).
+Modern CSS transitions and animations are subject to a refined technical lifetime with JavaScript switching `display` values and/or adding classes at the right moment. Modern UI frameworks like Angular or React know this and provide features to make this lifetime manageable. `chili` currently supports `ngAnimate` and `CSSTransitionGroup` wrappers for keyframe animations and transitions, effect bank provided by [animate.css](https://github.com/daneden/animate.css/).
 
-Keyframe animations definitions are only rendered in the resulting CSS when used.
+Keyframe animation definitions are only rendered in the resulting CSS when used.
 
 ```Sass
 .ng-doodle
@@ -262,7 +262,7 @@ Indents each direct child's margin with optional exclusion.
 
 ### Animation
 
-#### `ng-animate(state, animation, [duration])`
+#### `ng-animate(state, [animation, duration])`
 
 `chili` extends selector with the `.ng-{state}` classes for keyframe animations.
 
@@ -270,6 +270,18 @@ Indents each direct child's margin with optional exclusion.
 .item
   +ng-animate(enter, zoomIn)
   +ng-animate(leave, zoomOut)
+```
+
+Transitions are used as nodes instead by omitting the optional properties.
+
+```Sass
+.item
+  transition: opacity .2s ease-in
+  +ng-animate(enter)
+    opacity: 1
+  +ng-animate(leave)
+    opacity : 0
+
 ```
 
 ### Media

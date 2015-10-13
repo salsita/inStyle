@@ -13,5 +13,13 @@
       animation-duration: $duration
       animation-fill-mode: both
       +animationBank($name)
+  @else if $dir == 'enter'
+    &.ng-leave
+    &.ng-enter.ng-enter-active
+      @content
+  @else if $dir == 'leave'
+    &.ng-enter
+    &.ng-leave.ng-leave-active
+      @content
   @else
     @warn 'No animation name provided for chain \'#{&}\'.'
