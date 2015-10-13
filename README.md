@@ -132,7 +132,8 @@ Keyframe animation definitions are only rendered in the resulting CSS when used.
   +ng-animate(leave, bounceOutRight)
 
 .react-doodle
-  +react-animate(enter, fadeInLeftBig)
+  +react-animate(fade, enter)
+    opacity: 1
 ```
 
 ## Functions / Mixins
@@ -283,6 +284,18 @@ Transitions are used as nodes instead by omitting the optional properties.
   +ng-animate(leave)
     opacity : 0
 
+```
+
+#### `react-animate(class, direction)`
+
+`chili` for React supports block mixins as nodes to add the necessary React classes.
+
+```Sass
+.item
+  +react-animate(fade, enter)
+    opacity: 1
+  +react-animate(fade, leave)
+    opacity: 0
 ```
 
 ### Media
