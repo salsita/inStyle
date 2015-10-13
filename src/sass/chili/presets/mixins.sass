@@ -94,6 +94,13 @@
 =offset($x: -50%, $y: -50%)
   transform: translateX(#{$x}) translateY(#{$y})
 
+=grid($cols: 1)
+  +clearfix
+  & > *
+    float: left
+    height: 100%
+    width: (100%/$cols)
+
 // Typography
 
 @function em($px, $scale: 62.5%, $unit: 'em')

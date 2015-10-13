@@ -233,7 +233,7 @@ Offset from current top left border position.
 ```Sass
 .dialog
   +position(absolute, left 50% top 50%)
-  +offset() // recenter
+  +offset() // recenter default -50%/-50%
 ```
 
 #### `distribute(x y, [direction])`
@@ -260,7 +260,14 @@ Indents each direct child's margin with optional exclusion.
   +indent(bottom 5em, last-child)  // excludes last-child
 ```
 
-#### `grid()`
+#### `grid(columns)`
+
+A super simple grid that changes direct children width to a set amount of columns.
+
+```Sass
+.wrapper
+  +grid(5) // each .wrapper child has 20% width
+```
 
 ### Animation
 
