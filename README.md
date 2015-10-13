@@ -40,15 +40,15 @@ Write nested states for components, making your source cleaner and better struct
 Use included functions to craft fundamental CSS relations quickly, keep the source footprint minimal and well readable and add visual effects easily.
 ```Sass
 +component(header)
-  +size(block, 100%, 200px)
-  +position(fixed, top: 0, left: 0)
+  +size(flex, auto 200px)
+  +position(fixed, top 20px left)
 
   .logo
-  	+hide-text()
+  	+hide-text
     +background-retina(logo.png, 200px)
 
   +component(nav)
-    +distribute-children(left center, row)
+    +distribute-children(left center, column)
     +indent-children(right 10px bottom 10px, last-child)
 
     +state('.nav-hidden', header)
@@ -131,7 +131,7 @@ Keyframe animations definitions are only rendered in the resulting CSS when used
   +ng-animate(leave, bounceOutRight)
 
 .react-doodle
-  +react-animate(enter: fadeOutLeftBig)
+  +react-animate(enter, fadeInLeftBig)
 ```
 
 ## Functions / Mixins
