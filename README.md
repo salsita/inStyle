@@ -191,10 +191,10 @@ Because there is no real DOM present, components operate under simple rules - if
     .item
       display: block
 
-      +state('.open', nav) // selector is #nav-main.open ul .item nav
+      +state('.open', nav) // selector is #nav-main.open ul .item
         transform: translateX(-100%)
 
-      +state('.wide', root) // selector is body.wide #nav-main ul .item nav
+      +state('.wide', root) // selector is body.wide #nav-main ul .item
         display: inline-block
         float: left
 ```
