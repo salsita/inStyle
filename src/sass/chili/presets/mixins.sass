@@ -78,7 +78,7 @@
   $offsets: top right bottom left
   $selector: ()
   @if $exclude
-    $selector: '& > *:not(:#{$exclude}-child)'
+    $selector: '& > *:not(:#{$exclude})'
   @else
     $selector: '& > *'
   #{$selector}

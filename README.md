@@ -20,7 +20,7 @@ article
 Write nested states for components, making your source cleaner and better structured.
 
 ```Sass
-+component('form')
++component('form#contact-us', myForm)
   border: 1px solid black
 
   +component('input')
@@ -29,7 +29,7 @@ Write nested states for components, making your source cleaner and better struct
     +state(':invalid') // state of input
       border-color: red
 
-    +state('.disabled, [aria-disabled]', form) // states of form influencing input
+    +state('.disabled, [aria-disabled]', myForm) // states of form influencing input
       opacity: .5
       pointer-events: none
 
@@ -48,11 +48,11 @@ Use included functions to craft fundamental CSS relations quickly, keep the sour
     +background-retina(logo.png, 200px)
 
   +component(nav)
-    +distribute-children(left: 10px, center, row)
-    +indent-children(right: 10px, bottom: 10px)
+    +distribute-children(left center, row)
+    +indent-children(right 10px bottom 10px, last-child)
 
     +state('.nav-hidden', header)
-      +ng-animate(leave: fadeOutLeft)
+      +ng-animate(leave, fadeOutLeft)
 ```
 
 ## Installation
@@ -71,7 +71,7 @@ Use included functions to craft fundamental CSS relations quickly, keep the sour
 
 `main.sass` should be your central point for importing individual components.
 Build paths can be changed in `gulpfile.js`.
-The build process also autoprefixes properties, removes comments and optimizes/minifies your selectors.
+The build process also autoprefixes properties and optimizes/minifies your selectors.
 
 
 ### Stylus
@@ -84,7 +84,7 @@ Currently only available in SASS. [1703](https://github.com/stylus/stylus/issues
 
 ### Base
 
-Base uses [normalize.css](https://github.com/necolas/normalize.css/) as default and defines 2 top level components - `root` (html) and `body`. This is useful for referencing top level attributes coming from libraries like Modernizr, states that change the whole page scaffold or any other exception necessary to propagate from a parent node.
+Base uses [normalize.css](https://github.com/necolas/normalize.css/) or [Meyer reset](http://meyerweb.com/eric/tools/css/reset/) as default and defines 2 top level components - `root` (html) and `body`. This is useful for referencing top level attributes coming from libraries like Modernizr, states that change the whole page scaffold or any other exception necessary to propagate from a parent node.
 
 ```Sass
 .button-submit
@@ -98,9 +98,9 @@ Base uses [normalize.css](https://github.com/necolas/normalize.css/) as default 
 
 ### Iconfont
 
-The `gulp` build process automagically converts all your `.svg` icon sources into webfonts and renders the `icons` component. That allows you to easily use icons on pseudoelements - variable names and classes are created for each icon based on filename.
+The `gulp` build process automagically converts all your `.svg` icon sources into webfonts and renders the `icons` component. That allows you to easily use custom icons on pseudoelements - variable names are created for each icon based on filename.
 
-```
+```Sass
 // hamburglar.svg
 
 button:before
@@ -113,30 +113,93 @@ In SASS, media query logic is provided by [include-media](https://github.com/edu
 
 ```Sass
 article
-  max-width 960px
+  max-width: 960px
 
   +media('>phone', '<desktop')
-    max-width 480px
+    max-width: 480px
 ```
 
 ### Animation
 
-Modern CSS transitions and animations are subject to a refined technical lifetime with JavaScript switching `display` values and/or adding classes at the right moment. Modern UI frameworks like Angular or React know this and provide features to make this lifetime manageable. `chili` currently supports `ngAnimate` and `CSSTransitionGroup` wrappers, while the effect bank is provided by [animate.css](https://github.com/daneden/animate.css/).
+Modern CSS transitions and animations are subject to a refined technical lifetime with JavaScript switching `display` values and/or adding classes at the right moment. Modern UI frameworks like Angular or React know this and provide features to make this lifetime manageable. `chili` currently supports `ngAnimate` and `CSSTransitionGroup` wrappers for keyframe animations, effect bank provided by [animate.css](https://github.com/daneden/animate.css/).
+
+Keyframe animations definitions are only rendered in the resulting CSS when used.
 
 ```Sass
 .ng-doodle
-  +ng-animate(enter: bounceInLeft, leave: bounceInRight)
+  +ng-animate(enter, bounceInLeft)
+  +ng-animate(leave, bounceOutRight)
 
 .react-doodle
-  +react-animate(enter: fadeOutLeftBig) // extends animate.css/custom classes
+  +react-animate(enter: fadeOutLeftBig)
 ```
 
 ## Functions / Mixins
 
-`chili` is equipped with many helper functions to simplify your writing style and scaffold your layout in a more expressive way, substituting the most common parent > child relations.  
-Give in, you might like it!
+#### `component('selector', [reference])`
+
+`chili` promotes the pattern of always nesting attributes relevant to your current selector, even if they are modified by a parent. This allows you to maintain a clear writing style, keeping all element variants in their place. 
+
+```Sass
++component('aside.user-info', card)
+
+  .avatar // everything possibly related to .avatar in card can be here
+    color: blue
+    +state('.--back-visible', card) // aside.user-info.--back-visible .avatar
+      transform: rotateX(180deg)
+    +state(header) // header aside.user-info .avatar, assumes a header defined
+      float: right
+    +media('<tablet') // @media (max-device-width: 767px) ...
+      width: 20%
+
+  .name
+    font-weight: bold
+```
+
+If you enjoy flexibility, you might find components helpful for keeping collections identified by multiple properties. Mind that all the nested variations will be output in the compiled CSS, which can grow fast for ex: multiple states on multiple components.
+
+```Sass
++component('button, .button, [role=button]', btn)
+
+form
+  +component(btn)
+    background-color: blue
+    +state('.disabled, [disabled], [aria-disabled]') // taking it too far, Jim
+      opacity: .5
+      pointer-events: none
+```
+
+#### `state('selector', [target])`
+
+When you define a component reference, it's saved for later reuse.
+
+```Sass
++component('html', root)
+```
+
+Because there is no real DOM present, components operate under simple rules - if a component state is called and the target selector is found in the current nest, it's modified by the state. If it's not present, it's expected to be a level above.
+
+```Sass
++component('#nav-main', nav)
+  
+  ul
+    +unstyled-list
+
+    .item
+      display: block
+
+      +state('.open', nav) // selector is #nav-main.open ul .item nav
+        transform: translateX(-100%)
+
+      +state('.wide', root) // selector is body.wide #nav-main ul .item nav
+        display: inline-block
+        float: left
+```
 
 ### Proportional
+
+`chili` is equipped with many helper functions to simplify your writing style and scaffold your layout in a more expressive way.  
+Give in, you might like it!
 
 #### `size([display], width height)`
 
@@ -192,10 +255,32 @@ Indents each direct child's margin with optional exclusion.
   +indent(right 10px bottom 10px)
 
 .vertical-list
-  +indent(bottom 5em, last)  // excludes last-child
+  +indent(bottom 5em, last-child)  // excludes last-child
 ```
 
 #### `grid()`
+
+### Animation
+
+#### `ng-animate(state, animation, [duration])`
+
+`chili` extends selector with the `.ng-{state}` classes for keyframe animations.
+
+```Sass
+.item
+  +ng-animate(enter, zoomIn)
+  +ng-animate(leave, zoomOut)
+```
+
+### Media
+
+#### `media('rule', ['rules'])`
+
+[Documentation](http://include-media.com/#features)
+
+#### `background-retina(path/file.png, width height)`
+
+Adds high resolution `background-image` sources for high DPI screens based on pattern `file.png > file@2x.png, file@3x.png`.
 
 ### Typography
 
@@ -209,7 +294,7 @@ If the default base component is used, font scaling is set to 62.5% and `16px = 
 
 #### `truncate-text([width])`
 
-### Effects
+### Shapes
 
 #### `circle(radius)`
 
@@ -231,9 +316,5 @@ Draws a chevron from current element inside relative parent, recognizes a pseudo
 #### `unstyled-list()`
 
 #### `unstyled-button()`
-
-#### `background-retina(path/file.png, width height)`
-
-Adds high resolution `background-image` sources for high DPI screens based on pattern `file.png > file@2x.png, file@3x.png`.
 
 #### `reset()`

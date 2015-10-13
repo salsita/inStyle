@@ -4,17 +4,14 @@
   2015 | MIT
   ============================== */
 
-//@import 'animate/animate'
+@import 'animate/bank'
 
-@function __renderKeyframeAnimation($name)
-  @return true
-
-=ng-animate($dir: enter, $style: null, $duration: $animationDuration)
-  @if $style
+=ng-animate($dir: enter, $name: null, $duration: $animationDuration)
+  @if $name
     &.ng-#{$dir}
-      animation-name: $style
+      animation-name: $name
       animation-duration: $duration
       animation-fill-mode: both
+      +animationBank($name)
   @else
-    &.ng-#{$dir}
-      @content
+    @warn 'No animation name provided for chain \'#{&}\'.'

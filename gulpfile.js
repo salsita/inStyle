@@ -23,7 +23,7 @@ var stylusPath = './src/stylus/';
 var fontName   = 'icons';
 var fontPath   = 'assets/font/';
 
-// Compile SASS (currently using latest Ruby SASS due to libsass v3.3 selector syntax bugs)
+// Compile SASS (currently using latest Ruby SASS)
 gulp.task('build-sass', function () {
   return rubySass(sassPath + 'main.sass')
     .on('error', rubySass.logError)
