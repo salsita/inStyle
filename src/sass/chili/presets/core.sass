@@ -5,13 +5,14 @@
   ============================== */
 
 // Imported component map
-@import 'components.scss'
+//@import 'components.scss'
 
 // Global component map
 $__componentStore: () !default
 
 // Merge with imported
-$__componentStore: map-merge($__componentStore, $__componentMap) !global
+@if global-variable-exists(__componentMap)
+  $__componentStore: map-merge($__componentStore, $__componentMap) !global
 
 // Enhance parent selector with specific component state
 @function __addComponentState($chain, $component, $states)

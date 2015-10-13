@@ -14,6 +14,20 @@
 @function __isValidPosition($value)
   @return (type-of($value) == 'number') or (index(auto initial inherit 0, $value) != null)
 
+@function __appendToImageFilename($filename, $value)
+  $exts: '.png' '.jpg' '.jpeg' '.bmp' '.gif' '.svg'
+  $index: null
+  $extension: null
+  @each $ext in $exts
+    @if str-index($filename, $ext)
+      $index: str-index($filename, $ext)
+      $extension: $ext
+  @if $index and $extension
+    $newFilename: str-insert($filename, $value, $index)
+    @return $newFilename
+  @else
+    @error 'Appending to filename \'#{$filename}\' failed.'
+
 // Proportional
 
 =clearfix()
@@ -133,7 +147,20 @@
   border: none
   outline: none
 
-// Effects
+// Media
+
+=background-retina($src, $args: ())
+  background-image: url($src)
+  @if length($args) == 2
+    background-size: nth($args, 1) nth($args, 1)
+  @else if length($args) == 1
+    background-size: $args
+  +media('retina2x')
+    background-image: __appendToImageFilename($src, '@2x')
+  +media('retina3x')
+    background-image: __appendToImageFilename($src, '@3x')
+
+// Shapes
 
 =circle($radius)
   border-radius: 100%

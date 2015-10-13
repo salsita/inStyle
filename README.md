@@ -9,7 +9,7 @@
 Define abstract components with your preferred class-butchering methodology and reference them anywhere.
 
 ```Sass
-+component('h1, h2, h3, .--hdngBG', headings)
++component('h1, h2, h3, .--hdng', headings)
   font-weight: bold
 
 article
@@ -17,7 +17,7 @@ article
     font-size: 9001rem
 ```
 
-Write nested states for components, making your source cleaner and better structured.
+Write nested states for components, opening up new ways to structure your code.
 
 ```Sass
 +component('form#contact-us', myForm)
@@ -38,6 +38,7 @@ Write nested states for components, making your source cleaner and better struct
 ```
 
 Use included functions to craft fundamental CSS relations quickly, keep the source footprint minimal and well readable and add visual effects easily.
+
 ```Sass
 +component(header)
   +size(flex, auto 200px)
@@ -48,8 +49,8 @@ Use included functions to craft fundamental CSS relations quickly, keep the sour
     +background-retina(logo.png, 200px)
 
   +component(nav)
-    +distribute-children(left center, column)
-    +indent-children(right 10px bottom 10px, last-child)
+    +distribute(left center, column)
+    +indent(right 10px bottom 10px, last-child)
 
     +state('.nav-hidden', header)
       +ng-animate(leave, fadeOutLeft)
@@ -289,7 +290,7 @@ Transitions are used as nodes instead by omitting the optional properties.
   +ng-animate(enter)
     opacity: 1
   +ng-animate(leave)
-    opacity : 0
+    opacity: 0
 
 ```
 
@@ -311,9 +312,16 @@ Transitions are used as nodes instead by omitting the optional properties.
 
 [Documentation](http://include-media.com/#features)
 
-#### `background-retina(path/file.png, width height)`
+#### `background-retina(path/file.png, [width height])`
 
 Adds high resolution `background-image` sources for high DPI screens based on pattern `file.png > file@2x.png, file@3x.png`.
+
+```Sass
+ // also outputs MQ for logo@2x.png and logo@3x.png along normal background-image
+
+.logo
+  +background-retina('images/logo.png', 200px auto)
+```
 
 ### Typography
 
