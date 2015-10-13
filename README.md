@@ -95,7 +95,7 @@ Base uses [normalize.css](https://github.com/necolas/normalize.css/) or [Meyer r
 
 .wrapper
   +state('.dialog-visible', body)
-    overflow hidden
+    overflow: hidden
 ```
 
 ### Iconfont
