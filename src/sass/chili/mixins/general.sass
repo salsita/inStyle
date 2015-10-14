@@ -117,10 +117,10 @@
 
 // Typography
 
-@function em($px, $scale: 62.5%, $unit: 'em')
+@function em($px, $scale: $fontScale, $unit: 'em')
   @return unquote(__stripUnit($px)/(.16*__stripUnit($scale)) + $unit)
 
-@function rem($px, $scale: 62.5%)
+@function rem($px, $scale: $fontScale)
   @return em($px, $scale, 'rem')
 
 =hide-text()

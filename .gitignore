@@ -1,3 +1,4 @@
 node_modules/
-build/
+build/main.css
+build/assets
 .sass-cache/
