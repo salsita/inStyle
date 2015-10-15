@@ -74,7 +74,7 @@ Use included functions to craft fundamental CSS relations quickly, keep the sour
 Build paths can be changed in `gulpfile.js`.
 The build process also autoprefixes properties and optimizes/minifies your selectors.
 
-If you want to import components individually in your project, you have to fill in and uncomment the import of `component-map.scss`, so components can be cross-referenced without compiling the whole stack.
+If you want to import components individually in your project, you have to fill in and uncomment the import of `component-map.scss`, so components can be cross-referenced without compiling the whole stack. Afterwards, import `chili/chili.sass` into each component.
 
 ### Stylus
 
