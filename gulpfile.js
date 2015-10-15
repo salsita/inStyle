@@ -15,6 +15,7 @@ var consolidate  = require("gulp-consolidate");
 var minifyCss    = require('gulp-minify-css');
 var iconfont     = require('gulp-iconfont');
 var lodash       = require('lodash');
+var combineMq    = require('gulp-combine-mq');
 
 // Paths
 var buildPath  = './build/'
@@ -27,6 +28,7 @@ var fontPath   = 'assets/font/';
 gulp.task('build-sass', function () {
   return rubySass(sassPath + 'main.sass')
     .on('error', rubySass.logError)
+    .pipe(combineMq({ beautify: false }))
     .pipe(postcss([ autoprefixer({ browsers: ['last 2 version'] }) ]))
     .pipe(minifyCss({keepSpecialComments: 0}))
     .pipe(gulp.dest(buildPath));
@@ -40,6 +42,7 @@ gulp.task('build-stylus', function () {
       'include css': true
      }))
     .pipe(rename('main.css'))
+    .pipe(combineMq({ beautify: false }))
     .pipe(postcss([ autoprefixer({ browsers: ['last 2 version'] }) ]))
     .pipe(minifyCss())
     .pipe(gulp.dest(buildPath));
