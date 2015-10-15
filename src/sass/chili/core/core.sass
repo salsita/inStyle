@@ -60,7 +60,12 @@ $__componentStore: () !default
 // State mixin
 =state($selector, $component: false)
   // State of self
-  @if not $component
+  @if not $component and map-has-key($__componentStore, $selector)
+    $current: & 
+    @at-root #{map-get($__componentStore, $selector)}
+      #{$current}
+        @content
+  @else if not $component
     &#{$selector}
       @content
   @else
