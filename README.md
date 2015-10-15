@@ -74,7 +74,7 @@ Use included functions to craft fundamental CSS relations quickly, keep the sour
 Build paths can be changed in `gulpfile.js`.
 The build process also autoprefixes properties and optimizes/minifies your selectors.
 
-If you want to import components individually in your project, you have to fill in the `components.scss` map and use it with every import, so components can be cross-referenced without compiling the whole stack.
+If you want to import components individually in your project, you have to fill in and uncomment the import of `component-map.scss`, so components can be cross-referenced without compiling the whole stack.
 
 ### Stylus
 
@@ -325,7 +325,7 @@ Adds high resolution `background-image` sources for high DPI screens based on pa
 
 ### Typography
 
-If the default base component is used, font scaling is set to 62.5% and `16px = rem(16)`. All values resulting from em/rem can be further processed.
+Default font scaling is set to 62.5% (editable in `config.sass`) and `16px = rem(16)`. All values resulting from em/rem can be further processed.
 
 ```Sass
 $indent: rem(10)
@@ -365,4 +365,7 @@ Draws a chevron from current element inside relative parent, recognizes a pseudo
 
 #### `unstyled-button()`
 
-#### `reset()`
+#### `reset-inject()`
+
+A hard reset of most HTML defaults under the current element, useful for UI parts living in 3rd party code.
+Other types of resets based on `nib` (fragmented Meyer reset) are also available.
