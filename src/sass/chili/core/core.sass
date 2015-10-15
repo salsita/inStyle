@@ -48,7 +48,10 @@ $__componentStore: () !default
   $selector: unquote($selector)
   // Component already defined, warn user
   @if $name and map-has-key($__componentStore, $name)
-    @warn 'Component \'#{$name}\' is already defined as \'#{map-get($__componentStore, $name)}\'.'
+    @if global-variable-exists(__componentMap)
+      @warn 'Component \'#{$name}\' already exists in component-map.scss, disregarding new query.'
+    @else
+      @error 'Component \'#{$name}\' is already defined as \'#{map-get($__componentStore, $name)}\'.'
   @else if $name
     $__componentStore: map-merge($__componentStore, ($name: $selector)) !global
   @else if $selector and map-has-key($__componentStore, $selector)
