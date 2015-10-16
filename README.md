@@ -180,7 +180,7 @@ When you define a component reference, it's saved for later reuse.
 +component('html', root)
 ```
 
-Because there is no real DOM present, components operate under simple rules - if a component state is called and the target selector is found in the current nest, it's modified by the state. If it's not present, it's expected to be a level above.
+Because there is no real DOM present, components operate under simple rules - if a component state is called and the target selector is found in the current nest, it's modified by the state. If it's not present, it's expected to be a level above. If you provide only a component reference, it's selector is prepended before the current chain.
 
 ```Sass
 +component('#nav-main', nav)
@@ -197,6 +197,9 @@ Because there is no real DOM present, components operate under simple rules - if
       +state('.wide', root) // selector is body.wide #nav-main ul .item
         display: inline-block
         float: left
+
+      +state(myHeader) // selector is header #nav-main ul .item
+        transform: scale(.7)
 ```
 
 ### Proportional
