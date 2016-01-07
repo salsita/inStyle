@@ -4,28 +4,28 @@
   "description": "",
   "main": "gulpfile.js",
   "dependencies": {
-    "autoprefixer": "*",
-    "gulp": "*",
-    "gulp-combine-mq": "*",
-    "gulp-consolidate": "*",
+    "autoprefixer": "^6.2.3",
+    "gulp": "^3.9.0",
+    "gulp-combine-mq": "^0.4.0",
+    "gulp-consolidate": "^0.1.2",
+    "gulp-cssnano": "^2.1.0",
     "gulp-iconfont": "^5.0.1",
-    "gulp-cssnano": "*",
     "gulp-postcss": "^6.0.1",
-    "gulp-rename": "*",
-    "gulp-ruby-sass": "*",
-    "lodash": "*"
+    "gulp-rename": "^1.2.2",
+    "gulp-ruby-sass": "^2.0.6",
+    "lodash": "^3.10.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/salsita/instyle.git"
+    "url": "https://github.com/salsita/inStyle.git"
   },
   "author": "mystrdat",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/salsita/instyle/issues"
+    "url": "https://github.com/salsita/inStyle/issues"
   },
-  "homepage": "https://github.com/salsita/instyle"
+  "homepage": "https://github.com/salsita/inStyle"
 }
