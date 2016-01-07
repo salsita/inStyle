@@ -4,18 +4,16 @@
   "description": "",
   "main": "gulpfile.js",
   "dependencies": {
-    "gulp": "^3.9.0",
-    "lodash": "^3.10.1"
-  },
-  "devDependencies": {
-    "autoprefixer-core": "^5.2.1",
-    "gulp-combine-mq": "^0.4.0",
-    "gulp-consolidate": "^0.1.2",
-    "gulp-iconfont": "^3.0.2",
-    "gulp-minify-css": "^1.2.0",
-    "gulp-postcss": "^5.1.9",
-    "gulp-rename": "^1.2.2",
-    "gulp-ruby-sass": "^2.0.4"
+    "autoprefixer-core": "^6.0.1",
+    "gulp": "*",
+    "gulp-combine-mq": "*",
+    "gulp-consolidate": "*",
+    "gulp-iconfont": "^5.0.1",
+    "gulp-minify-css": "*",
+    "gulp-postcss": "^6.0.1",
+    "gulp-rename": "*",
+    "gulp-ruby-sass": "*",
+    "lodash": "*"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

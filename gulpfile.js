@@ -5,7 +5,6 @@
   ============================== */
 
 var gulp         = require('gulp');
-var stylus       = require('gulp-stylus');
 var rubySass     = require('gulp-ruby-sass');
 var rename       = require("gulp-rename");
 var postcss      = require('gulp-postcss');
