@@ -108,9 +108,7 @@ article
     max-width: 480px
 ```
 
-## Functions / Mixins
-
-#### `component('selector', [reference])`
+## How it works
 
 `inStyle` promotes the pattern of always nesting attributes relevant to your current selector, even if they are modified by a parent (which can be a piece in the current cascade). This allows you to maintain a clear writing style, keeping all properties of an individual element in one place. 
 

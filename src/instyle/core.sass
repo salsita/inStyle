@@ -40,7 +40,6 @@
     $simple: simple-selectors(inspect($selector))
     $component: nth($simple, 1)
     $state: __removeFromList($simple, $component)
-    $componentFound: false
     @if __isComponentInQuery($current, $component)
       @each $query in $current
         @if index($query, $component)
