@@ -108,6 +108,22 @@ article
     max-width: 480px
 ```
 
+### Animation
+
+Modern CSS transitions and animations are subject to a refined technical lifetime with JavaScript switching `display` values and/or adding classes at the right moment. Modern UI frameworks like Angular or React know this and provide features to make this lifetime manageable. `chili` currently supports `ngAnimate` and `CSSTransitionGroup` wrappers for keyframe animations and transitions, effect bank provided by [animate.css](https://github.com/daneden/animate.css/).
+
+Keyframe animation definitions are only rendered in the resulting CSS when used.
+
+```Sass
+.ng-doodle
+  +ng-animate(enter, bounceInLeft)
+  +ng-animate(leave, bounceOutRight)
+
+.react-doodle
+  +react-animate(fade, enter)
+    opacity: 1
+```
+
 ## How it works
 
 `inStyle` promotes the pattern of always nesting attributes relevant to your current selector, even if they are modified by a parent (which can be a piece in the current cascade). This allows you to maintain a clear writing style, keeping all properties of an individual element in one place. 
