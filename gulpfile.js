@@ -1,12 +1,11 @@
 /*
-  chili
-  github.com/salsita/chili
-  2015 | MIT
+  inStyle™
+  github.com/salsita/instyle
+  2016 | MIT
   ============================== */
 
 var gulp         = require('gulp');
 var stylus       = require('gulp-stylus');
-var sass         = require('gulp-sass');
 var rubySass     = require('gulp-ruby-sass');
 var rename       = require("gulp-rename");
 var postcss      = require('gulp-postcss');
@@ -19,8 +18,7 @@ var combineMq    = require('gulp-combine-mq');
 
 // Paths
 var buildPath  = './build/'
-var sassPath   = './src/sass/';
-var stylusPath = './src/stylus/';
+var sassPath   = './src/';
 var fontName   = 'icons';
 var fontPath   = 'assets/font/';
 
@@ -31,20 +29,6 @@ gulp.task('build-sass', function () {
     .pipe(combineMq({ beautify: false }))
     .pipe(postcss([ autoprefixer({ browsers: ['last 2 version'] }) ]))
     .pipe(minifyCss({keepSpecialComments: 0}))
-    .pipe(gulp.dest(buildPath));
-});
-
-// Compile Stylus
-gulp.task('build-stylus', function () {
-  gulp.src(stylusPath + 'main.styl')
-    .pipe(stylus({
-      compress: true,
-      'include css': true
-     }))
-    .pipe(rename('main.css'))
-    .pipe(combineMq({ beautify: false }))
-    .pipe(postcss([ autoprefixer({ browsers: ['last 2 version'] }) ]))
-    .pipe(minifyCss())
     .pipe(gulp.dest(buildPath));
 });
 
@@ -77,10 +61,5 @@ gulp.task('watch-sass', function() {
   gulp.watch(sassPath + 'components/icons/icons.template', ['build-iconfont-sass']);
 });
 
-gulp.task('watch-stylus', function() {
-  gulp.watch('./src/styl/*.styl', ['build-stylus']);
-});
-
 gulp.task('sass', ['build-iconfont-sass', 'build-sass', 'watch-sass']);
-gulp.task('stylus', ['build-stylus', 'watch-stylus']);
 gulp.task('default', ['sass']);

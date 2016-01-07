@@ -1,0 +1,175 @@
+/*
+  inStyle™
+  github.com/salsita/instyle
+  2016 | MIT
+  ============================== */
+
+// Helpers
+@function __stripUnit($number)
+  @if type-of($number) == 'number' and not unitless($number)
+    @return $number / ($number * 0 + 1)
+  @return $number
+
+@function __appendToImageFilename($filename, $value)
+  $exts: '.png' '.jpg' '.jpeg' '.bmp' '.gif' '.svg'
+  $index: null
+  $extension: null
+  @each $ext in $exts
+    @if str-index($filename, $ext)
+      $index: str-index($filename, $ext)
+      $extension: $ext
+  @if $index and $extension
+    $newFilename: str-insert($filename, $value, $index)
+    @return $newFilename
+  @else
+    @error 'Appending to filename \'#{$filename}\' failed.'
+
+@function __toLength($value, $unit)
+  $units: ('px': 1px, 'cm': 1cm, 'mm': 1mm, '%': 1%, 'ch': 1ch, 'pc': 1pc, 'in': 1in, 'em': 1em, 'rem': 1rem, 'pt': 1pt, 'ex': 1ex, 'vw': 1vw, 'vh': 1vh, 'vmin': 1vmin, 'vmax': 1vmax)
+  @if not index(map-keys($units), $unit)
+    @error 'Invalid unit \'#{$unit}\'.'
+  @return $value * map-get($units, $unit)
+
+@function __toNumber($value)
+  @if type-of($value) == 'number'
+    @return $value
+  @else if type-of($value) != 'string'
+    @error 'Value for __toNumber() should be a number or a string.'
+  $result: 0
+  $digits: 0
+  $minus: str-slice($value, 1, 1) == '-'
+  $numbers: ('0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9)
+  @for $i from if($minus, 2, 1) through str-length($value)
+    $character: str-slice($value, $i, $i)
+    @if not (index(map-keys($numbers), $character) or $character == '.')
+      @return __toLength(if($minus, -$result, $result), str-slice($value, $i))
+    @if $character == '.'
+      $digits: 1
+    @else if $digits == 0
+      $result: $result * 10 + map-get($numbers, $character)
+    @else
+      $digits: $digits * 10
+      $result: $result + map-get($numbers, $character) / $digits
+  @return if($minus, -$result, $result)
+
+// Proportional
+=clearfix()
+  &:after, &:before
+    content: ''
+    display: table
+  &:after
+    clear: both
+
+=aspect-ratio($ratio-or-width, $height: null)
+  $padding: if($height, percentage($height/$ratio-or-width), percentage(1/$ratio-or-width))
+  &:before
+    content: ''
+    float: left
+    padding-bottom: $padding
+  &:after
+    content: ''
+    display: table
+    clear: both
+
+// Typography
+@function em($px, $scale: $fontScale, $unit: 'em')
+  @return __toNumber($px/(.16*__stripUnit($scale)) + $unit)
+
+@function rem($px, $scale: $fontScale)
+  @return em($px, $scale, 'rem')
+
+=hide-text()
+  text-indent: 100%
+  white-space: nowrap
+  overflow: hidden
+
+=truncate-text($width: 100%)
+  max-width: $width
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+
+=unstyled-list()
+  list-style: none
+  margin: 0
+  padding: 0
+
+=unstyled-button()
+  display: inline-block
+  padding: 0
+  appearance: none
+  background-color: transparent
+  border: none
+  outline: none
+
+// Media
+=background-retina($src, $args: ())
+  background-image: url($src)
+  @if length($args) == 2
+    background-size: nth($args, 1) nth($args, 1)
+  @else if length($args) == 1
+    background-size: $args
+  +media('retina2x')
+    background-image: __appendToImageFilename($src, '@2x')
+  +media('retina3x')
+    background-image: __appendToImageFilename($src, '@3x')
+
+// Shapes
+=circle($radius)
+  border-radius: 100%
+  @if $radius
+    display: inline-block
+    width: ($radius*2)
+    height: ($radius*2)
+
+=triangle($orientation: down, $bg: #000, $size: 5px)
+  display: block
+  width: 0
+  height: 0
+  @if $orientation == up
+    border-left: $size solid transparent
+    border-right: $size solid transparent
+    border-bottom: $size solid $bg
+  @else if $orientation == right
+    border-top: $size solid transparent
+    border-bottom: $size solid transparent
+    border-left: $size solid $bg
+  @else if $orientation == down
+    border-left: $size solid transparent
+    border-right: $size solid transparent
+    border-top: $size solid $bg
+  @else if $orientation == left
+    border-top: $size solid transparent
+    border-bottom: $size solid transparent
+    border-right: $size solid $bg
+
+=chevron($pos: top, $bg: #fff, $border: $border, $size: 12px)
+  @if (str-index(inspect(&), ':before') != null) or (str-index(inspect(&), ':after') != null)
+    content: ''
+  display: block
+  position: absolute
+  width: $size
+  height: $size
+  background-color: $bg
+  border-top: $border
+  border-left: $border
+  box-shadow: $boxShadow
+  clip-path: polygon(0 0, 100% 0, 0 100%)
+  @if $pos == top
+    transform: rotate(45deg)
+    left: 50%
+    top: ($size/-2)
+  @else if $pos == right
+    transform: rotate(135deg)
+    right: ($size/-2)
+    top: 50%
+    margin-top: ($size/-2)
+  @else if $pos == bottom
+    transform: rotate(225deg)
+    left: 50%
+    bottom: ($size/-2)
+  @else if $pos == left
+    transform: rotate(-45deg)
+    left: ($size/-2)
+    top: 50%
+    margin-top: ($size/-2)

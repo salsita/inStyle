@@ -1,13 +1,11 @@
 {
-  "name": "chilli-seed",
-  "version": "0.2.0",
+  "name": "inStyle",
+  "version": "1.1.0",
   "description": "",
   "main": "gulpfile.js",
   "dependencies": {
-    "codemirror": "^5.7.0",
     "gulp": "^3.9.0",
-    "lodash": "^3.10.1",
-    "node-sass": "^3.4.0-beta1"
+    "lodash": "^3.10.1"
   },
   "devDependencies": {
     "autoprefixer-core": "^5.2.1",
@@ -17,21 +15,19 @@
     "gulp-minify-css": "^1.2.0",
     "gulp-postcss": "^5.1.9",
     "gulp-rename": "^1.2.2",
-    "gulp-ruby-sass": "^2.0.4",
-    "gulp-sass": "^2.0.4",
-    "gulp-stylus": "^2.0.5"
+    "gulp-ruby-sass": "^2.0.4"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/salsita/chilli-seed.git"
+    "url": "https://github.com/salsita/instyle.git"
   },
   "author": "mystrdat",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/salsita/chilli-seed/issues"
+    "url": "https://github.com/salsita/instyle/issues"
   },
-  "homepage": "https://github.com/salsita/chilli-seed"
+  "homepage": "https://github.com/salsita/instyle"
 }
