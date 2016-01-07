@@ -14,7 +14,7 @@ Components as native or custom elements.
 </calendar>
 ```
 
-Use classes just for abstract variants with no CSS property descriptions.
+Use classes just for component variants and abstracted designs.
 
 ```Html
 <button class='save glossy'>Save</button>
