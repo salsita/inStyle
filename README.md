@@ -1,66 +1,68 @@
-# chili
+# inStyle
 
-`chili` is a UI skeleton that embraces natural HTML5 concepts and the wonderful syntax sugar of SASS/Stylus(back soon!&trade;) to simplify and beautify the way you think about CSS.
+Nest everything relevant to your elements.. under your elements. How ableist!
 
-## Why use it?
+## Methodology
 
-*Components* and *States*, wooooo!
+Components as native or custom elements.
 
-Define abstract components with your preferred class-butchering methodology and reference them anywhere.
-
-```Sass
-+component('h1, h2, h3, .--hdng', headings)
-  font-weight: bold
-
-article
-  +component(headings)
-    font-size: 9001rem
+```Html
+<calendar>
+  <day>1</day>
+  <month>August</month>
+  <year>2009</year>
+</calendar>
 ```
 
-Write nested states for components, opening up new ways to structure your code.
+Use classes just for abstract variants with no CSS property descriptions.
 
-```Sass
-+component('form#contact-us', myForm)
-  border: 1px solid black
-
-  +component('input')
-    font-family: inherit
-
-    +state(':invalid') // state of input
-      border-color: red
-
-    +state('.disabled, [aria-disabled]', myForm) // states of form influencing input
-      opacity: .5
-      pointer-events: none
-
-    +media('<tablet') // media query for input in form
-      width: 90%
+```
+<button class='save glossy'>Save</button>
 ```
 
-Use included functions to craft fundamental CSS relations quickly, keep the source footprint minimal and well readable and add visual effects easily.
+Reach parents and their states from anywhere in the current cascade.
+Meet the `in` function:
 
 ```Sass
-+component(header)
-  +size(flex, auto 200px)
-  +position(fixed, top 20px left)
+links
+  display: block
 
-  .logo
-  	+hide-text
-    +background-retina(logo.png, 200px)
+  item
+    display: block
 
-  +component(nav)
-    +distribute(left center, column)
-    +indent(right 10px bottom 10px, last-child)
+    +in(header)
+      display: inline-block // header links item
 
-    +state('.nav-hidden', header)
-      +ng-animate(leave, fadeOutLeft)
+    a
+      line-height: 1.5
+
+      +in('item:hover')
+        color: blue  // links item:hover a (parent found in cascade)
+
+      +in('footer:hover, header')
+        color: red // footer:hover item a, header item a 
+```
+
+```Sass
+button
+  appearance: none
+
+  &.save
+    background-color: blue
+
+    +in('content, dialog')
+      margin: 0 .5rem // content button.save, dialog button.save
+
+    +in('header:hover')
+      transform: scale(1.1) // header:hover button
+
+    +media('<tablet')
+      font-size: 4vw
 ```
 
 ## Installation
 
-### SASS
-
-`chili` currently requires Ruby SASS due to 3.4 features.
+`inStyle` currently requires Ruby SASS due to 3.4 features. Conversion to `libsass` will be immediate once 3.4 is stable.
 
 - Install Ruby - [Win](http://rubyinstaller.org/), [Linux](https://www.ruby-lang.org/en/documentation/installation/#package-management-systems)
 
@@ -68,39 +70,23 @@ Use included functions to craft fundamental CSS relations quickly, keep the sour
 
 - `npm install`
 
-- `gulp sass`
+- `gulp`
 
 `main.sass` should be your central point for importing individual components.
 Build paths can be changed in `gulpfile.js`.
-The build process also autoprefixes properties and optimizes/minifies your selectors.
-
-If you want to import components individually in your project, you have to fill in and uncomment the import of `component-map.scss`, so components can be cross-referenced without compiling the whole stack. Afterwards, import `chili/chili.sass` into each component.
-
-### Stylus
-
-Currently only available in SASS. [1703](https://github.com/stylus/stylus/issues/1703)
+The build process also autoprefixes properties and optimizes/minifies your selectors and media queries.
 
 ## Components
 
-`chili` comes with a few helpful components to get you started on a project.
+`inStyle` comes with a few handy components to get you started on a project.
 
 ### Base
 
-Base uses [normalize.css](https://github.com/necolas/normalize.css/) or [Meyer reset](http://meyerweb.com/eric/tools/css/reset/) as default and defines 2 top level components - `root` (html) and `body`. This is useful for referencing top level attributes coming from libraries like Modernizr, states that change the whole page scaffold or any other exception necessary to propagate from a parent node.
-
-```Sass
-.button-submit
-  +state('.no-js', root)
-    display: none
-
-.wrapper
-  +state('.dialog-visible', body)
-    overflow: hidden
-```
+Base uses [normalize.css](https://github.com/necolas/normalize.css/) or [Meyer reset](http://meyerweb.com/eric/tools/css/reset/) and can serve as your scaffold.
 
 ### Iconfont
 
-The `gulp` build process automagically converts all your `.svg` icon sources into webfonts and renders the `icons` component. That allows you to easily use custom icons on pseudoelements - variable names are created for each icon based on filename.
+The `gulp` build process automagically converts all your `.svg` icon sources in `components/icons` into a webfont and renders the `icons` component. That allows you to easily use custom icons on pseudoelements without tainting HTML - variable names are created for each icon based on filename.
 
 ```Sass
 // hamburglar.svg
@@ -111,7 +97,7 @@ button:before
 
 ### Media
 
-In SASS, media query logic is provided by [include-media](https://github.com/eduardoboucas/include-media), which allows very flexible and expressive media conditioning - refer to its [documentation](http://include-media.com/#features) for details.
+Nestable media query logic is provided by [include-media](https://github.com/eduardoboucas/include-media), which allows very flexible and expressive conditioning - refer to its [documentation](http://include-media.com/#features) for details.
 
 ```Sass
 article
@@ -121,254 +107,49 @@ article
     max-width: 480px
 ```
 
-### Animation
-
-Modern CSS transitions and animations are subject to a refined technical lifetime with JavaScript switching `display` values and/or adding classes at the right moment. Modern UI frameworks like Angular or React know this and provide features to make this lifetime manageable. `chili` currently supports `ngAnimate` and `CSSTransitionGroup` wrappers for keyframe animations and transitions, effect bank provided by [animate.css](https://github.com/daneden/animate.css/).
-
-Keyframe animation definitions are only rendered in the resulting CSS when used.
-
-```Sass
-.ng-doodle
-  +ng-animate(enter, bounceInLeft)
-  +ng-animate(leave, bounceOutRight)
-
-.react-doodle
-  +react-animate(fade, enter)
-    opacity: 1
-```
-
 ## Functions / Mixins
 
 #### `component('selector', [reference])`
 
-`chili` promotes the pattern of always nesting attributes relevant to your current selector, even if they are modified by a parent. This allows you to maintain a clear writing style, keeping all element variants in their place. 
+`chili` promotes the pattern of always nesting attributes relevant to your current selector, even if they are modified by a parent (even as a piece in the current cascade). This allows you to maintain a clear writing style, keeping all element variants in their place. 
 
 ```Sass
-+component('aside.user-info', card)
+user-info-card
+  position: absolute
 
-  .avatar // everything possibly related to .avatar in card can be here
+  avatar // everything related to avatar in user-info-card can be here
     color: blue
-    +state('.--back-visible', card) // aside.user-info.--back-visible .avatar
+    +in('user-info-card.flipped') // user-info-card.flipped avatar
       transform: rotateX(180deg)
-    +state(header) // header aside.user-info .avatar, assumes a header defined
+    +in('header') // header user-info-card avatar
       float: right
     +media('<tablet') // @media (max-device-width: 767px) ...
       width: 20%
 
-  .name
+  name
     font-weight: bold
 ```
 
-If you enjoy flexibility, you might find components helpful for keeping collections identified by multiple properties. Mind that all the nested variations will be output in the compiled CSS, which can grow fast for ex: multiple states on multiple components.
+Because there is no real DOM present, the `in()` mixin operates under simple rules - if a base element (eg. `header` in `header.main:hover`) is found in the current cascade, it's modified by the state appended state. If it's not present, it's expected to be a parent of the cascade and is prepended instead. Combinations and multiple properties are taken care of intuitively.
 
 ```Sass
-+component('button, .button, [role=button]', btn)
+ul,
+ol
+  list-style: none
 
-form
-  +component(btn)
-    background-color: blue
-    +state('.disabled, [disabled], [aria-disabled]') // taking it too far, Jim
-      opacity: .5
-      pointer-events: none
-```
-
-#### `state('selector', [target])`
-
-When you define a component reference, it's saved for later reuse.
-
-```Sass
-+component('html', root)
-```
-
-Because there is no real DOM present, components operate under simple rules - if a component state is called and the target selector is found in the current nest, it's modified by the state. If it's not present, it's expected to be a level above. If you provide only a component reference, it's selector is prepended before the current chain.
-
-```Sass
-+component('#nav-main', nav)
-  
-  ul
-    +unstyled-list
-
-    .item
+    li
       display: block
 
-      +state('.open', nav) // selector is #nav-main.open ul .item
-        transform: translateX(-100%)
+      a
+        line-height: 1.5
 
-      +state('.wide', root) // selector is body.wide #nav-main ul .item
-        display: inline-block
-        float: left
+        +in('ol:hover')
+          color: red  // ol:hover li a
 
-      +state(myHeader) // selector is header #nav-main ul .item
-        transform: scale(.7)
+        +in('li:hover')
+          color: blue  // ul li:hover a, ol li:hover a
+
+        +in('footer')
+          font-size: 1.4rem  // footer ul li a, footer ol li a
+          color: white
 ```
-
-### Proportional
-
-`chili` is equipped with many helper functions to simplify your writing style and scaffold your layout in a more expressive way.  
-Give in, you might like it!
-
-#### `size([display], width height)`
-
-```Sass
-nav
-  +size(flex, auto 80px)
-
-.icon:before
-  +size(16px 16px) // knows to add content: '', defaults unset display to block
-```
-
-#### `position(type, coords)`
-
-```Sass
-nav
-  +position(fixed, left top)
-
-div
-  +position(absolute, stretch) // keyword for top 0 right 0 etc.
-
-span
-  +position(relative, right 20px top 20px)
-```
-
-#### `offset([x, y])`
-
-Offset from current top left border position.
-
-```Sass
-.dialog
-  +position(absolute, left 50% top 50%)
-  +offset() // recenter default -50%/-50%
-```
-
-#### `distribute(x y, [direction])`
-
-Distributes direct children inside current element, translating into flexbox values.
-
-```Sass
-ul
-  +distribute(left center) // default row
-
-+component(itemWrap)
-  +distribute(right top, column)
-```
-
-#### `indent(x y, [exclude])`
-
-Indents each direct child's margin with optional exclusion.
-
-```Sass
-.gallery
-  +indent(right 10px bottom 10px)
-
-.vertical-list
-  +indent(bottom 5em, last-child)  // excludes last-child
-```
-
-#### `grid(columns)`
-
-A super simple grid that changes direct children width to a set amount of columns.
-
-```Sass
-.wrapper
-  +grid(5) // each .wrapper child has 20% width
-```
-
-### Animation
-
-#### `ng-animate(state, [animation, duration])`
-
-`chili` extends selector with the `.ng-{state}` classes for keyframe animations.
-
-```Sass
-.item
-  +ng-animate(enter, zoomIn)
-  +ng-animate(leave, zoomOut)
-```
-
-Transitions are used as nodes instead by omitting the optional properties.
-
-```Sass
-.item
-  transition: opacity .2s ease-in
-  +ng-animate(enter)
-    opacity: 1
-  +ng-animate(leave)
-    opacity: 0
-
-```
-
-#### `react-animate(class, direction)`
-
-`chili` for React supports block mixins as nodes to add the necessary React classes.
-
-```Sass
-.item
-  +react-animate(fade, enter)
-    opacity: 1
-  +react-animate(fade, leave)
-    opacity: 0
-```
-
-### Media
-
-#### `media('rule', ['rules'])`
-
-[Documentation](http://include-media.com/#features)
-
-#### `background-retina(path/file.png, [width height])`
-
-Adds high resolution `background-image` sources for high DPI screens based on pattern `file.png > file@2x.png, file@3x.png`.
-
-```Sass
- // also outputs MQ for logo@2x.png and logo@3x.png along normal background-image
-
-.logo
-  +background-retina('images/logo.png', 200px auto)
-```
-
-### Typography
-
-Default font scaling is set to 62.5% (editable in `config.sass`) and `16px = rem(16)`. All values resulting from em/rem can be further processed.
-
-```Sass
-$indent: rem(10)
-
-.item
-  padding: $indent * 2
-```
-
-#### `em(px)`
-
-#### `rem(px)`
-
-#### `hide-text()`
-
-#### `truncate-text([width])`
-
-### Shapes
-
-#### `circle(radius)`
-
-#### `triangle(orientation, bgcolor, size)`
-
-```Sass
-+component(dialog)
-  :before
-    +triangle(up)
-    +position(absolute, left 50% top)
-```
-
-#### `chevron(position, background, size)`
-
-Draws a chevron from current element inside relative parent, recognizes a pseudoelement.
-
-### HTML
-
-#### `unstyled-list()`
-
-#### `unstyled-button()`
-
-#### `reset-inject()`
-
-A hard reset of most HTML defaults under the current element, useful for UI parts living in 3rd party code.
-Other types of resets based on `nib` (fragmented Meyer reset) are also available.
