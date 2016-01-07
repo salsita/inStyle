@@ -30,7 +30,7 @@ links
   item
     display: block
 
-    +in(header)
+    +in('header')
       display: inline-block // header links item
 
     a
