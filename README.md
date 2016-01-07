@@ -16,12 +16,12 @@ Components as native or custom elements.
 
 Use classes just for abstract variants with no CSS property descriptions.
 
-```
+```Html
 <button class='save glossy'>Save</button>
 ```
 
 Reach parents and their states from anywhere in the current cascade.
-Meet the `in` function:
+Meet the `in()` function:
 
 ```Sass
 links
@@ -40,7 +40,7 @@ links
         color: blue  // links item:hover a (parent found in cascade)
 
       +in('footer:hover, header')
-        color: red // footer:hover item a, header item a 
+        color: red // footer:hover links item a, header links item a 
 ```
 
 ```Sass
@@ -74,7 +74,7 @@ button
 
 `main.sass` should be your central point for importing individual components.
 Build paths can be changed in `gulpfile.js`.
-The build process also autoprefixes properties and optimizes/minifies your selectors and media queries.
+The build process also autoprefixes properties and optimizes/minifies your selectors and media queries. **Note:** The build process is only necessary for the iconfont component, you can freely import the SASS stack standalone or use the core SASS `instyle` package alone.
 
 ## Components
 
@@ -82,11 +82,11 @@ The build process also autoprefixes properties and optimizes/minifies your selec
 
 ### Base
 
-Base uses [normalize.css](https://github.com/necolas/normalize.css/) or [Meyer reset](http://meyerweb.com/eric/tools/css/reset/) and can serve as your scaffold.
+Base uses [normalize.css](https://github.com/necolas/normalize.css/) or [Meyer reset](http://meyerweb.com/eric/tools/css/reset/) and can serve as a scaffold for your app/page.
 
 ### Iconfont
 
-The `gulp` build process automagically converts all your `.svg` icon sources in `components/icons` into a webfont and renders the `icons` component. That allows you to easily use custom icons on pseudoelements without tainting HTML - variable names are created for each icon based on filename.
+The `gulp` build process automagically converts all your `.svg` icon sources in `components/icons` into a webfont and renders the `icons.sass` component. That allows you to easily use custom icons on pseudoelements without tainting HTML - variable names are created for each icon based on filename.
 
 ```Sass
 // hamburglar.svg
@@ -111,7 +111,7 @@ article
 
 #### `component('selector', [reference])`
 
-`chili` promotes the pattern of always nesting attributes relevant to your current selector, even if they are modified by a parent (even as a piece in the current cascade). This allows you to maintain a clear writing style, keeping all element variants in their place. 
+`inStyle` promotes the pattern of always nesting attributes relevant to your current selector, even if they are modified by a parent (which can be a piece in the current cascade). This allows you to maintain a clear writing style, keeping all properties of an individual element in one place. 
 
 ```Sass
 user-info-card
@@ -130,7 +130,7 @@ user-info-card
     font-weight: bold
 ```
 
-Because there is no real DOM present, the `in()` mixin operates under simple rules - if a base element (eg. `header` in `header.main:hover`) is found in the current cascade, it's modified by the state appended state. If it's not present, it's expected to be a parent of the cascade and is prepended instead. Combinations and multiple properties are taken care of intuitively.
+Because there is no real DOM present, the `in()` mixin operates under simple rules - if a base element (eg. `header` in `header.main:hover`) is found in the current cascade, it's appended with the state. If it's not present, it's expected to be a parent of the cascade and is prepended in full instead. Combinations and multiple properties are taken care of intuitively.
 
 ```Sass
 ul,
@@ -144,7 +144,7 @@ ol
         line-height: 1.5
 
         +in('ol:hover')
-          color: red  // ol:hover li a
+          color: red  // ol:hover li a (removes irrelevant ul)
 
         +in('li:hover')
           color: blue  // ul li:hover a, ol li:hover a
@@ -153,3 +153,5 @@ ol
           font-size: 1.4rem  // footer ul li a, footer ol li a
           color: white
 ```
+
+Happy coding!
