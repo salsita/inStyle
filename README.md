@@ -1,6 +1,6 @@
 # inStyle
 
-Nest everything relevant to your elements.. under your elements. How ableist!
+Nest everything relevant to your elements.. under your elements. The ultimate ableism.
 
 ## Methodology
 
