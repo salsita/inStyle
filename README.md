@@ -1,20 +1,21 @@
 # inStyle
 
-Nest everything relevant to your elements.. under your elements! The ultimate ableism.
+Nest everything relevant to your elements.. under your elements!
+The ultimate ableism for code structure.
 
 ## Methodology
 
 Components as native or custom elements.
 
 ```Html
-<calendar>
+<date>
   <day>1</day>
   <month>August</month>
   <year>2009</year>
-</calendar>
+</date>
 ```
 
-Use classes just for component variants and abstracted designs.
+Classes for component variants and abstracted designs.
 
 ```Html
 <button class='save glossy'>Save</button>
