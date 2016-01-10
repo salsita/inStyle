@@ -22,7 +22,10 @@
       $result: append($result, remove(nth($list, $i), $value, $recursive))
     @else if nth($list, $i) != $value
       $result: append($result, nth($list, $i))
-  @return __listToString($result)
+  @if length($result) > 0
+    @return __listToString($result)
+  @else
+    @return ''
 
 @function __isComponentInQuery($query, $component)
   $componentFound: false
@@ -37,17 +40,20 @@
   $current: &
   $selectors: selector-parse($selectors)
   @each $selector in $selectors
-    $simple: simple-selectors(inspect($selector))
-    $component: nth($simple, 1)
-    $state: __removeFromList($simple, $component)
-    @if __isComponentInQuery($current, $component)
-      @each $query in $current
-        @if index($query, $component)
-          $newQuery: selector-replace($query, $component, unquote($component + $state))
-          $final: append($final, $newQuery, comma)
+    @if length($selector) > 1
+      @error 'Selector \'#{$selector}\' is too long, not supported.'
     @else
-      @each $query in $current
-        $newQuery: selector-parse($selector + ' ' + $query)
-        $final: append($final, $newQuery, comma)
+      $simple: simple-selectors(inspect($selector))
+      $component: nth($simple, 1)
+      @if __isComponentInQuery($current, $component)
+        $state: __removeFromList($simple, $component)
+        @each $query in $current
+          @if index($query, $component)
+            $newQuery: selector-replace($query, $component, unquote($component + $state))
+            $final: append($final, $newQuery, comma)
+      @else
+        @each $query in $current
+          $newQuery: selector-parse($selector + ' ' + $query)
+          $final: append($final, $newQuery, comma)
   @at-root #{$final}
     @content

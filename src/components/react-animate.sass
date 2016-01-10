@@ -1,0 +1,18 @@
+/*
+  inStyle™
+  github.com/salsita/inStyle
+  2016 | MIT
+  ============================== */
+
+@import 'animate/bank'
+
+// React
+=react-animate($name, $dir: enter)
+  @if $name and $dir == 'enter'
+    &.#{$name}-leave, &.#{$name}-enter.#{$name}-enter-active
+      @content
+  @else if $name and $dir == 'leave'
+    &.#{$name}-enter, &.#{$name}-leave.#{$name}-leave-active
+      @content
+  @else
+    @warn 'Incorrect parameters provided for chain \'#{&}\' in react-animate().'
