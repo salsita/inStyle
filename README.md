@@ -251,4 +251,4 @@ button:before
 - Stylus port
 - Improved framework-specific animation components
 - Default basic components? (buttons etc.)
-- Skinning pattern for independent components that can still inherit from base config
+- Skinning pattern for independent components that inherits from base config
