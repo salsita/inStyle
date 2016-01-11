@@ -147,9 +147,9 @@ links
 
 How does this work?
 
-If one of the compound selectors (eg. `item` in `item:hover` or `header`) is found in the current cascade, it's modified in the current selector nest. If not found, it's expected as a parent of the current selector. Infinitely nestable.
+If one of the compound selectors (eg. `item` in `item:hover` or `header`) is found in the current cascade, it's modified by the intended state. If not found, it's expected as a parent of the current selector. Infinitely nestable.
 
-This greatly simplifies the syntax and readability when a property of the same element you're just styling is modified due to a class, pseudoclass or attribute of a parent both in and out of the current cascade. _(How about the actual element!)_
+This greatly simplifies the syntax and readability when a property of the same element you're just styling is modified due to a class, pseudoclass or attribute of a parent both in and out of the current cascade. _(How about it all belongs the actual element!)_
 
 Different example:
 
