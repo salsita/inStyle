@@ -203,7 +203,7 @@ item
       flex-basis: 20vw
 
       +in('.inverted')
-        order: 2
+        order: 2  // @media ( ... ) { .inverted item > div:first-child }
 
   > div:nth-child(2)
     flex: 1
