@@ -132,15 +132,15 @@ links
       line-height: 1.5
 
       +in('item:hover')
-        color: blue  // links item:hover a (parent in current cascade)
+        color: blue  // links item:hover a { }; (parent in current cascade)
 
       +in('header item:hover')
-        color: white // header links item:hover a (partial parent match)
+        color: white // header links item:hover a { }; (partial parent match)
 
         +in('.minimal')
           font-size: .8rem  // .minimal header links item:hover a
 
-      +in('.isIE7, .no-prop') // .isIE7 links item a, .no-prop links item a
+      +in('.isIE7, .no-prop') // .isIE7 links item a, .no-prop links item a { };
         modern-property: no-sorry
         zoom: 1
 ```
