@@ -193,6 +193,23 @@ article
       height: 10vh // @media screen and ( ... ) { article-listing article }
 ```
 
+```Sass
+item
+  display: flex
+
+  > div:first-child
+    flex: 0 0 100px
+
+    +media('<tablet')
+      flex-basis: 20vw
+
+      +in('.inverted')
+        order: 2
+
+  > div:nth-child(2)
+    flex: 1
+```
+
 ## Installation
 
 `inStyle` currently requires Ruby SASS due to reliance on latest 3.4 features. Conversion to `libsass` will be immediate once 3.4 is stable.
