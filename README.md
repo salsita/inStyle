@@ -132,15 +132,15 @@ links
       line-height: 1.5
 
       +in('item:hover')
-        color: blue  // links item:hover a { }; (parent in current cascade)
+        color: blue  // links item:hover a { } (parent in current cascade)
 
       +in('header item:hover')
-        color: white // header links item:hover a { }; (partial parent match)
+        color: white // header links item:hover a { } (partial parent match)
 
         +in('.minimal')
           font-size: .8rem  // .minimal header links item:hover a
 
-      +in('.isIE7, .no-prop') // .isIE7 links item a, .no-prop links item a { };
+      +in('.isIE7, .no-prop') // .isIE7 links item a, .no-prop links item a { }
         modern-property: no-sorry
         zoom: 1
 ```
@@ -168,13 +168,13 @@ ol
         line-height: 1.5
 
         +in('ol:hover')
-          color: red  // ol:hover li a (removes irrelevant ul)
+          color: red  // ol:hover li a { } (removes irrelevant ul)
 
         +in('li.links:hover, ol.pictures')
-          color: blue  // ul li.links:hover a, ol li.links:hover a, ol.pictures li a
+          color: blue  // ul li.links:hover a, ol li.links:hover a, ol.pictures li a { }
 
         +in('footer')
-          font-size: 1.4rem  // footer ul li a, footer ol li a
+          font-size: 1.4rem  // footer ul li a, footer ol li a { }
           color: white
 ```
 
@@ -188,10 +188,10 @@ article
     max-width: 480px
 
   +in('article-listing')
-    height: 150px // article-listing article
+    height: 150px // article-listing article { }
 
     +media('<=phone')
-      height: 10vh // @media screen and ( ... ) { article-listing article }
+      height: 10vh // @media screen and ( ... ) { article-listing article { ... } }
 ```
 
 ```Sass
@@ -205,7 +205,7 @@ item
       flex-basis: 20vw
 
       +in('.inverted')
-        order: 2  // @media ( ... ) { .inverted item > div:first-child }
+        order: 2  // @media ( ... ) { .inverted item > div:first-child { ... } }
 
   > div:nth-child(2)
     flex: 1
