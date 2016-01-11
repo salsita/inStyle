@@ -22,10 +22,7 @@
       $result: append($result, remove(nth($list, $i), $value, $recursive))
     @else if nth($list, $i) != $value
       $result: append($result, nth($list, $i))
-  @if length($result) > 0
-    @return __listToString($result)
-  @else
-    @return ''
+  @return $result
 
 @function __isComponentInQuery($query, $component)
   $componentFound: false
@@ -46,7 +43,10 @@
       $simple: simple-selectors(inspect($selector))
       $component: nth($simple, 1)
       @if __isComponentInQuery($current, $component)
-        $state: __removeFromList($simple, $component)
+        @if length($simple) > 1
+          $state: __listToString(__removeFromList($simple, $component))
+        @else
+          $state: ''
         @each $query in $current
           @if index($query, $component)
             $newQuery: selector-replace($query, $component, unquote($component + $state))
