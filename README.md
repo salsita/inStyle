@@ -1,10 +1,12 @@
 # inStyle
 
-`inStyle` is a realistic, app-friendly methodology coupled with a unique system of describing elements by intuitively nesting all their relevant style properties, whether they are to be modified by a parent state, class, attribute, media query or else. Where other methodologies struggle to reflect the cold hard reality of CSS authoring, `inStyle` goes straight for the source. The ultimate ableism for code structure and readability, currently available in SASS (Stylus version coming).
+`inStyle` is a realistic, app-friendly methodology coupled with a unique system of describing elements by intuitively nesting all their relevant style properties, whether they are to be modified by a parent state, class, attribute, media query or else.
+
+Where other methodologies struggle to reflect the cold hard reality of CSS authoring _(IMO)_, `inStyle` goes straight to adressing the CSS source needs. A privileged ableism for code structure and readability, currently available in SASS (Stylus version coming).
 
 ## Methodology
 
-_Optional, but recommended. The `inStyle` component is usable alone in SASS._
+_Optional, but recommended. The inStyle component is usable standalone._
 
 Use both native and custom elements for your abstract components.
 
@@ -22,7 +24,7 @@ Use both native and custom elements for your abstract components.
 </message>
 ```
 
-Need a structural element? Use nameless divs and spans. CSS pseudoclasses and direct child selectors are powerful enough to describe even the most complex relations without having to use `.wrappers`. Try _not_ using classes that describe CSS functionality (aka `.pull-left`), this approach cannot scale.
+Need a structural element? Use nameless divs and spans. CSS pseudoclasses and direct child selectors are powerful enough to describe even the most complex relations without having to use `.wrappers`.
 
 ```Html
 <item>
@@ -51,33 +53,16 @@ item
 
 Use CSS classes for component variants and abstracted design helpers.
 
+Try _not_ using classes that describe CSS functionality (aka `.pull-left`) - this approach cannot scale and your HTML will be independent of properties.
+
 ```Html
 <button class='save'>Save</button>
 <dialog class='rounded'></dialog>
 ```
 
-Reach parents and their states from anywhere in the current cascade to keep all attributes relevant to an element in the same place.  
-Meet the `in()` function:
+## inStyle
 
-```Sass
-content // below you're styling the <content> element in all it's forms
-  font-size: 1.6rem
-
-  +in('message, dialog')
-    font-size: 1.2rem // message content, message content
-
-  +in('message')
-    color: #ccc
-    font-weight: bold // message content
-
-  +in('message:hover')
-    font-weight: 600 // message:hover content
-
-  +in('dialog')
-    color: #999 // dialog content
-```
-
-The above is still possible to organize in CSS and post-processors, but it's not the prettiest syntax and in you need to repeat the full modified query to the current element. Consider the following HTML:
+Now consider the following HTML:
 
 ```Html
 <links>
@@ -89,7 +74,7 @@ The above is still possible to organize in CSS and post-processors, but it's not
 </links>
 ```
 
-Let's say you need to change `a` color when `item` component is `:hover`ed and this is happening inside the `links` component. To make things better, you need another different variant in `header`. Nothing hard, but at best, you'll end up with this code:
+Let's say you need to change `a` color when `item` component is `:hover`ed and this is happening inside the `links` component. To make things easier, you need another different `a` variant in `header`. Nothing hard to do right? But at best, you'll end up with this code:
 
 ```Sass
 links
@@ -110,7 +95,7 @@ links
         color: white
 ```
 
-Notice how anchor is styled in two different places. Or worse:
+Notice how the anchor element is styled in two different places. Or worse:
 
 ```Sass
 links
@@ -129,8 +114,9 @@ header links item:hover a
   color: white
 ```
 
-Now imagine adding some different media queries for these anchors. Such quite common CSS patterns can get very bad very fast.  
-How about this instead:
+Now imagine adding some different media queries for these anchors and working more elements, you know the pain. Such rather common CSS patterns can get very bad very fast.  
+
+What if you could do this instead?
 
 ```Sass
 links
@@ -140,7 +126,7 @@ links
     display: block
     modern-property: 10px
 
-    a // you're styling <a>
+    a // further you're always styling <a>
       line-height: 1.5
 
       +in('item:hover')
@@ -149,12 +135,19 @@ links
       +in('header item:hover')
         color: white // header links item:hover a (partial parent match)
 
-      +in('body.isIE7, .no-border-radius') // uh oh, but it could be anything
+        in('.minimal')
+          font-size: .8rem  // .minimal header links item:hover
+
+      +in('.isIE7, .no-prop') // .isIE7 links item a, .no-prop links item a
         modern-property: no-sorry
         zoom: 1
 ```
 
-How does this work? If one of the compound selectors (eg. `item` in `item:hover` or `header`) is found in the current cascade, it's modified in the current selector nest. If not found, it's expected as a parent of the current selector. This greatly simplifies the syntax and readability when a property of the same element you're styling is modified due to a class, pseudoclass or attribute of a parent both in and out of the current cascade. A more complicated example:
+How does this work?
+
+If one of the compound selectors (eg. `item` in `item:hover` or `header`) is found in the current cascade, it's modified in the current selector nest. If not found, it's expected as a parent of the current selector.
+
+This greatly simplifies the syntax and readability when a property of the same element you're styling is modified due to a class, pseudoclass or attribute of a parent both in and out of the current cascade. Another example:
 
 ```Sass
 ul,
