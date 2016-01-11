@@ -59,7 +59,7 @@ Try _not_ using classes that describe CSS functionality (aka `.pull-left`); this
 <dialog class='rounded'></dialog>
 ```
 
-## inStyle
+## inStyle in()
 
 Now consider the following HTML:
 
@@ -138,7 +138,7 @@ links
         color: white // header links item:hover a (partial parent match)
 
         +in('.minimal')
-          font-size: .8rem  // .minimal header links item:hover
+          font-size: .8rem  // .minimal header links item:hover a
 
       +in('.isIE7, .no-prop') // .isIE7 links item a, .no-prop links item a
         modern-property: no-sorry
