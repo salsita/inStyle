@@ -1,24 +1,48 @@
 # inStyle
 
-Nest everything relevant to your elements.. under your elements!
-The ultimate ableism for code structure.
+`inStyle` is a modern, simplistic, app-friendly methodology coupled with a unique system of describing elements by nesting all their existing properties, whether they are modified by a parent state, class, attribute, media query or else. Where other methodologies struggle to reflect the cold hard reality of CSS authoring, `inStyle` goes straight for the source. The ultimate ableism for code structure, currently available in SASS (Stylus version coming).
 
 ## Methodology
 
-Components as native or custom elements.
+Use both native and custom HTML5 elements for your abstract components.
 
 ```Html
-<date>
-  <day>1</day>
-  <month>August</month>
-  <year>2009</year>
-</date>
+<button>Save</button>
+
+<dialog>
+  <header>But...</header>
+  <content>What about semantics?</content>
+</dialog>
+
+<message>
+  <user>Ulf B.</user>
+  <content>You thought your divs were semantical?</content>
+</message>
 ```
 
-Classes for component variants and abstracted designs.
+Need a structural element? Use nameless divs and spans. CSS pseudoclasses and direct child selectors are powerful enough to describe even the most complex relations without having to use `.wrappers`. Try _not_ using classes to describe CSS properties (aka `.pull-left`), because they cannot scale.
 
 ```Html
-<button class='save glossy'>Save</button>
+<item>
+  <div>
+    ...
+  </div>
+  <div>
+    ...
+  </div>
+</item>
+```
+```Sass
+item
+  div:nth-child(2)
+    flex: 1
+```
+
+Use CSS classes for component variants and abstracted design helpers.
+
+```Html
+<button class='save'>Save</button>
+<dialog class='rounded'></dialog>
 ```
 
 Reach parents and their states from anywhere in the current cascade.
@@ -41,7 +65,7 @@ links
         color: blue  // links item:hover a (parent found in cascade)
 
       +in('footer:hover, header')
-        color: red // footer:hover links item a, header links item a 
+        color: red // footer:hover links item a, header links item a
 ```
 
 ```Sass
@@ -110,7 +134,7 @@ article
 
 ## How it works
 
-`inStyle` promotes the pattern of always nesting attributes relevant to your current selector, even if they are modified by a parent (which can be a piece in the current cascade). This allows you to maintain a clear writing style, keeping all properties of an individual element in one place. 
+`inStyle` promotes the pattern of always nesting attributes relevant to your current selector, even if they are modified by a parent (which can be a piece in the current cascade). This allows you to maintain a clear writing style, keeping all properties of an individual element in one place.
 
 ```Sass
 user-info-card
