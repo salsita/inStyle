@@ -1,8 +1,6 @@
 # inStyle
 
-`inStyle` is a realistic, app-friendly methodology coupled with a unique system of describing elements by intuitively nesting all their relevant style properties, whether they are to be modified by a parent state, class, attribute, media query or else.
-
-Where other methodologies struggle to reflect the cold hard reality of CSS authoring _(IMO)_, `inStyle` goes straight to adressing the CSS source needs. A privileged ableism for code structure and readability, currently available in SASS (Stylus version coming).
+`inStyle` is a realistic, app-friendly methodology coupled with a unique system of describing elements by intuitively nesting all their relevant style properties, even if they are modified by a parent state, class, attribute or media query.
 
 ## Methodology
 
@@ -53,7 +51,7 @@ item
 
 Use CSS classes for component variants and abstracted design helpers.
 
-Try _not_ using classes that describe CSS functionality (aka `.pull-left`) - this approach cannot scale and your HTML will be independent of properties.
+Try _not_ using classes that describe CSS functionality (aka `.pull-left`); this approach cannot scale to devices and your HTML will be independent of named properties.
 
 ```Html
 <button class='save'>Save</button>
@@ -74,7 +72,9 @@ Now consider the following HTML:
 </links>
 ```
 
-Let's say you need to change `a` color when `item` component is `:hover`ed and this is happening inside the `links` component. To make things easier, you need another different `a` variant in `header`. Nothing hard to do right? But at best, you'll end up with this code:
+Let's say the design requires you to change `a` color when `item` element is `:hover`ed and this is happening inside your convenient `links` component. To make things easier, you need another different `a` variant in `header`. Nothing hard to do, right? And this could really be anything in your project. 
+
+But at best, you'll end up with this code (using advanced SASS):
 
 ```Sass
 links
@@ -86,16 +86,17 @@ links
     a
       line-height: 1.5
 
-  &:hover
+    &:hover
 
-    a
-      color: blue
+      a
+        color: blue
 
-      @at-root header &
-        color: white
+        @at-root header &
+          color: white
 ```
 
-Notice how the anchor element is styled in two different places. Or worse:
+Notice how the anchor element is styled in two different places.
+Or worse, closer to plain CSS:
 
 ```Sass
 links
@@ -114,7 +115,7 @@ header links item:hover a
   color: white
 ```
 
-Now imagine adding some different media queries for these anchors and working more elements, you know the pain. Such rather common CSS patterns can get very bad very fast.  
+Now imagine adding some different media queries for these anchors and working more elements. Such rather common CSS patterns can get very bad very fast, decreasing readability and maintainability. _(Where should this stuff go anyway?)_  
 
 What if you could do this instead?
 
@@ -126,7 +127,7 @@ links
     display: block
     modern-property: 10px
 
-    a // further you're always styling <a>
+    a // further you're always styling a in links item
       line-height: 1.5
 
       +in('item:hover')
@@ -145,9 +146,11 @@ links
 
 How does this work?
 
-If one of the compound selectors (eg. `item` in `item:hover` or `header`) is found in the current cascade, it's modified in the current selector nest. If not found, it's expected as a parent of the current selector.
+If one of the compound selectors (eg. `item` in `item:hover` or `header`) is found in the current cascade, it's modified in the current selector nest. If not found, it's expected as a parent of the current selector. Infinitely nestable.
 
-This greatly simplifies the syntax and readability when a property of the same element you're styling is modified due to a class, pseudoclass or attribute of a parent both in and out of the current cascade. Another example:
+This greatly simplifies the syntax and readability when a property of the same element you're just styling is modified due to a class, pseudoclass or attribute of a parent both in and out of the current cascade. _(How about the actual element!)_
+
+Different example:
 
 ```Sass
 ul,
