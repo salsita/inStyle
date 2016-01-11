@@ -27,10 +27,12 @@ Need a structural element? Use nameless divs and spans. CSS pseudoclasses and di
 ```Html
 <item>
   <div>
-    ...
+    < .. >
+    < .. >
   </div>
   <div>
-    ...
+    < .. >
+    < .. >
   </div>
 </item>
 ```
@@ -41,9 +43,6 @@ item
 
   > div:first-child
     flex: 0 0 100px
-
-    +media('<tablet')
-      flex-basis: 20vw
 
   > div:nth-child(2)
     flex: 1
