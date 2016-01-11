@@ -135,7 +135,7 @@ links
       +in('header item:hover')
         color: white // header links item:hover a (partial parent match)
 
-        in('.minimal')
+        +in('.minimal')
           font-size: .8rem  // .minimal header links item:hover
 
       +in('.isIE7, .no-prop') // .isIE7 links item a, .no-prop links item a
