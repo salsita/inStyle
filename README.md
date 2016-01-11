@@ -2,6 +2,8 @@
 
 `inStyle` is a realistic, app-friendly methodology coupled with a unique system of describing elements by intuitively nesting all their relevant style properties, even if they are modified by a parent state, class, attribute or media query.
 
+Currently available in SASS 3.4.
+
 ## Methodology
 
 _Optional, but recommended. The inStyle component is usable standalone._
