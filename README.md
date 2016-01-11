@@ -26,12 +26,12 @@ Need a structural element? Use nameless divs and spans. CSS pseudoclasses and di
 
 ```Html
 <item>
-  <div>
-    < .. >
-    < .. >
+  <div> // this takes a fixed part
+    <more/>
+    <html/>
+    <elements/>
   </div>
-  <div>
-    < .. >
+  <div> // and the remaining horizontal space
     < .. >
   </div>
 </item>
@@ -71,7 +71,7 @@ Now consider the following HTML:
 </links>
 ```
 
-Let's say the design requires you to change `a` color when `item` element is `:hover`ed and this is happening inside your convenient `links` component. To make things easier, you need another different `a` variant in `header`. Nothing hard to do, right? And this could really be anything in your project. 
+Let's say the design requires you to change `a` color when `item` element is `:hover`ed and this is happening inside your convenient `links` component. To make things easier, you need another different `a` variant in `header`. Nothing hard to do, right? This could really be anything in your project. 
 
 But at best, you'll end up with this code (using advanced SASS):
 
@@ -114,7 +114,7 @@ header links item:hover a
   color: white
 ```
 
-Now imagine adding some different media queries for these anchors and working more elements. Such rather common CSS patterns can get very bad very fast, decreasing readability and maintainability. _(Where should this stuff go anyway?)_  
+Now imagine adding some different media queries for these anchors and working with more elements. Such rather common CSS patterns can get very bad very fast, decreasing readability and maintainability. _(Where should this stuff go anyway?)_  
 
 What if you could do this instead?
 
