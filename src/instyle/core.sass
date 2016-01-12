@@ -36,6 +36,15 @@
       $result: append($result, nth($list, $i))
   @return $result
 
+@function __reverseList($list, $recursive: false)
+  $result: ()
+  @for $i from length($list)*-1 through -1
+    @if type-of(nth($list, abs($i))) == list and $recursive
+      $result: append($result, reverse(nth($list, abs($i)), $recursive))
+    @else
+      $result: append($result, nth($list, abs($i)))
+  @return $result
+
 @function __isElementInSelector($selector, $element)
   @if index($selector, $element)
     @return true
@@ -59,7 +68,7 @@
       @each $index in $matchedIndexes
         $currentSelector: nth($current, $index)
         $modifiedSelector: ()
-        @each $component in $selector
+        @each $component in __reverseList($selector)
           $simple: simple-selectors(inspect($component))
           $element: nth($simple, 1)
           $state: ''
