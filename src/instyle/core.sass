@@ -67,7 +67,6 @@
     @if length($matchedIndexes) > 0
       @each $index in $matchedIndexes
         $currentSelector: nth($current, $index)
-        $modifiedSelector: ()
         @each $component in __reverseList($selector)
           $simple: simple-selectors(inspect($component))
           $element: nth($simple, 1)
