@@ -15,6 +15,18 @@
       $result: if($i != length($list) or $is-nested, $result#{$e}#{$glue}, $result#{$e})
   @return $result
 
+@function __replaceInList($list, $old-value, $new-value, $recursive: false)
+  $result: ()
+  @for $i from 1 through length($list)
+    @if type-of(nth($list, $i)) == list and $recursive
+      $result: append($result, replace(nth($list, $i), $old-value, $new-value, $recursive))
+    @else
+      @if nth($list, $i) == $old-value
+        $result: append($result, $new-value)
+      @else
+        $result: append($result, nth($list, $i))
+  @return $result
+
 @function __removeFromList($list, $value, $recursive: false)
   $result: ()
   @for $i from 1 through length($list)
@@ -24,12 +36,11 @@
       $result: append($result, nth($list, $i))
   @return $result
 
-@function __isComponentInQuery($query, $component)
-  $componentFound: false
-  @each $chain in $query
-    @if index($chain, $component)
-      $componentFound: true
-  @return $componentFound
+@function __isElementInSelector($selector, $element)
+  @if index($selector, $element)
+    @return true
+  @else
+    @return false
 
 // In mixin
 =in($selectors)
@@ -37,23 +48,29 @@
   $current: &
   $selectors: selector-parse($selectors)
   @each $selector in $selectors
-    @if length($selector) > 1
-      @error 'Selector \'#{$selector}\' is too long, not supported.'
-    @else
-      $simple: simple-selectors(inspect($selector))
-      $component: nth($simple, 1)
-      @if __isComponentInQuery($current, $component)
-        @if length($simple) > 1
-          $state: __listToString(__removeFromList($simple, $component))
-        @else
+    $matchedIndexes: ()
+    @each $parent in $current
+      @each $component in $selector
+        $simple: simple-selectors(inspect($component))
+        $element: nth($simple, 1)
+        @if __isElementInSelector($parent, $element)
+          $matchedIndexes: append($matchedIndexes, index($current, $parent), comma)
+    @if length($matchedIndexes) > 0
+      @each $index in $matchedIndexes
+        $currentSelector: nth($current, $index)
+        $modifiedSelector: ()
+        @each $component in $selector
+          $simple: simple-selectors(inspect($component))
+          $element: nth($simple, 1)
           $state: ''
-        @each $query in $current
-          @if index($query, $component)
-            $newQuery: selector-replace($query, $component, unquote($component + $state))
-            $final: append($final, $newQuery, comma)
-      @else
-        @each $query in $current
-          $newQuery: selector-parse($selector + ' ' + $query)
-          $final: append($final, $newQuery, comma)
+          @if length($simple) > 1
+            $state: __listToString(__removeFromList($simple, $element))
+          @if __isElementInSelector($currentSelector, $element)
+            $currentSelector: __replaceInList($currentSelector, $element, unquote($element + $state))
+          @else
+            $currentSelector: join($component, $currentSelector)
+        $final: append($final, $currentSelector, comma)
+    @else
+      $final: append($final, selector-parse($selector + ' ' + $current), comma)
   @at-root #{$final}
     @content
