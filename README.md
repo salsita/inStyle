@@ -207,7 +207,7 @@ item
 
 ## Installation
 
-You can use `inStyle` standalone or with the bundled components and build process to kickstart a stack quicker.
+You can use `inStyle` [standalone](src/instyle/core.sass) or with the bundled components and build process to kickstart a stack quicker.
 
 Ruby SASS compilation is required due to reliance on 3.4 features. Conversion to `libsass` should work out of the box once 3.4 is stable.
 
