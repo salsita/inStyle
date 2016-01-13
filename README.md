@@ -84,7 +84,7 @@ Your designer wears a Banksy t-shirt, so let's add more design. Our links are di
   background-image: url('flowers.png')
 
 .links.with-flowers li:hover a
-  background-position: 10px 10px // because it's cool
+  background-position: 10px 10px
 
 footer
   .links li
@@ -96,9 +96,9 @@ footer
 
 Even though we're leveraging some pretty SASS, we're still quickly descending into exponential chaos for every modification we add, changing the same element in more and more places.
 
-Surely, we could move the styles for the skin, the media queries, the flower hacks and footer specific stuff into separate files to somewhat reduce the damage to this piece of code, but it's arguable to what degree this improves things. Your styles for the `a` element in your wannabe-standalone `.links` component would suddenly be in five separate files.
+Surely, we could move the styles for the skin, the media queries, the flower hacks and footer specific stuff into separate files to somewhat reduce the damage to this piece of code, but it's arguable to what degree this improves things. Your styles for the `a` element in your clearly-standalone `.links` component would suddenly be in five separate files.
 
-Part of the problem is that there are no convenient tools to correctly describe the DOM relations that lead to the style changes of our precious `a` - whether it's because of its parents in the cascade being hovered or a stateful class changing things around. In such cases, we need to target the same element in a new query.
+Part of the problem is that there are no convenient tools to correctly describe the DOM relations that lead to the style changes of our precious `a` - whether it's because of its parents in the cascade being hovered or a stateful class changing things around. In such cases, we need to target the same element in a new query or dive into increasingly complicated syntax.
 
 So what about this instead?
 
@@ -116,10 +116,10 @@ So what about this instead?
       line-height: 1.5
 
       +in('li:hover')
-        color: blue // .links li:hover a { }; (parent is found and modified)
+        color: blue // .links li:hover a { };
 
       +in('.minimal')
-        line-height: 1.2 // .minimal .links li a { }; (parent not found, prepending)
+        line-height: 1.2 // .minimal .links li a { };
 
       +in('.links.with-flowers')
         background-image: url('flowers.png') // .links.with-flowers li a { };
@@ -133,36 +133,9 @@ So what about this instead?
 
 How does this work?
 
-If one of the compound selectors (eg. `li` in `li:hover` or `.links`) is found in the current cascade, it's modified by the intended state. If not found, it's expected as a parent of the current selector. Infinitely nestable, accepting multiple properties, modifying any amount of parents.
+If one of the compound selectors (eg. `li` in `li:hover` or `.links`) is found in the current cascade, it's modified by the additional selectors. If not found, it's expected as a parent of the current selector and prepended instead. Infinitely nestable, accepting multiple properties, modifying any amount of parents.
 
-Different example:
-
-```Sass
-ul,
-ol
-  list-style: none
-
-    li
-      display: block
-
-      &.links
-        display: inline-block
-
-      a
-        line-height: 1.5
-
-        +in('ol:hover')
-          color: red  // ol:hover li a { }; (removes irrelevant ul)
-
-        +in('li.links:hover, ol.pictures')
-          color: blue  // ul li.links:hover a, ol li.links:hover a, ol.pictures li a { };
-
-        +in('footer')
-          font-size: 1.4rem  // footer ul li a, footer ol li a { };
-          color: white
-```
-
-Let's add media queries to the mix. It's provided by the wonderful [include-media](https://github.com/eduardoboucas/include-media), which allows very flexible and expressive conditioning and fits the nestable pattern perfectly - refer to its [documentation](http://include-media.com/#features) for details.
+Let's add media queries to the mix. In SASS it's provided by the wonderful [include-media](https://github.com/eduardoboucas/include-media), which allows very flexible and expressive conditioning and fits the nestable pattern perfectly - refer to its [documentation](http://include-media.com/#features) for details.
 
 ```Sass
 article
@@ -171,11 +144,11 @@ article
   +media('>phone', '<desktop')
     max-width: 480px
 
-  +in('article-listing')
-    height: 150px // article-listing article { };
+  +in('.article-listing')
+    height: 150px // .article-listing article { };
 
     +media('<=phone')
-      height: 10vh // @media screen and ( ... ) { article-listing article { ... }; }
+      height: 10vh // @media screen and ( ... ) { .article-listing article { ... }; }
 ```
 
 ```Sass
@@ -195,9 +168,38 @@ item
     flex: 1
 ```
 
+```Sass
+.ultra-search
+  display: block
+
+  > div
+    height: 40px
+
+    input
+      width: 100%
+      border-color: blue
+
+      +in('div:hover')
+        outline: blue
+
+      +in('.ultra-search.invalid')
+        border-color: red
+
+  .suggestion-list
+    display: none
+
+    +in('.ultra-search.is-open')
+      display: block
+
+      +media('<=phone')
+        width: 80vw
+```
+
 ## Installation
 
-`inStyle` currently requires Ruby SASS due to reliance on latest 3.4 features. Conversion to `libsass` will be immediate once 3.4 is stable.
+You can use `inStyle` standalone or with the bundled components and build process.
+
+Ruby SASS is required due to reliance on 3.4 features. Conversion to `libsass` should work out of the box once 3.4 is stable.
 
 - Install Ruby - [Win](http://rubyinstaller.org/), [Linux](https://www.ruby-lang.org/en/documentation/installation/#package-management-systems)
 
