@@ -6,10 +6,12 @@ Currently available in SASS 3.4.
 
 ```Sass
 .app > main article div:first-child
-  span.thing
+  span.thing // let's style span.thing
     color: red
     +in('.app.unleashed article:hover')
       color: blue // .app.unleashed > main article:hover div:first-child span.thing { };
+    +in('.isIE4') // .isIE4 .app > main ... span.thing { };
+      zoom: 1
 ```
 
 ## Why what?
