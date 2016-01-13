@@ -72,7 +72,7 @@ Or worse depending on your preferences, closer to plain CSS queries:
 
 Notice how even for such a simple usecase, the `a` element is actually styled in three different places. It's already not very readable and it's quite easy to make things even worse.
 
-Your designer wears a Banksy t-shirt, so let's add more design. Our links are different in footer, they're inline and white. There's also an alternate version of `.links.with-flowers` for the annual flower appreciation day. 
+Let's add more great design. Our links are different in footer, they're inline and white. There's also an alternate version of `.links.with-flowers` for the annual flower appreciation day. 
 
 ```Sass
 .links
@@ -226,6 +226,10 @@ The build process also autoprefixes properties and optimizes/minifies your selec
 ## Components
 
 `inStyle` comes with a few hopefully unobtrusive components to get you started on a project.
+
+### Core/Mixins
+
+Some carefully selected mixins are available in the core package, see [this file](src/instyle/mixins.sass) for details.
 
 ### Base
 
