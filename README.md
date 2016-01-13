@@ -136,9 +136,11 @@ footer .links li {
   display: inline-block;
 }
 footer .links li a {
-  color: #fff
+  color: #fff;
 }
 ```
+
+Meet the [maintainability monster](http://i.imgur.com/7uA7PAq.jpg).
 
 Part of the problem is that there are no convenient tools to correctly describe the DOM relations that lead to the style changes of our precious `a` - whether it's because of its parents in the cascade being hovered or a stateful or design class changing things around. In such cases, we need to target the same element in a new query or dive into increasingly complicated syntax.
 
@@ -175,7 +177,7 @@ So what about this instead?
 
 How does this work?
 
-If one of the compound selectors (eg. `li` in `li:hover` or `.links`) is found in the current cascade, it's modified by the additional selectors. If not found, it's expected as a parent of the current selector and prepended instead. Infinitely nestable, accepting multiple properties, modifying any amount of parents.
+If some of the compound selectors (eg. `li` in `li:hover` or `.links` in `.links.with-flowers`) is found in the current cascade, it's modified by the additional selectors. If not found, it's expected as a parent of the current selector and prepended instead. Infinitely nestable, accepting multiple queries, modifying any amount of parents and excluding any invalidated parent  group selectors.
 
 Let's add media queries to the mix. In SASS it's provided by the wonderful [include-media](https://github.com/eduardoboucas/include-media), which allows very flexible and expressive conditioning and fits the nestable pattern perfectly - refer to its [documentation](http://include-media.com/#features) for details.
 
