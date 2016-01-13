@@ -1,6 +1,6 @@
 # inStyle
 
-`inStyle` is a system of describing specific elements by intuitively nesting all their relevant style properties, even if they are modified by a parent state, class, attribute or media query, both in and out of the current cascade.
+`inStyle` is a system of describing elements by intuitively nesting all their relevant style properties, even if they are modified by a parent state, class, attribute or media query, both in and out of the current cascade.
 
 Currently available in SASS 3.4.
 
@@ -18,7 +18,7 @@ Consider the following HTML:
 </ul>
 ```
 
-Let's imagine your design requires you to change `a` color when its parent `li` element is `:hover`ed and this is happening inside your small encapsulated `.links` component. To make things easier, your app has various skins and views (ex: `<body class='minimal'>`) that change the design of anchors in your `.links` component while using the same HTML.
+Let's imagine your design requires you to change `a` color when its parent `li` element is `:hover`ed and this is happening inside your small reusable `.links` component. To make things easier, your app has various skins and views (ex: `<body class='minimal'>`) that change the design of anchors while using the same HTML.
 
 Nothing hard to do, right? This could really be anything in your project - in essence you're changing the style properties of the same `a` element in a few different scenarios, a pattern far too common in CSS authoring.
 
@@ -37,16 +37,11 @@ But at best, you'll end up with this code (using advanced SASS):
       @at-root .minimal &
         line-height: 1.2
 
-    &:hover
-
-      a
-        color: blue
-
-        @at-root .minimal &
-          color: green
+    &:hover a
+      color: blue
 ```
 
-Or worse depending on your preferences, closer to plain CSS queries (still using SASS):
+Or worse depending on your preferences, closer to plain CSS queries:
 
 ```Sass
 .links
@@ -63,18 +58,13 @@ Or worse depending on your preferences, closer to plain CSS queries (still using
 
 .minimal .links li a
   line-height: 1.2
-
-.minimal .links li:hover a
-  color: green
 ```
 
-Notice how even for such a simple usecase, the `a` element is actually styled in four different places. It's already not very readable.
+Notice how even for such a simple usecase, the `a` element is actually styled in three different places. It's already not very readable and it's quite easy to make things even worse.
 
-Let's complicate things further and add some media queries. On phones, your `li`s should be inline and the anchors have no underline, while on tablets there's a different link design altogether with `border-radius` and `background-color`.
+Your designer wears a Banksy t-shirt, so let's add more design. Our links are different in footer, they're inline and white. There's also an alternate version of `.links.with-flowers` for the annual flower appreciation day. 
 
-Because why not, let's also go full hipster and support IE7 and use modernizr to determine vendor features. Our fancy `border-radius` on the tablet anchors won't work and needs an image as background fallback.
-
-```
+```Sass
 .links
   list-style: none
 
@@ -83,43 +73,34 @@ Because why not, let's also go full hipster and support IE7 and use modernizr to
 
     a
       line-height: 1.5
-      border-radius: 10px
 
       @at-root .minimal &
         line-height: 1.2
 
-      @media (min-width:768px) and (max-width:1023px)
-        color: white
-        background-color: rebeccapurple
-        border-radius: 10px
+    &:hover a
+      color: blue
 
-    &:hover
+.links.with-flowers li a
+  background-image: url('flowers.png')
 
-      a
-        color: blue
+.links.with-flowers li:hover a
+  background-position: 10px 10px // because it's cool
 
-        @at-root .minimal &
-          color: white
+footer
+  .links li
+    display: inline-block
 
-    @media (max-width: 320px)
-      display: inline-block
-
-      a
-        text-decoration: none
-
-.isIE7, .no-border-radius
-  .links li a
-    background-image: url('link-bg.png')
-
+    a
+      color: white
 ```
 
-We're quickly descending into exponential chaos for every modification we add.
+Even though we're leveraging some pretty SASS, we're still quickly descending into exponential chaos for every modification we add, changing the same element in more and more places.
 
-Surely, we could move the styles for the `.minimal` skin, the media queries and old browser hacks into separate files to somewhat reduce the damage to this piece of code, but it's arguable to what degree this improves anything at all. Your styles for the `a` element would suddenly be in 4 separate files. The queries simply have to be _somewhere_ - where largely depends on your preference and there is no _correct_ solution to the issue.
+Surely, we could move the styles for the skin, the media queries, the flower hacks and footer specific stuff into separate files to somewhat reduce the damage to this piece of code, but it's arguable to what degree this improves things. Your styles for the `a` element in your wannabe-standalone `.links` component would suddenly be in five separate files.
 
-However, we can clearly see that the common denominator in all these cases is the `a` element. For the most part, it's just extremely inconvenient to correctly describe the DOM relations that lead to its property changes.
+Part of the problem is that there are no convenient tools to correctly describe the DOM relations that lead to the style changes of our precious `a` - whether it's because of its parents in the cascade being hovered or a stateful class changing things around. In such cases, we need to target the same element in a new query.
 
-What if we could do this instead?
+So what about this instead?
 
 ```Sass
 .links
@@ -128,57 +109,31 @@ What if we could do this instead?
   li
     display: block
 
+    +in('footer')
+      display: inline-block // footer .links li { };
+
     a
       line-height: 1.5
 
+      +in('li:hover')
+        color: blue // .links li:hover a { }; (parent is found and modified)
+
       +in('.minimal')
-        line-height: 1.2 // .minimal .links li a { };
+        line-height: 1.2 // .minimal .links li a { }; (parent not found, prepending)
 
-      +in ('li:hover')
-        color: blue // .links li:hover a { };
+      +in('.links.with-flowers')
+        background-image: url('flowers.png') // .links.with-flowers li a { };
 
-        +in('.minimal')
-          color: green // .minimal .links li:hover a { };
+        +in('li:hover')
+          background-position: 10px 10px // .links.with-flowers li:hover a { };
 
-```
-
-
-
-
-Now imagine adding some different media queries for these anchors and working with more elements. Such rather common CSS patterns can get very bad very fast, decreasing readability and maintainability.
-
-What if you could do this instead?
-
-```Sass
-links
-  display: block
-
-  item
-    display: block
-    modern-property: 10px
-
-    a // further you're always styling a in links item
-      line-height: 1.5
-
-      +in('item:hover')
-        color: blue  // links item:hover a { }; (parent in current cascade)
-
-      +in('header item:hover')
-        color: white // header links item:hover a { }; (partial parent match)
-
-        +in('.minimal')
-          font-size: .8rem  // .minimal header links item:hover a { };
-
-      +in('.isIE7, .no-prop') // .isIE7 links item a, .no-prop links item a { };
-        modern-property: no-sorry
-        zoom: 1
+      +in('footer')
+        color: white // footer .links li a { };
 ```
 
 How does this work?
 
-If one of the compound selectors (eg. `item` in `item:hover` or `header`) is found in the current cascade, it's modified by the intended state. If not found, it's expected as a parent of the current selector. Infinitely nestable.
-
-This greatly simplifies the syntax and readability when a property of the same element you're just styling is modified due to a class, pseudoclass or attribute of a parent both in and out of the current cascade. _(How about it all belongs the actual element!)_
+If one of the compound selectors (eg. `li` in `li:hover` or `.links`) is found in the current cascade, it's modified by the intended state. If not found, it's expected as a parent of the current selector. Infinitely nestable, accepting multiple properties, modifying any amount of parents.
 
 Different example:
 
@@ -277,7 +232,8 @@ button:before
 
 ## Roadmap
 
+- LESS port possible?
 - Stylus port
 - Improved framework-specific animation components
 - Default basic components? (buttons etc.)
-- Skinning pattern for independent components that inherits from base config
+- Skinning pattern for independent components that inherits from a base config
