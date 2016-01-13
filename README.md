@@ -1,6 +1,6 @@
 # inStyle
 
-`inStyle` is system of describing elements by intuitively nesting all their relevant style properties, even if they are modified by a parent state, class, attribute or media query, both in and out of the current cascade.
+`inStyle` is a system of describing specific elements by intuitively nesting all their relevant style properties, even if they are modified by a parent state, class, attribute or media query, both in and out of the current cascade.
 
 Currently available in SASS 3.4.
 
@@ -12,15 +12,15 @@ Consider the following HTML:
 <ul class='links'>
   <li>
     <img ... />
-    <a href=''/>Title</a>
+    <a href='#'>Title</a>
     <span>Description...</span>
   </li>
 </ul>
 ```
 
-Let's imagine the design requires you to change `a` color when its parent `li` element is `:hover`ed and this is happening inside your encapsulated `.links` component. To make things easier, your app has various layouts and you need your `a` to have a different `color` and `line-height` for the `.minimal` skin, which is propagated through a class on the `body` element.
+Let's imagine your design requires you to change `a` color when its parent `li` element is `:hover`ed and this is happening inside your small encapsulated `.links` component. To make things easier, your app has various skins and views (ex: `<body class='minimal'>`) that change the design of anchors in your `.links` component while using the same HTML.
 
-Nothing hard to do, right? This could really be anything in your project - in essence you're changing the style properties of the same element in a few different scenarios, a pattern far too common in CSS authoring.
+Nothing hard to do, right? This could really be anything in your project - in essence you're changing the style properties of the same `a` element in a few different scenarios, a pattern far too common in CSS authoring.
 
 But at best, you'll end up with this code (using advanced SASS):
 
