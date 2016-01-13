@@ -1,122 +1,151 @@
 # inStyle
 
-`inStyle` is a realistic, app-friendly methodology coupled with a unique system of describing elements by intuitively nesting all their relevant style properties, even if they are modified by a parent state, class, attribute or media query.
+`inStyle` is system of describing elements by intuitively nesting all their relevant style properties, even if they are modified by a parent state, class, attribute or media query, both in and out of the current cascade.
 
 Currently available in SASS 3.4.
 
-## Methodology
+## Why what?
 
-_Optional, but recommended. The inStyle component is usable standalone._
-
-Use both native and custom elements for your abstract components.
+Consider the following HTML:
 
 ```Html
-<button>Save</button>
-
-<dialog>
-  <header>But...</header>
-  <content>What about semantics?</content>
-</dialog>
-
-<message>
-  <user>Ulf B.</user>
-  <content>You thought your divs were semantical?</content>
-</message>
-```
-
-Need a structural element? Use nameless divs and spans. CSS pseudoclasses and direct child selectors are powerful enough to describe even the most complex relations without having to use `.wrappers`.
-
-```Html
-<item>
-  <div> // this takes a fixed part
-    <more/>
-    <html/>
-    <elements/>
-  </div>
-  <div> // and the remaining horizontal space
-    < .. >
-  </div>
-</item>
-```
-
-```Sass
-item
-  display: flex
-
-  > div:first-child
-    flex: 0 0 100px
-
-  > div:nth-child(2)
-    flex: 1
-```
-
-Use CSS classes for component variants and abstracted design helpers.
-
-Try _not_ using classes that describe CSS functionality (aka `.pull-left`); this approach cannot scale to devices and your HTML will be independent of named properties.
-
-```Html
-<button class='save'>Save</button>
-<dialog class='rounded'></dialog>
-```
-
-## inStyle in()
-
-Now consider the following HTML:
-
-```Html
-<links>
-  <item>
+<ul class='links'>
+  <li>
     <img ... />
-    <a href=''/>
-    <description/>
-  </item>
-</links>
+    <a href=''/>Title</a>
+    <span>Description...</span>
+  </li>
+</ul>
 ```
 
-Let's say the design requires you to change `a` color when `item` element is `:hover`ed and this is happening inside your convenient `links` component. To make things easier, you need another different `a` variant in `header`. Nothing hard to do, right? This could really be anything in your project. 
+Let's imagine the design requires you to change `a` color when its parent `li` element is `:hover`ed and this is happening inside your encapsulated `.links` component. To make things easier, your app has various layouts and you need your `a` to have a different `color` and `line-height` for the `.minimal` skin, which is propagated through a class on the `body` element.
+
+Nothing hard to do, right? This could really be anything in your project - in essence you're changing the style properties of the same element in a few different scenarios, a pattern far too common in CSS authoring.
 
 But at best, you'll end up with this code (using advanced SASS):
 
 ```Sass
-links
-  display: block
+.links
+  list-style: none
 
-  item
+  li
     display: block
 
     a
       line-height: 1.5
+
+      @at-root .minimal &
+        line-height: 1.2
 
     &:hover
 
       a
         color: blue
 
-        @at-root header &
-          color: white
+        @at-root .minimal &
+          color: green
 ```
 
-Notice how the anchor element is styled in two different places.
-Or worse, closer to plain CSS:
+Or worse depending on your preferences, closer to plain CSS queries (still using SASS):
 
 ```Sass
-links
-  display: block
+.links
+  list-style: none
 
-  item
+  li
     display: block
 
     a
       line-height: 1.5
 
-links item:hover a
+.links li:hover a
   color: blue
 
-header links item:hover a
-  color: white
+.minimal .links li a
+  line-height: 1.2
+
+.minimal .links li:hover a
+  color: green
 ```
 
-Now imagine adding some different media queries for these anchors and working with more elements. Such rather common CSS patterns can get very bad very fast, decreasing readability and maintainability. _(Where should this stuff go anyway?)_  
+Notice how even for such a simple usecase, the `a` element is actually styled in four different places. It's already not very readable.
+
+Let's complicate things further and add some media queries. On phones, your `li`s should be inline and the anchors have no underline, while on tablets there's a different link design altogether with `border-radius` and `background-color`.
+
+Because why not, let's also go full hipster and support IE7 and use modernizr to determine vendor features. Our fancy `border-radius` on the tablet anchors won't work and needs an image as background fallback.
+
+```
+.links
+  list-style: none
+
+  li
+    display: block
+
+    a
+      line-height: 1.5
+      border-radius: 10px
+
+      @at-root .minimal &
+        line-height: 1.2
+
+      @media (min-width:768px) and (max-width:1023px)
+        color: white
+        background-color: rebeccapurple
+        border-radius: 10px
+
+    &:hover
+
+      a
+        color: blue
+
+        @at-root .minimal &
+          color: white
+
+    @media (max-width: 320px)
+      display: inline-block
+
+      a
+        text-decoration: none
+
+.isIE7, .no-border-radius
+  .links li a
+    background-image: url('link-bg.png')
+
+```
+
+We're quickly descending into exponential chaos for every modification we add.
+
+Surely, we could move the styles for the `.minimal` skin, the media queries and old browser hacks into separate files to somewhat reduce the damage to this piece of code, but it's arguable to what degree this improves anything at all. Your styles for the `a` element would suddenly be in 4 separate files. The queries simply have to be _somewhere_ - where largely depends on your preference and there is no _correct_ solution to the issue.
+
+However, we can clearly see that the common denominator in all these cases is the `a` element. For the most part, it's just extremely inconvenient to correctly describe the DOM relations that lead to its property changes.
+
+What if we could do this instead?
+
+```Sass
+.links
+  list-style: none
+
+  li
+    display: block
+
+    a
+      line-height: 1.5
+
+      +in('.minimal')
+        line-height: 1.2 // .minimal .links li a { };
+
+      +in ('li:hover')
+        color: blue // .links li:hover a { };
+
+        +in('.minimal')
+          color: green // .minimal .links li:hover a { };
+
+```
+
+
+
+
+Now imagine adding some different media queries for these anchors and working with more elements. Such rather common CSS patterns can get very bad very fast, decreasing readability and maintainability.
 
 What if you could do this instead?
 
