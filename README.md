@@ -106,7 +106,7 @@ Even though we're leveraging some pretty SASS, we're still quickly descending in
 
 Surely, we could move the styles for the skin, the media queries, the flower hacks and footer specific stuff into separate files to somewhat reduce the damage to this piece of code, but it's arguable to what degree this improves things. Your styles for the `a` element in your clearly-standalone `.links` component would suddenly be in five separate files.
 
-Part of the problem is that there are no convenient tools to correctly describe the DOM relations that lead to the style changes of our precious `a` - whether it's because of its parents in the cascade being hovered or a stateful class changing things around. In such cases, we need to target the same element in a new query or dive into increasingly complicated syntax.
+Part of the problem is that there are no convenient tools to correctly describe the DOM relations that lead to the style changes of our precious `a` - whether it's because of its parents in the cascade being hovered or a stateful or design class changing things around. In such cases, we need to target the same element in a new query or dive into increasingly complicated syntax.
 
 So what about this instead?
 
@@ -205,9 +205,9 @@ item
 
 ## Installation
 
-You can use `inStyle` standalone or with the bundled components and build process.
+You can use `inStyle` standalone or with the bundled components and build process to kickstart a stack quicker.
 
-Ruby SASS is required due to reliance on 3.4 features. Conversion to `libsass` should work out of the box once 3.4 is stable.
+Ruby SASS compilation is required due to reliance on 3.4 features. Conversion to `libsass` should work out of the box once 3.4 is stable.
 
 - Install Ruby - [Win](http://rubyinstaller.org/), [Linux](https://www.ruby-lang.org/en/documentation/installation/#package-management-systems)
 
@@ -219,7 +219,7 @@ Ruby SASS is required due to reliance on 3.4 features. Conversion to `libsass` s
 
 `main.sass` should be your central point for importing individual components.
 Build paths can be changed in `gulpfile.js`.
-The build process also autoprefixes properties and optimizes/minifies your selectors and media queries. **Note:** The build process is only necessary for the iconfont component, you can freely import the SASS stack standalone or use the core SASS `instyle` package alone.
+The build process also autoprefixes properties and optimizes/minifies your selectors and media queries.
 
 ## Components
 
@@ -231,7 +231,7 @@ Base uses [normalize.css](https://github.com/necolas/normalize.css/) or optional
 
 ### Iconfont
 
-The `gulp` build process automagically converts all your `.svg` icon sources in `components/icons` into a webfont and renders the `icons.sass` component. That allows you to easily use custom icons on pseudoelements without tainting HTML with `.icon-somethign` classes - variable names are created for each icon based on filename.
+The `gulp` build process automagically converts all your `.svg` icon sources in `components/icons` into a webfont and renders the `icons.sass` component. That allows you to easily use custom icons on pseudoelements without tainting HTML - variable names are created for each icon based on filename.
 
 ```Sass
 // hamburglar.svg
