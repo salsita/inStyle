@@ -104,9 +104,41 @@ footer
       color: white
 ```
 
-Even though we're leveraging some pretty SASS, we're still quickly descending into exponential chaos for every modification we add, changing the same element in more and more places.
+Even though we're leveraging some pretty SASS to make things clearer, we're still quickly descending into exponential chaos for every modification we add, changing the same element in more and more places.
 
 Surely, we could move the styles for the skin, the media queries, the flower hacks and footer specific stuff into separate files to somewhat reduce the damage to this piece of code, but it's arguable to what degree this improves things. Your styles for the `a` element in your clearly-standalone `.links` component would suddenly be in five separate files.
+
+For reference, this would be the same in pure CSS:
+
+```
+.links {
+  list-style: none;
+}
+.links li {
+  display: block;
+}
+.links li a {
+  line-height: 1.5;
+}
+.minimal .links li a {
+  line-height: 1.2;
+}
+.links li:hover a {
+  color: blue; 
+}
+.links.with-flowers li a {
+  background-image: url(flowers.png);
+}
+.links.with-flowers li:hover a {
+  background-position: 10px 10px
+}
+footer .links li {
+  display: inline-block;
+}
+footer .links li a {
+  color: #fff
+}
+```
 
 Part of the problem is that there are no convenient tools to correctly describe the DOM relations that lead to the style changes of our precious `a` - whether it's because of its parents in the cascade being hovered or a stateful or design class changing things around. In such cases, we need to target the same element in a new query or dive into increasingly complicated syntax.
 
