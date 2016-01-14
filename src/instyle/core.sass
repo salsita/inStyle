@@ -70,9 +70,7 @@
         @each $component in __reverseList($selector)
           $simple: simple-selectors(inspect($component))
           $element: nth($simple, 1)
-          $state: ''
-          @if length($simple) > 1
-            $state: __listToString(__removeFromList($simple, $element))
+          $state: if(length($simple) > 1, __listToString(__removeFromList($simple, $element)), '')
           @if __isElementInSelector($currentSelector, $element)
             $currentSelector: __replaceInList($currentSelector, $element, unquote($element + $state))
           @else
