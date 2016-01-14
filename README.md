@@ -2,7 +2,7 @@
 
 `inStyle` is a system of describing elements by intuitively nesting all their relevant style properties, even if they are modified by a parent state, class, attribute or media query, both in and out of the current cascade.
 
-Currently available in SASS 3.4.
+Currently available in [SASS 3.4](src/instyle/core.sass).
 
 ```Sass
 .app > main article div:first-child
