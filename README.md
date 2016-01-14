@@ -150,7 +150,7 @@ Meet the [maintainability monster](http://i.imgur.com/7uA7PAq.jpg).
 
 Part of the problem is that there are no convenient tools to correctly describe the DOM relations that lead to the style changes of our precious `a` - whether it's because of its parents in the cascade being hovered or a stateful or design class changing things around. In such cases, we need to target the same element in a new query or dive into increasingly complicated syntax.
 
-So what if we could do something like this instead?
+So what if you could do something like this instead?
 
 ```Sass
 .links
@@ -186,7 +186,7 @@ So what if we could do something like this instead?
 
 How does this work?
 
-If some of the compound selectors (eg. `li` in `li:hover` or `.links` in `.links.with-flowers`) are found in the current cascade, they're modified by the additional selectors. If not found, it's expected as a parent of the current selector and prepended instead. Infinitely nestable, accepting multiple queries, modifying any amount of parents and excluding any invalidated parent  group selectors.
+If some of the compound selectors (eg. `li` in `li:hover` or `.links` in `.links.with-flowers`) are found in the current cascade, they're modified by the additional selectors. If not found, they're expected to be a parent of the current selector and prepended instead. Infinitely nestable, accepting multiple queries, modifying any amount of parents and excluding any invalidated parent group selectors.
 
 Let's add media queries to the mix. In SASS it's provided by the wonderful [include-media](https://github.com/eduardoboucas/include-media), which allows very flexible and expressive conditioning and fits the nestable pattern perfectly - refer to its [documentation](http://include-media.com/#features) for details.
 
@@ -219,6 +219,31 @@ item
 
   > div:nth-child(2)
     flex: 1
+```
+
+```Sass
+ul,
+ol
+  list-style: none
+
+    li
+      display: block
+
+      &.links
+        display: inline-block
+
+      a
+        line-height: 1.5
+
+        +in('ol:hover')
+          color: red  // ol:hover li a { }; (removes irrelevant ul from group)
+
+        +in('li.links:hover, ol.pictures')
+          color: blue  // ul li.links:hover a, ol li.links:hover a, ol.pictures li a { };
+
+        +in('footer')
+          font-size: 1.4rem  // footer ul li a, footer ol li a { };
+          color: white
 ```
 
 ```Sass
