@@ -102,6 +102,9 @@ footer
 
     a
       color: white
+
+    &:hover a
+      text-decoration: underline
 ```
 
 Even though we're leveraging some pretty SASS to make things clearer, we're still quickly descending into exponential chaos for every modification we add, changing the same element in more and more places.
@@ -138,13 +141,16 @@ footer .links li {
 footer .links li a {
   color: #fff;
 }
+footer .links li:hover a {
+  text-decoration: underline;
+}
 ```
 
 Meet the [maintainability monster](http://i.imgur.com/7uA7PAq.jpg).
 
 Part of the problem is that there are no convenient tools to correctly describe the DOM relations that lead to the style changes of our precious `a` - whether it's because of its parents in the cascade being hovered or a stateful or design class changing things around. In such cases, we need to target the same element in a new query or dive into increasingly complicated syntax.
 
-So what about this instead?
+So what if we could do something like this instead?
 
 ```Sass
 .links
@@ -173,6 +179,9 @@ So what about this instead?
 
       +in('footer')
         color: white // footer .links li a { };
+
+      +in('footer li:hover')
+        text-decoration: underline // footer .links li:hover a { };
 ```
 
 How does this work?
