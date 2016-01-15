@@ -316,8 +316,8 @@ button:before
 
 ## Roadmap
 
-- LESS port possible?
-- Stylus port
+- LESS port (impossible?)
+- Stylus port (blocked by [#1703](https://github.com/stylus/stylus/issues/1703))
 - Improved framework-specific animation components
 - Default basic components? (buttons etc.)
 - Skinning pattern for independent components that inherits from a base config
