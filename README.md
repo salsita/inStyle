@@ -72,7 +72,7 @@ Or worse depending on your preferences, closer to plain CSS queries:
 
 Notice how even for such a simple usecase, the `a` element is actually styled in three different places. It's already not very readable and it's quite easy to make things even worse.
 
-Let's add more great design. Our links are different in footer, they're inline and white. There's also an alternate version of `.links.with-flowers` for the annual flower appreciation day. 
+Let's add more great design. Our links are different in footer, they're inline and white. There's also an alternate version of `.links.with-flowers` for the annual flower appreciation day.
 
 ```Sass
 .links
@@ -113,7 +113,7 @@ Surely, we could move the styles for the skin, the media queries, the flower hac
 
 For reference, this would be the same in pure CSS:
 
-```
+```Css
 .links {
   list-style: none;
 }
@@ -127,7 +127,7 @@ For reference, this would be the same in pure CSS:
   line-height: 1.2;
 }
 .links li:hover a {
-  color: blue; 
+  color: blue;
 }
 .links.with-flowers li a {
   background-image: url(flowers.png);
