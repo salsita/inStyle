@@ -15,6 +15,34 @@
       $result: if($i != length($list) or $is-nested, $result#{$e}#{$glue}, $result#{$e})
   @return $result
 
+@function __replaceInString($string, $search, $replace: '')
+  $index: str-index($string, $search)
+  @if $index
+    @return str-slice($string, 1, $index - 1) + $replace + __replaceInString(str-slice($string, $index + str-length($search)), $search, $replace)
+  @return $string
+
+@function __trimString($string)
+  $index: str-index($string, ' ')
+  @if $index == 1
+    @return __trimString(str-slice($string, $index + 1, -1))
+  @else if $index == str-length($string)
+    @return __trimString(str-slice($string, 1, $index - 1))
+  @return $string
+
+@function __stringToSelectorList($string, $delimiter: ',', $separator: comma)
+  $list: ()
+  $sum: str-length($string)
+  @for $i from 1 through $sum
+    $str: str-index($string, $delimiter)
+    @if str-length($string) >= 1 and $str == null
+      $list: append($list, unquote(__trimString($string)), $separator)
+      $string: ''
+    @if type-of($str) == number
+      $each: str-slice($string, 0, ($str - 1))
+      $list: append($list, unquote(__trimString($each)), $separator)
+      $string: str-slice($string, ($str + 1), $sum)
+  @return $list
+
 @function __replaceInList($list, $old-value, $new-value, $recursive: false)
   $result: ()
   @for $i from 1 through length($list)
@@ -55,8 +83,9 @@
 =in($selectors)
   $final: ()
   $current: &
-  $selectors: selector-parse($selectors)
+  $selectors: __stringToSelectorList($selectors)
   @each $selector in $selectors
+    $selector: __stringToSelectorList($selector, ' ', space)
     $matchedIndexes: ()
     @each $parent in $current
       @each $component in $selector
@@ -79,4 +108,11 @@
     @else
       $final: append($final, selector-parse($selector + ' ' + $current), comma)
   @at-root #{$final}
+    @content
+
+
+=out($selectors)
+  @debug __stringToSelectorList($selectors)
+  @debug length(__stringToSelectorList($selectors))
+  #{__stringToSelectorList($selectors)}
     @content
