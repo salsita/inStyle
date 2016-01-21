@@ -73,12 +73,6 @@
       $result: append($result, nth($list, abs($i)))
   @return $result
 
-@function __isElementInSelector($selector, $element)
-  @if index($selector, $element)
-    @return true
-  @else
-    @return false
-
 // In mixin
 =in($selectors)
   $final: ()
@@ -91,7 +85,7 @@
       @each $component in $selector
         $simple: simple-selectors(inspect($component))
         $element: nth($simple, 1)
-        @if __isElementInSelector($parent, $element)
+        @if index($parent, $element)
           $matchedIndexes: append($matchedIndexes, index($current, $parent), comma)
     @if length($matchedIndexes) > 0
       @each $index in $matchedIndexes
@@ -100,7 +94,7 @@
           $simple: simple-selectors(inspect($component))
           $element: nth($simple, 1)
           $state: if(length($simple) > 1, __listToString(__removeFromList($simple, $element)), '')
-          @if __isElementInSelector($currentSelector, $element)
+          @if index($currentSelector, $element)
             $currentSelector: __replaceInList($currentSelector, $element, unquote($element + $state))
           @else
             $currentSelector: join($component, $currentSelector)
