@@ -13,9 +13,12 @@
 //@import 'components/base'
 //@import 'components/icons'
 
+
+
 div
   display: block
 
+  // div.hard,
   div
     display: inline
 
@@ -25,5 +28,20 @@ div
       a
         line-height: 1.5
 
-      +in('div:hover li:hover, whatever')
-        color: blue
+        +in('div:hover li:hover')
+          color: blue
+
+        +in('li:hover div:hover')
+          color: red
+
+        +in('div:hover .impossible')
+          color: green
+
+        +in('div:hover .impossible li:active')
+          color: orange
+
+
+//                   div          div          li           a
+//                   div:hover                 li:hover
+// li:hover          div:hover(2)
+//                   div:hover    X

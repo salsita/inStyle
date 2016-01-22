@@ -73,14 +73,52 @@
       $result: append($result, nth($list, abs($i)))
   @return $result
 
+@function __stringToNumber($string)
+  $strings: '0' '1' '2' '3' '4' '5' '6' '7' '8' '9'
+  $numbers:  0   1   2   3   4   5   6   7   8   9
+  $result: 0
+  @for $i from 1 through str-length($string)
+    $character: str-slice($string, $i, $i)
+    $index: index($strings, $character)
+    @if not $index
+      @return false
+    $number: nth($numbers, $index)
+    $result: $result * 10 + $number
+  @return $result
+
+@function __getNthChildAttribute($selector)
+  $attrValues: ()
+  $sum: str-length($selector)
+  @for $i from 1 through $sum
+    $char: str-slice($selector, $i, $i)
+    $nextChar: str-slice($selector, $i + 1, $i + 1)
+    @if $char == '[' and type-of(__stringToNumber($nextChar)) == number
+      @for $x from $i + 1 through $sum
+        $char: str-slice($selector, $x, $x)
+        $nextChar: str-slice($selector, $x + 1, $x + 1)
+        @if type-of(__stringToNumber($char)) == number and type-of(__stringToNumber($nextChar)) == number
+          @debug 'yeehaw'
+          $attrValues: append($attrValues, $char, space)
+        @else if type-of(__stringToNumber($char)) == number and $nextChar == ']'
+          @debug 'wazaa'
+          $attrValues: append($attrValues, $char, space)
+          @return '[' + inspect(__listToString($attrValues)) + ']'
+        @else
+          @return false
+  @return false
+
+@debug __getNthChildAttribute('div[112311]:hover')
+
 // In mixin
 =in($selectors)
   $final: ()
   $current: &
   $selectors: __stringToSelectorList($selectors)
+  // Loop through individual in() selectors
   @each $selector in $selectors
     $selector: __stringToSelectorList($selector, ' ', space)
     $matchedIndexes: ()
+    // Find compound element matches in all parent selectors
     @each $parent in $current
       @each $component in $selector
         $simple: simple-selectors(inspect($component))
@@ -88,25 +126,26 @@
         @if index($parent, $element)
           $matchedIndexes: append($matchedIndexes, index($current, $parent), comma)
     @if length($matchedIndexes) > 0
+      // Enhance matched parent query selectors
       @each $index in $matchedIndexes
         $currentSelector: nth($current, $index)
+        // Start indexing from current element
+        $lastIndex: length($currentSelector)
         @each $component in __reverseList($selector)
           $simple: simple-selectors(inspect($component))
           $element: nth($simple, 1)
           $state: if(length($simple) > 1, __listToString(__removeFromList($simple, $element)), '')
-          @if index($currentSelector, $element)
+          @if index($currentSelector, $element) and index($currentSelector, $element) < $lastIndex
+            // Save current index and enhance matched parent selector
+            $lastIndex: index($currentSelector, $element)
             $currentSelector: __replaceInList($currentSelector, $element, unquote($element + $state))
           @else
+            // Prepend current component to parent selector
+            $lastIndex: 1
             $currentSelector: join($component, $currentSelector)
         $final: append($final, $currentSelector, comma)
     @else
+      // Prepend selectors to parent
       $final: append($final, selector-parse($selector + ' ' + $current), comma)
   @at-root #{$final}
-    @content
-
-
-=out($selectors)
-  @debug __stringToSelectorList($selectors)
-  @debug length(__stringToSelectorList($selectors))
-  #{__stringToSelectorList($selectors)}
     @content
