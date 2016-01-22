@@ -1,6 +1,6 @@
 # inStyle
 
-`inStyle` is a system of describing elements by intuitively nesting all their relevant style properties, even if they are modified by a parent state, class, attribute or media query, both in and out of the current cascade.
+`inStyle` is an advanced CSS authoring tool for intuitive modifications of parents that somehow influence the styles of your current element, allowing your source code to enjoy a fully nested development pattern. Big friend of nested media queries. Gluten free.
 
 Currently available in [SASS 3.4](src/instyle/core.sass).
 
@@ -44,7 +44,7 @@ But at best, you'll end up with this code (using advanced SASS):
     a
       line-height: 1.5
 
-      @at-root .minimal &
+      .minimal &
         line-height: 1.2
 
     &:hover a
@@ -84,7 +84,7 @@ Let's add more great design. Our links are different in footer, they're inline a
     a
       line-height: 1.5
 
-      @at-root .minimal &
+      .minimal &
         line-height: 1.2
 
     &:hover a
@@ -146,7 +146,7 @@ footer .links li:hover a {
 }
 ```
 
-Meet the [maintainability monster](http://i.imgur.com/7uA7PAq.jpg).
+_How easy to maintain..._
 
 Part of the problem is that there are no convenient tools to correctly describe the DOM relations that lead to the style changes of our precious `a` - whether it's because of its parents in the cascade being hovered or a stateful or design class changing things around. In such cases, we need to target the same element in a new query or dive into increasingly complicated syntax.
 
@@ -290,29 +290,6 @@ Ruby SASS compilation is required due to reliance on 3.4 features. Conversion to
 `main.sass` should be your central point for importing individual components.
 Build paths can be changed in `gulpfile.js`.
 The build process also autoprefixes properties and optimizes/minifies your selectors and media queries.
-
-## Components
-
-`inStyle` comes with a few hopefully unobtrusive components to get you started on a project.
-
-### Core/Mixins
-
-Some carefully selected mixins are available in the core package, see [this file](src/instyle/mixins.sass) for details.
-
-### Base
-
-Base uses [normalize.css](https://github.com/necolas/normalize.css/) or optionally [Meyer reset](http://meyerweb.com/eric/tools/css/reset/) and can serve as a scaffold for your app/page. Defines industry standard `body` and `html` elements.
-
-### Iconfont
-
-The `gulp` build process automagically converts all your `.svg` icon sources in `components/icons` into a webfont and renders the `icons.sass` component. That allows you to easily use custom icons on pseudoelements without tainting HTML - variable names are created for each icon based on filename.
-
-```Sass
-// hamburglar.svg
-
-button:before
-  +icon($icon-hamburglar)
-```
 
 ## Roadmap
 

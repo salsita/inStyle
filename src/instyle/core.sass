@@ -97,17 +97,18 @@
         $char: str-slice($selector, $x, $x)
         $nextChar: str-slice($selector, $x + 1, $x + 1)
         @if type-of(__stringToNumber($char)) == number and type-of(__stringToNumber($nextChar)) == number
-          @debug 'yeehaw'
           $attrValues: append($attrValues, $char, space)
         @else if type-of(__stringToNumber($char)) == number and $nextChar == ']'
-          @debug 'wazaa'
           $attrValues: append($attrValues, $char, space)
-          @return '[' + inspect(__listToString($attrValues)) + ']'
+          @return '[' + __listToString($attrValues) + ']'
         @else
           @return false
   @return false
 
-@debug __getNthChildAttribute('div[112311]:hover')
+@function map-set($map, $key, $value)
+  @return map-merge($map, ($key: $value))
+
+//@debug __getNthChildAttribute('div[3410729]:hover')
 
 // In mixin
 =in($selectors)
@@ -117,17 +118,24 @@
   // Loop through individual in() selectors
   @each $selector in $selectors
     $selector: __stringToSelectorList($selector, ' ', space)
-    $matchedIndexes: ()
+    $matchedParents: ()
+    $matchedDepths: ()
     // Find compound element matches in all parent selectors
     @each $parent in $current
+      // Save maximum depth of matched compound to compare relevancy
+      $matchedDepth: 0
       @each $component in $selector
-        $simple: simple-selectors(inspect($component))
+        $simple: simple-selectors($component)
         $element: nth($simple, 1)
+
+        @for $i from 1 through length($simple)
+
         @if index($parent, $element)
-          $matchedIndexes: append($matchedIndexes, index($current, $parent), comma)
-    @if length($matchedIndexes) > 0
+          $matchedParents: append($matchedParents, index($current, $parent), comma)
+    // Generate new parent selectors
+    @if length($matchedParents) > 0
       // Enhance matched parent query selectors
-      @each $index in $matchedIndexes
+      @each $index in $matchedParents
         $currentSelector: nth($current, $index)
         // Start indexing from current element
         $lastIndex: length($currentSelector)
