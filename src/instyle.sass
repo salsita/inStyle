@@ -58,8 +58,8 @@
       // Save maximum length of matched compound to compare relevancy
       $parentIndex: index($current, $parent)
       $depthMap: map-merge($depthMap, ($parentIndex: 0))
-      @each $component in $selector
-        $simple: simple-selectors($component)
+      @each $compound in $selector
+        $simple: simple-selectors($compound)
         // Test all matches starting with full compound and reducing for each step
         @for $i from 0 through length($simple) - 1
           @if $i > 0
@@ -78,11 +78,12 @@
     @if length($matchedParents) > 0
       // Enhance highest matched compounds in fitting parents
       @each $index in $matchedParents
-        $currentSelector: nth($current, $index)
+        $reversedParent: __reverseList(nth($current, $index))
+        $newParent: $reversedParent
         // Start indexing from current element
-        $lastIndex: length($currentSelector)
-        @each $component in __reverseList($selector)
-          $simple: simple-selectors($component)
+        $lastIndex: 0
+        @each $compound in __reverseList($selector)
+          $simple: simple-selectors($compound)
           $state: ()
           $matched: false
           @for $i from 0 through length($simple) - 1
@@ -91,17 +92,21 @@
               $simple: __removeFromList($simple, nth($simple, length($simple)))
             $tryBase: __listToString($simple)
             $newState: if($i > 0, __listToString($state), '')
-            @if index($currentSelector, $tryBase) and not $matched
-              // Save current index and enhance matched parent selector
-              $lastIndex: index($currentSelector, $tryBase)
-              $currentSelector: __replaceInList($currentSelector, $tryBase, unquote($tryBase + $newState))
-              $matched: true
+            // Match base to reversed parent list
+            @for $i from 1 through length($reversedParent)
+              $parentCompound: nth($reversedParent, $i)
+              $success: $tryBase == $parentCompound
+              @if $success and ($i > $lastIndex) and not $matched
+                // Save current index and enhance matched parent selector
+                $matched: true
+                $lastIndex: $i
+                $newParent: set-nth($newParent, $lastIndex, unquote($tryBase + $newState))
           @if not $matched
-            // Prepend current component to parent selector
-            $lastIndex: 1
-            $currentSelector: join($component, $currentSelector)
+            // Prepend element to selector
+            $lastIndex: length($reversedParent)
+            $newParent: append($newParent, $compound)
         // Add to results
-        $final: append($final, $currentSelector, comma)
+        $final: append($final, __reverseList($newParent), comma)
     @else
       // Prepend selectors to parent
       $final: append($final, selector-parse($selector + ' ' + $current), comma)

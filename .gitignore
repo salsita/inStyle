@@ -1,5 +1,5 @@
 node_modules/
-build/main.css
-build/assets
 .sass-cache/
 npm-debug.log
+*.css
+*.css.map

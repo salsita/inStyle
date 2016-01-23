@@ -1,6 +1,6 @@
 # inStyle
 
-`inStyle` gives you an intuitive way to modify current selector parents, enabling fully nested CSS development pattern for styles of your element.
+`inStyle` gives you an intuitive way to modify current selector parents, enabling fully nested CSS development pattern for the styles of your element.
 A powerful replacement for `&`.
 
 Currently available in [SASS 3.4](src/instyle/core.sass).  
@@ -49,11 +49,11 @@ Currently available in [SASS 3.4](src/instyle/core.sass).
         text-decoration: underline // footer .links li:hover a { };
 ```
 
-How does this work?
+The `in()` query is mapped onto the current selector chain. Any compound elements found are modified upwards of the current nest, otherwise they're expected to be a parent and prepended instead while respecting the logical order of query.
 
-If some of the compound selectors inside `in()` are found in the current cascade, they're modified by the additional queries. If not found, they're expected to be a parent of the current selector and prepended instead.
+Infinitely nestable, accepting multiple queries and excluding any invalidated parent group selectors.
 
-Stops at first best match upwards from the current selector and can modify multiple separate compound selectors at the same time. Infinitely nestable, accepting multiple queries and excluding any invalidated parent group selectors.
+String parameters are validated by SASS internal `selector-parse()`, so any errors in the attribute query will be reported on compilation.
 
 ```Sass
 ul,
@@ -104,7 +104,7 @@ ol
       display: block
 ```
 
-Let's add media queries to the mix. [include-media](https://github.com/eduardoboucas/include-media) is recommended, as it allows very flexible and expressive conditioning and fits the pattern and code style - refer to its [documentation](http://include-media.com/#features) for details.
+Let's add media queries to the mix for wellness purposes. [include-media](https://github.com/eduardoboucas/include-media) is recommended, as it allows very flexible and expressive conditioning and fits the pattern and code style, but standard SASS `@media` will also work.
 
 ```Sass
 article
@@ -137,6 +137,31 @@ item
     flex: 1
 ```
 
+### Same parent preference
+
+```Sass
+div
+  overflow: auto
+
+    div.wrapper
+      display: flex
+
+      div
+        flex-basis: 320px
+
+        article
+          padding: 20px
+
+          a:hover
+            text-decoration: underline
+
+            +in('div:hover')
+              color: grey // div div div:hover
+    div
+      flex-grow: 1
+
+```
+
 ## Installation
 
 `@import 'instyle'` in your SASS/SCSS stylesheet.
@@ -146,6 +171,8 @@ Ruby SASS compilation is required due to reliance on 3.4 features. Conversion to
 - Install Ruby - [Win](http://rubyinstaller.org/), [Linux](https://www.ruby-lang.org/en/documentation/installation/#package-management-systems)
 
 - `gem install sass`
+
+- `sass --watch testearea.sass:style.css`
 
 ## Roadmap
 
