@@ -3,11 +3,8 @@
 `inStyle` gives you an intuitive way to modify current selector parents, enabling fully nested CSS development pattern for styles of your element.
 A powerful replacement for `&`.
 
-Big friend of nestable media queries.
 
-
-Currently available in [SASS 3.4](src/instyle/core.sass).
-
+Currently available in [SASS 3.4](src/instyle/core.sass).  
 Recommended with: [include-media](https://github.com/eduardoboucas/include-media)
 
 ```Sass
