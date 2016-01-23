@@ -1,8 +1,13 @@
 # inStyle
 
-`inStyle` gives you an intuitive way to modify current selector parents, enabling a fully nested development pattern for all cases imaginable. Big friend of nestable media queries. Gluten free.
+`inStyle` gives you an intuitive way to modify current selector parents, enabling fully nested CSS development pattern for styles of your.
+A powerful replacement for `&`.
+
+Big friend of nestable media queries.
+
 
 Currently available in [SASS 3.4](src/instyle/core.sass).
+
 Recommended with: [include-media](https://github.com/eduardoboucas/include-media)
 
 ```Sass
@@ -53,7 +58,7 @@ How does this work?
 
 If some of the compound selectors inside `in()` are found in the current cascade, they're modified by the additional queries. If not found, they're expected to be a parent of the current selector and prepended instead.
 
-Infinitely nestable, accepting multiple queries, modifying any amount of parents and excluding any invalidated parent group selectors.
+Stops at first best match upwards from the current selector and can modify multiple separate compound selectors at the same time. Infinitely nestable, accepting multiple queries and excluding any invalidated parent group selectors.
 
 ```Sass
 ul,
@@ -104,7 +109,7 @@ ol
       display: block
 ```
 
-Let's add media queries to the mix. I dare recommend [include-media](https://github.com/eduardoboucas/include-media), which allows very flexible and expressive conditioning and fits the pattern and code style - refer to its [documentation](http://include-media.com/#features) for details.
+Let's add media queries to the mix. [include-media](https://github.com/eduardoboucas/include-media) is recommended, as it allows very flexible and expressive conditioning and fits the pattern and code style - refer to its [documentation](http://include-media.com/#features) for details.
 
 ```Sass
 article
@@ -136,8 +141,6 @@ item
   > div:nth-child(2)
     flex: 1
 ```
-
-
 
 ## Installation
 
