@@ -15,34 +15,6 @@
       $result: if($i != length($list) or $is-nested, $result#{$e}#{$glue}, $result#{$e})
   @return $result
 
-@function __replaceInString($string, $search, $replace: '')
-  $index: str-index($string, $search)
-  @if $index
-    @return str-slice($string, 1, $index - 1) + $replace + __replaceInString(str-slice($string, $index + str-length($search)), $search, $replace)
-  @return $string
-
-@function __trimString($string)
-  $index: str-index($string, ' ')
-  @if $index == 1
-    @return __trimString(str-slice($string, $index + 1, -1))
-  @else if $index == str-length($string)
-    @return __trimString(str-slice($string, 1, $index - 1))
-  @return $string
-
-@function __stringToSelectorList($string, $delimiter: ',', $separator: comma)
-  $list: ()
-  $sum: str-length($string)
-  @for $i from 1 through $sum
-    $str: str-index($string, $delimiter)
-    @if str-length($string) >= 1 and $str == null
-      $list: append($list, unquote(__trimString($string)), $separator)
-      $string: ''
-    @if type-of($str) == number
-      $each: str-slice($string, 0, ($str - 1))
-      $list: append($list, unquote(__trimString($each)), $separator)
-      $string: str-slice($string, ($str + 1), $sum)
-  @return $list
-
 @function __replaceInList($list, $old-value, $new-value, $recursive: false)
   $result: ()
   @for $i from 1 through length($list)
@@ -73,84 +45,62 @@
       $result: append($result, nth($list, abs($i)))
   @return $result
 
-@function __stringToNumber($string)
-  $strings: '0' '1' '2' '3' '4' '5' '6' '7' '8' '9'
-  $numbers:  0   1   2   3   4   5   6   7   8   9
-  $result: 0
-  @for $i from 1 through str-length($string)
-    $character: str-slice($string, $i, $i)
-    $index: index($strings, $character)
-    @if not $index
-      @return false
-    $number: nth($numbers, $index)
-    $result: $result * 10 + $number
-  @return $result
-
-@function __getNthChildAttribute($selector)
-  $attrValues: ()
-  $sum: str-length($selector)
-  @for $i from 1 through $sum
-    $char: str-slice($selector, $i, $i)
-    $nextChar: str-slice($selector, $i + 1, $i + 1)
-    @if $char == '[' and type-of(__stringToNumber($nextChar)) == number
-      @for $x from $i + 1 through $sum
-        $char: str-slice($selector, $x, $x)
-        $nextChar: str-slice($selector, $x + 1, $x + 1)
-        @if type-of(__stringToNumber($char)) == number and type-of(__stringToNumber($nextChar)) == number
-          $attrValues: append($attrValues, $char, space)
-        @else if type-of(__stringToNumber($char)) == number and $nextChar == ']'
-          $attrValues: append($attrValues, $char, space)
-          @return '[' + __listToString($attrValues) + ']'
-        @else
-          @return false
-  @return false
-
-@function map-set($map, $key, $value)
-  @return map-merge($map, ($key: $value))
-
-//@debug __getNthChildAttribute('div[3410729]:hover')
-
 // In mixin
 =in($selectors)
   $final: ()
   $current: &
-  $selectors: __stringToSelectorList($selectors)
+  $selectors: selector-parse($selectors)
   // Loop through individual in() selectors
   @each $selector in $selectors
-    $selector: __stringToSelectorList($selector, ' ', space)
-    $matchedParents: ()
-    $matchedDepths: ()
+    $depthMap: ()
     // Find compound element matches in all parent selectors
     @each $parent in $current
-      // Save maximum depth of matched compound to compare relevancy
-      $matchedDepth: 0
+      // Save maximum length of matched compound to compare relevancy
+      $parentIndex: index($current, $parent)
+      $depthMap: map-merge($depthMap, ($parentIndex: 0))
       @each $component in $selector
         $simple: simple-selectors($component)
-        $element: nth($simple, 1)
-
-        @for $i from 1 through length($simple)
-
-        @if index($parent, $element)
-          $matchedParents: append($matchedParents, index($current, $parent), comma)
+        // Test all matches starting with full compound and reducing for each step
+        @for $i from 0 through length($simple) - 1
+          @if $i > 0
+            $simple: __removeFromList($simple, nth($simple, length($simple)))
+          @if index($parent, __listToString($simple)) and length($simple) > map-get($depthMap, $parentIndex)
+            $depthMap: map-merge($depthMap, ($parentIndex: length($simple)))
+    // Get deepest matching parent indexes
+    $matchedParents: ()
+    $best: 0
+    @each $key, $value in $depthMap
+      $best: if($value > $best, $value, $best)
+    @each $key, $value in $depthMap
+      @if $best > 0 and $value == $best
+        $matchedParents: append($matchedParents, $key, comma)
     // Generate new parent selectors
     @if length($matchedParents) > 0
-      // Enhance matched parent query selectors
+      // Enhance highest matched compounds in fitting parents
       @each $index in $matchedParents
         $currentSelector: nth($current, $index)
         // Start indexing from current element
         $lastIndex: length($currentSelector)
         @each $component in __reverseList($selector)
-          $simple: simple-selectors(inspect($component))
-          $element: nth($simple, 1)
-          $state: if(length($simple) > 1, __listToString(__removeFromList($simple, $element)), '')
-          @if index($currentSelector, $element) and index($currentSelector, $element) < $lastIndex
-            // Save current index and enhance matched parent selector
-            $lastIndex: index($currentSelector, $element)
-            $currentSelector: __replaceInList($currentSelector, $element, unquote($element + $state))
-          @else
+          $simple: simple-selectors($component)
+          $state: ()
+          $matched: false
+          @for $i from 0 through length($simple) - 1
+            @if $i > 0
+              $state: join(nth($simple, length($simple)), $state)
+              $simple: __removeFromList($simple, nth($simple, length($simple)))
+            $tryBase: __listToString($simple)
+            $newState: if($i > 0, __listToString($state), '')
+            @if index($currentSelector, $tryBase) and not $matched
+              // Save current index and enhance matched parent selector
+              $lastIndex: index($currentSelector, $tryBase)
+              $currentSelector: __replaceInList($currentSelector, $tryBase, unquote($tryBase + $newState))
+              $matched: true
+          @if not $matched
             // Prepend current component to parent selector
             $lastIndex: 1
             $currentSelector: join($component, $currentSelector)
+        // Add to results
         $final: append($final, $currentSelector, comma)
     @else
       // Prepend selectors to parent
