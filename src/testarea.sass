@@ -6,23 +6,23 @@
 
 @import 'instyle'
 
-
 div
+  overflow: auto
 
-  li
+  div.wrapper
+    display: flex
 
-    div.hard,
     div
+      flex-basis: 320px
 
-      div
+      article
+        padding: 20px
 
-        li
+        a:hover
+          text-decoration: underline
 
-          a
+          +in('div:hover')
+            color: grey // div div.wrapper div:hover article a:hover { };
 
-            +in('woot div.hard:hover div:hover li:hover')
-              color: blue
-
-            +in('div.wtf div.hard:focus li:active')
-              color: red
-
+          +in('div:hover div')
+            color: blue // div:hover div.wrapper div article a:hover { };

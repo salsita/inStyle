@@ -156,7 +156,10 @@ div
             text-decoration: underline
 
             +in('div:hover')
-              color: grey // div div div:hover
+              color: grey // div div.wrapper div:hover article a:hover
+
+            +in('div:hover div')
+              color: blue // div:hover div.wrapper div article a:hover
     div
       flex-grow: 1
 
