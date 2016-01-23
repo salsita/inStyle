@@ -1,6 +1,6 @@
 # inStyle
 
-`inStyle` gives you an intuitive way to modify current selector parents, enabling fully nested CSS development pattern for styles of your.
+`inStyle` gives you an intuitive way to modify current selector parents, enabling fully nested CSS development pattern for styles of your element.
 A powerful replacement for `&`.
 
 Big friend of nestable media queries.
