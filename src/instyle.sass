@@ -86,6 +86,7 @@
           $simple: simple-selectors($compound)
           $state: ()
           $matched: false
+          // Loop compound variants
           @for $i from 0 through length($simple) - 1
             @if $i > 0
               $state: join(nth($simple, length($simple)), $state)
@@ -108,7 +109,7 @@
         // Add to results
         $final: append($final, __reverseList($newParent), comma)
     @else
-      // Prepend selectors to parent
+      // Prepend new selectors to new query
       $final: append($final, selector-parse($selector + ' ' + $current), comma)
   @at-root #{$final}
     @content
