@@ -95,8 +95,7 @@
             $newState: if($i > 0, __listToString($state), '')
             // Match base to reversed parent list
             @for $i from 1 through length($reversedParent)
-              $parentCompound: nth($reversedParent, $i)
-              $success: $tryBase == $parentCompound
+              $success: $tryBase == nth($reversedParent, $i)
               @if $success and ($i > $lastIndex) and not $matched
                 // Save current index and enhance matched parent selector
                 $matched: true
