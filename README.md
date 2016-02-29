@@ -2,7 +2,7 @@
 
 `inStyle` is a CSS authoring tool to modify the current selector, giving you an intuitive way to style the current element based on parent variants without repeating full queries. Enables fully nested CSS writing styles.  
 
-`in()` is what `&` could do, if it was 2020.
+A powerful ally to `&`.
 
 Currently available in [SASS 3.4](src/instyle.sass).  
 
