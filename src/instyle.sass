@@ -117,7 +117,7 @@ $__insertionTag: '^'
             @if $i > 0
               $simple: __removeFromList($simple, nth($simple, length($simple)))
             @if index($parent, __listToString($simple)) and length($simple) > map-get($depthMap, $parentIndex)
-              $depthIndex: index(__reverseList($parent), __listToString($simple)) + length($simple)
+              $depthIndex: index(__reverseList($parent), __listToString($simple)) + (length($simple) / 1000)
               $depthMap: map-merge($depthMap, ($parentIndex: $depthIndex))
     // Find best matching parents
     $matchedParents: ()
