@@ -1,6 +1,7 @@
 # inStyle
 
-`inStyle` is a CSS authoring tool to modify the current selector, giving you an intuitive way to style the current element based on parent variants without repeating full queries. Enables fully nested CSS writing styles.
+`inStyle` is a CSS authoring tool to modify the current selector, giving you an intuitive way to style the current element based on parent variants without repeating full queries. Enables fully nested CSS writing styles.  
+
 `in()` is what `&` could do, if it was 2020.
 
 Currently available in [SASS 3.4](src/instyle.sass).  
@@ -26,18 +27,18 @@ The `in()` query is mapped onto the current selector chain and any compound elem
 .ultra-search
   display: block
 
-  > div
+  form
     height: 40px
 
     input
       width: 100%
       border-color: blue
 
-      +in('div:hover')
-        outline: blue // .ultra-search > div:hover input { };
+      +in('form:hover')
+        outline: blue // .ultra-search form:hover input { };
 
       +in('.ultra-search.invalid')
-        border-color: red // .ultra-search.invalid > div input { };
+        border-color: red // .ultra-search.invalid form input { };
 
   .suggestion-list
     display: none
@@ -106,8 +107,8 @@ ol
         +in('li.links:hover, ol.pictures')
           color: blue  // ul li.links:hover a, ol li.links:hover a, ol.pictures li a { };
 
-        +in('ol:hover ^.')
-          font-size: 1.4rem  // footer ul li a, footer ol li a { };
+        +in('ol:hover ^.pretty')
+          font-size: 1.4rem  // ol:hover li .pretty a { };
           color: white
 ```
 
