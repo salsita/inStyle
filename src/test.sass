@@ -18,10 +18,10 @@ ol, ul
   li
     a
       display: block
-      +in('li:hover ^.span')
+      +in('ol:hover ^span')
         color: blue // ol:hover li .span a { };
-      +in('ol li:hover ^.insert')
-        color: red // ol li:hover .insert a { };
+      +in('ol.pictures li:hover ^.insert')
+        color: red // ol.pictures li:hover .insert a { };
 
 table
   th, td
