@@ -1,0 +1,30 @@
+/*
+  inStyle™ (v1.3.1)
+  github.com/salsita/inStyle
+  2016 | MIT
+  ============================== */
+
+@import 'instyle'
+
+div
+  display: block
+
+  span
+    display: inline
+
+    span
+      display: block
+
+      a
+        color: red
+
+        +in('span.first ^.inserted span.second')
+          color: green // div span.first .inserted span.second a { };
+
+ol, ul
+  li
+    a
+      display: block
+
+      +in('ol:hover ^.span')
+        color: blue // ol:hover li .span a { };

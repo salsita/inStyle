@@ -1,18 +1,55 @@
 /*
-  inStyle™
+  inStyle™ (v1.3.1)
   github.com/salsita/inStyle
   2016 | MIT
   ============================== */
 
-// Helpers
-@function __listToString($list, $glue: '', $is-nested: false)
+// Configuration
+$__insertionTag: '^'
+
+// String helpers
+@function __trimString($string)
+  $index: str-index($string, ' ')
+  @if $index == 1
+    @return __trimString(str-slice($string, $index + 1, -1))
+  @else if $index == str-length($string)
+    @return __trimString(str-slice($string, 1, $index - 1))
+  @return $string
+
+@function __stringToList($string, $delimiter: ',', $separator: comma)
+  $list: ()
+  $sum: str-length($string)
+  @for $i from 1 through $sum
+    $str: str-index($string, $delimiter)
+    @if str-length($string) >= 1 and $str == null
+      $list: append($list, unquote(__trimString($string)), $separator)
+      $string: ''
+    @if type-of($str) == number
+      $each: str-slice($string, 0, ($str - 1))
+      $list: append($list, unquote(__trimString($each)), $separator)
+      $string: str-slice($string, ($str + 1), $sum)
+  @return $list
+
+// List helpers
+@function __insertInList($list, $index, $value)
   $result: null
+  @if $index > length($list)
+    @warn "List index is #{$index} but list is only #{length($list)} item long for __insertInList()."
+  @else
+    $result: ()
+    @for $i from 1 through length($list)
+      @if $i == $index
+        $result: append($result, $value)
+      $result: append($result, nth($list, $i))
+  @return $result
+
+@function __removeFromList($list, $value, $recursive: false)
+  $result: ()
   @for $i from 1 through length($list)
-    $e: nth($list, $i)
-    @if type-of($e) == list
-      $result: $result#{to-string($e, $glue, true)}
-    @else
-      $result: if($i != length($list) or $is-nested, $result#{$e}#{$glue}, $result#{$e})
+    @if type-of(nth($list, $i)) == list and $recursive
+      $result: append($result, remove(nth($list, $i), $value, $recursive))
+    @else if nth($list, $i) != $value
+      $result: append($result, nth($list, $i))
   @return $result
 
 @function __replaceInList($list, $old-value, $new-value, $recursive: false)
@@ -27,15 +64,6 @@
         $result: append($result, nth($list, $i))
   @return $result
 
-@function __removeFromList($list, $value, $recursive: false)
-  $result: ()
-  @for $i from 1 through length($list)
-    @if type-of(nth($list, $i)) == list and $recursive
-      $result: append($result, remove(nth($list, $i), $value, $recursive))
-    @else if nth($list, $i) != $value
-      $result: append($result, nth($list, $i))
-  @return $result
-
 @function __reverseList($list, $recursive: false)
   $result: ()
   @for $i from length($list)*-1 through -1
@@ -45,28 +73,52 @@
       $result: append($result, nth($list, abs($i)))
   @return $result
 
+@function __listToString($list, $glue: '', $is-nested: false)
+  $result: null
+  @for $i from 1 through length($list)
+    $e: nth($list, $i)
+    @if type-of($e) == list
+      $result: $result#{to-string($e, $glue, true)}
+    @else
+      $result: if($i != length($list) or $is-nested, $result#{$e}#{$glue}, $result#{$e})
+  @return $result
+
+// Custom helpers
+@function __insertionTagIndex($string)
+  $index: 0
+  @if str-index($string, $__insertionTag) == 1
+    $index: 1
+    $sum: str-length($string)
+    @for $i from 1 through $sum
+      @if str-slice($string, $i + 1, $i + 1) == $__insertionTag
+        $index: $index + 1
+      @else
+        @return $index
+  @return $index
+
 // In mixin
 =in($selectors)
   $final: ()
   $current: &
-  $selectors: selector-parse($selectors)
-  // Loop through individual in() selectors
+  $selectors: __stringToList($selectors)
   @each $selector in $selectors
+    $selector: __stringToList($selector, ' ', space)
     $depthMap: ()
-    // Find compound element matches in all parent selectors
+    // Find deepest matching queries in parents
     @each $parent in $current
       // Save maximum length of matched compound to compare relevancy
       $parentIndex: index($current, $parent)
       $depthMap: map-merge($depthMap, ($parentIndex: 0))
       @each $compound in $selector
-        $simple: simple-selectors($compound)
-        // Test all matches starting with full compound and reducing for each step
-        @for $i from 0 through length($simple) - 1
-          @if $i > 0
-            $simple: __removeFromList($simple, nth($simple, length($simple)))
-          @if index($parent, __listToString($simple)) and length($simple) > map-get($depthMap, $parentIndex)
-            $depthMap: map-merge($depthMap, ($parentIndex: length($simple)))
-    // Get deepest matching parent indexes
+        @if __insertionTagIndex($compound) == 0
+          $simple: simple-selectors($compound)
+          // Test all matches starting with full compound and reducing for each step
+          @for $i from 0 through length($simple) - 1
+            @if $i > 0
+              $simple: __removeFromList($simple, nth($simple, length($simple)))
+            @if index($parent, __listToString($simple)) and length($simple) > map-get($depthMap, $parentIndex)
+              $depthMap: map-merge($depthMap, ($parentIndex: length($simple)))
+    // Find best matching parents
     $matchedParents: ()
     $best: 0
     @each $key, $value in $depthMap
@@ -78,37 +130,48 @@
     @if length($matchedParents) > 0
       // Enhance highest matched compounds in fitting parents
       @each $index in $matchedParents
-        $reversedParent: __reverseList(nth($current, $index))
+        $parent: nth($current, $index)
+        $reversedParent: __reverseList($parent)
         $newParent: $reversedParent
-        // Start indexing from current element
-        $lastIndex: 0
+        $lastIndex: 1 // Start indexing above current element
+        $insertions: 0
         @each $compound in __reverseList($selector)
-          $simple: simple-selectors($compound)
-          $state: ()
-          $matched: false
-          // Loop compound variants
-          @for $i from 0 through length($simple) - 1
-            @if $i > 0
-              $state: join(nth($simple, length($simple)), $state)
-              $simple: __removeFromList($simple, nth($simple, length($simple)))
-            $tryBase: __listToString($simple)
-            $newState: if($i > 0, __listToString($state), '')
-            // Match base to reversed parent list
-            @for $i from 1 through length($reversedParent)
-              $success: $tryBase == nth($reversedParent, $i)
-              @if $success and ($i > $lastIndex) and not $matched
-                // Save current index and enhance matched parent selector
-                $matched: true
-                $lastIndex: $i
-                $newParent: set-nth($newParent, $lastIndex, unquote($tryBase + $newState))
-          @if not $matched
-            // Prepend element to selector
-            $lastIndex: length($reversedParent)
-            $newParent: append($newParent, $compound)
-        // Add to results
+          $insertIndex: __insertionTagIndex($compound)
+          @if $insertIndex > 0
+            // Insertion
+            @if ($insertIndex + $lastIndex - 1) >= length($parent)
+              @error 'OUT OF BOUNDS: \'#{str-slice($compound, $insertIndex + 1)}\' insertion outside of \'#{__reverseList($newParent)}\'.'
+            @else
+              $insertions: $insertions + 1
+              $lastIndex: $insertIndex + $lastIndex - 1
+              // Selector validation
+              $validatedCompound: __listToString(simple-selectors(str-slice($compound, $insertIndex + 1)))
+              $newParent: __insertInList($newParent, $lastIndex + $insertions, $validatedCompound)
+          @else
+            // Modification
+            $simple: simple-selectors($compound)
+            $state: ()
+            $matched: false
+            // Loop compound variants
+            @for $i from 0 through length($simple) - 1
+              @if $i > 0
+                $state: join(nth($simple, length($simple)), $state)
+                $simple: __removeFromList($simple, nth($simple, length($simple)))
+              $tryBase: __listToString($simple)
+              $newState: if($i > 0, __listToString($state), '')
+              // Match base to reversed parent list
+              @for $i from 1 through length($reversedParent)
+                $success: $tryBase == nth($reversedParent, $i)
+                @if $success and ($i > $lastIndex) and not $matched
+                  // Save current index and enhance matched parent selector
+                  $matched: true
+                  $lastIndex: $i
+                  $newParent: set-nth($newParent, $lastIndex + $insertions, unquote($tryBase + $newState))
+            @if not $matched
+              @error 'OUT OF BOUNDS: \'#{$compound}\' modification outside of \'#{__reverseList($newParent)}\'.'
+        // Create new selectors
         $final: append($final, __reverseList($newParent), comma)
-    @else
-      // Prepend new selectors to new query
-      $final: append($final, selector-parse($selector + ' ' + $current), comma)
+  // Render final selectors
+  // @debug $final
   @at-root #{$final}
     @content
