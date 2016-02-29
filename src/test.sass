@@ -7,17 +7,10 @@
 @import 'instyle'
 
 div
-  display: block
-
   span
-    display: inline
-
     span
-      display: block
-
       a
         color: red
-
         +in('span.first ^.inserted span.second')
           color: green // div span.first .inserted span.second a { };
 
@@ -25,6 +18,13 @@ ol, ul
   li
     a
       display: block
-
-      +in('ol:hover ^.span')
+      +in('li:hover ^.span')
         color: blue // ol:hover li .span a { };
+      +in('ol li:hover ^.insert')
+        color: red // ol li:hover .insert a { };
+
+table
+  th, td
+    span
+      +in('^.insert td:hover')
+        color: red // table .insert td:hover span { };

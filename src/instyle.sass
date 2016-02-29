@@ -117,7 +117,8 @@ $__insertionTag: '^'
             @if $i > 0
               $simple: __removeFromList($simple, nth($simple, length($simple)))
             @if index($parent, __listToString($simple)) and length($simple) > map-get($depthMap, $parentIndex)
-              $depthMap: map-merge($depthMap, ($parentIndex: length($simple)))
+              $depthIndex: index(__reverseList($parent), __listToString($simple)) + length($simple)
+              $depthMap: map-merge($depthMap, ($parentIndex: $depthIndex))
     // Find best matching parents
     $matchedParents: ()
     $best: 0
@@ -172,6 +173,6 @@ $__insertionTag: '^'
         // Create new selectors
         $final: append($final, __reverseList($newParent), comma)
   // Render final selectors
-  // @debug $final
+  @debug $final
   @at-root #{$final}
     @content
