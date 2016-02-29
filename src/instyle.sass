@@ -173,6 +173,5 @@ $__insertionTag: '^'
         // Create new selectors
         $final: append($final, __reverseList($newParent), comma)
   // Render final selectors
-  @debug $final
   @at-root #{$final}
     @content
