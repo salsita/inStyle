@@ -1,27 +1,55 @@
 # inStyle
 
-`inStyle` is a CSS authoring tool to modify the current selector, giving you an intuitive way to style the current element based on parent variants without repeating full queries. Enables fully nested CSS writing styles.  
-
-A powerful ally to `&`.
+`inStyle` is a CSS authoring tool to modify or insert into the current selector (`&`), giving you an intuitive way to style the current element based on parent variants without repeating complex queries. Enables fully nested CSS writing styles and wealth of one's soul.
 
 Currently available in [SASS 3.4](src/instyle.sass).  
 
 ```Sass
-.app > main article div:first-child
-  span.thing // let's style span.thing
+.app > main article
+
+  .foo // let's style variations of .foo
     color: red
+
+    &.ultimate
+      transform: rotate(9001deg)
+
     +in('.app.unleashed article:hover')
-      color: blue // .app.unleashed > main article:hover div:first-child span.thing { };
-    +in('^^.inserted') // .app > main article .inserted div:first-child span.thing { };
-      zoom: 1
+      color: blue // .app.unleashed > main article:hover .foo { };
+
+    +in('^^.inserted')
+      zoom: 1 // .app > main article .inserted .foo { };
 ```
 
-**Disclaimer**: inStyle remains very readable, as long as the parent modifications are simple, which should be true for the vast majority of use-cases. Be modest, think of your reviewers.
+```
+.app
+  display: flex
+
+  .sidebar
+    flex-basis: 20vw
+
+    nav
+      display: block
+
+      +in('.app.no-nav')
+        display: none // .app.no-nav .sidebar nav { };
+
+  main
+    flex-grow: 1
+
+    table
+      table-layout: fixed
+
+      tr
+        border-bottom: 1px dashed #222
+
+        +in('^thead')
+          font-weight: bold // .app main table thead tr { };
+```
 
 String parameters are validated by SASS internal `selector-parse()`, so any errors in the attribute query will be reported on compilation.
 
 ## Modification
-The `in()` query is mapped onto the current selector chain and any compound elements found are modified upwards of the current nest.
+The `in()` query is mapped onto the current selector chain and any compound elements found are modified upwards of the current nest. Infinitely nestable, works together with nested media queries (example uses [include-media](http://include-media.com/)).
 
 ```Sass
 .ultra-search
@@ -45,6 +73,9 @@ The `in()` query is mapped onto the current selector chain and any compound elem
 
     +in('.ultra-search.is-open')
       display: block // .ultra-search.is-open .suggestion-list { };
+
+      +media('<=tablet')
+        height: 50vw
 ```
 
 ```Sass
