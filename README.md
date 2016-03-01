@@ -20,7 +20,7 @@ Currently available in [SASS 3.4](src/instyle.sass).
       zoom: 1 // .app > main article .inserted .foo { };
 ```
 
-```
+```Sass
 .app
   display: flex
 
