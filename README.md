@@ -16,7 +16,7 @@ Currently available in [SASS 3.4](src/instyle.sass).
     +in('.app.unleashed article:hover')
       color: blue // .app.unleashed > main article:hover .foo { };
 
-    +in('^^.inserted')
+    +in('^.inserted')
       zoom: 1 // .app > main article .inserted .foo { };
 ```
 
