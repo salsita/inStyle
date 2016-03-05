@@ -96,6 +96,34 @@ $__insertionTag: '^'
         @return $index
   @return $index
 
+@function __getDepthMap($selector, $current)
+  $depthMap: ()
+  @each $parent in $current
+    // Save maximum length of matched compound to compare relevancy
+    $parentIndex: index($current, $parent)
+    $depthMap: map-merge($depthMap, ($parentIndex: 0))
+    @each $compound in $selector
+      @if __insertionTagIndex($compound) == 0
+        $simple: simple-selectors($compound)
+        // Test all matches starting with full compound and reducing for each step
+        @for $i from 0 through length($simple) - 1
+          @if $i > 0
+            $simple: __removeFromList($simple, nth($simple, length($simple)))
+          @if index($parent, __listToString($simple)) and length($simple) > map-get($depthMap, $parentIndex)
+            $depthIndex: index(__reverseList($parent), __listToString($simple)) + (length($simple) / 1000)
+            $depthMap: map-merge($depthMap, ($parentIndex: $depthIndex))
+  @return $depthMap
+
+@function __getMatchedParents($depthMap)
+  $matchedParents: ()
+  $best: 0
+  @each $key, $value in $depthMap
+    $best: if($value > $best, $value, $best)
+  @each $key, $value in $depthMap
+    @if $best > 0 and $value == $best
+      $matchedParents: append($matchedParents, $key, comma)
+  @return $matchedParents
+
 // In mixin
 =in($selectors)
   $final: ()
@@ -103,30 +131,10 @@ $__insertionTag: '^'
   $selectors: __stringToList($selectors)
   @each $selector in $selectors
     $selector: __stringToList($selector, ' ', space)
-    $depthMap: ()
     // Find deepest matching queries in parents
-    @each $parent in $current
-      // Save maximum length of matched compound to compare relevancy
-      $parentIndex: index($current, $parent)
-      $depthMap: map-merge($depthMap, ($parentIndex: 0))
-      @each $compound in $selector
-        @if __insertionTagIndex($compound) == 0
-          $simple: simple-selectors($compound)
-          // Test all matches starting with full compound and reducing for each step
-          @for $i from 0 through length($simple) - 1
-            @if $i > 0
-              $simple: __removeFromList($simple, nth($simple, length($simple)))
-            @if index($parent, __listToString($simple)) and length($simple) > map-get($depthMap, $parentIndex)
-              $depthIndex: index(__reverseList($parent), __listToString($simple)) + (length($simple) / 1000)
-              $depthMap: map-merge($depthMap, ($parentIndex: $depthIndex))
+    $depthMap: __getDepthMap($selector, $current)
     // Find best matching parents
-    $matchedParents: ()
-    $best: 0
-    @each $key, $value in $depthMap
-      $best: if($value > $best, $value, $best)
-    @each $key, $value in $depthMap
-      @if $best > 0 and $value == $best
-        $matchedParents: append($matchedParents, $key, comma)
+    $matchedParents: __getMatchedParents($depthMap)
     // Generate new parent selectors
     @if length($matchedParents) > 0
       // Enhance highest matched compounds in fitting parents
@@ -135,7 +143,7 @@ $__insertionTag: '^'
         $reversedParent: __reverseList($parent)
         $newParent: $reversedParent
         $lastIndex: 1 // Start indexing above current element
-        $insertions: 0
+        $insertions: 0 // Keep track of total insertions
         @each $compound in __reverseList($selector)
           $insertIndex: __insertionTagIndex($compound)
           @if $insertIndex > 0
