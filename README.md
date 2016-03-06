@@ -153,7 +153,7 @@ Ruby SASS compilation is required due to reliance on 3.4 features. Conversion to
 
 - `gem install sass`
 
-- `sass --watch test.sass:style.css`
+- `sass --watch test.sass`
 
 ## Roadmap
 
