@@ -149,18 +149,17 @@ $__insertionTag: '^'
             // Loop compound variants
             @for $i from 0 through length($simple) - 1
               @if $i > 0
-                $state: join(nth($simple, length($simple)), $state)
                 $simple: __removeFromList($simple, nth($simple, length($simple)))
-              $tryBase: __listToString($simple)
-              $newState: if($i > 0, __listToString($state), '')
+                $state: join(nth($simple, length($simple)), $state)
+              $trySimple: __listToString($simple)
+              $tryState: if($i > 0, __listToString($state), '')
               // Match base to reversed parent list
               @for $i from ($lastIndex + 1) through length($newParent)
-                $success: $tryBase == nth($newParent, $i)
-                @if $success and not $matched
+                @if $trySimple == nth($newParent, $i) and not $matched
                   // Save current index and enhance matched parent selector
                   $matched: true
                   $lastIndex: $i
-                  $newParent: set-nth($newParent, $lastIndex, unquote($tryBase + $newState))
+                  $newParent: set-nth($newParent, $lastIndex, unquote($trySimple + $tryState))
             @if not $matched
               @error 'OUT OF BOUNDS: \'#{$compound}\' modification not found in \'#{__reverseList($newParent)}\'.'
         // Create new selectors
