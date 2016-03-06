@@ -101,7 +101,7 @@ $__insertionTag: '^'
   @each $parent in $current
     // Save maximum length of matched compound to compare relevancy
     $parentIndex: index($current, $parent)
-    $depthMap: map-merge($depthMap, ($parentIndex: 0))
+    $depthMap: append($depthMap, 0, comma)
     @each $compound in $selector
       @if __insertionTagIndex($compound) == 0
         $simple: simple-selectors($compound)
@@ -109,20 +109,11 @@ $__insertionTag: '^'
         @for $i from 0 through length($simple) - 1
           @if $i > 0
             $simple: __removeFromList($simple, nth($simple, length($simple)))
-          @if index($parent, __listToString($simple)) and length($simple) > map-get($depthMap, $parentIndex)
+          @if index($parent, __listToString($simple)) and length($simple) > nth($depthMap, $parentIndex)
+            // Relevancy scoring
             $depthIndex: index(__reverseList($parent), __listToString($simple)) + (length($simple) / 1000)
-            $depthMap: map-merge($depthMap, ($parentIndex: $depthIndex))
+            $depthMap: set-nth($depthMap, $parentIndex, $depthIndex)
   @return $depthMap
-
-@function __getMatchedParents($depthMap)
-  $matchedParents: ()
-  $best: 0
-  @each $key, $value in $depthMap
-    $best: if($value > $best, $value, $best)
-  @each $key, $value in $depthMap
-    @if $best > 0 and $value == $best
-      $matchedParents: append($matchedParents, $key, comma)
-  @return $matchedParents
 
 // In mixin
 =in($selectors)
@@ -131,15 +122,12 @@ $__insertionTag: '^'
   $selectors: __stringToList($selectors)
   @each $selector in $selectors
     $selector: __stringToList($selector, ' ', space)
-    // Find deepest matching queries in parents
+    // Get deepest match indexes in all parents
     $depthMap: __getDepthMap($selector, $current)
-    // Find best matching parents
-    $matchedParents: __getMatchedParents($depthMap)
-    // Generate new parent selectors
-    @if length($matchedParents) > 0
-      // Enhance highest matched compounds in fitting parents
-      @each $index in $matchedParents
-        $parent: nth($current, $index)
+    @for $n from 1 through length($depthMap)
+      // Modify and render best matching selectors
+      @if nth($depthMap, $n) == max($depthMap...)
+        $parent: nth($current, $n)
         $newParent: __reverseList($parent)
         $lastIndex: 1 // Start indexing above current element
         @each $compound in __reverseList($selector)
