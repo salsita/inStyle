@@ -11,17 +11,17 @@ div
     span
       a
         color: red
-        +in('span.first ^.inserted span.second')
-          color: green // div span.first .inserted span.second a { };
+        +in('span.first ^[inserted] span.second')
+          color: green // div span.first [inserted] span.second a { };
 
 ol, ul
   li
     a
       display: block
       +in('ol:hover ^span')
-        color: blue // ol:hover li .span a { };
-      +in('ol.pictures li:hover ^.insert')
-        color: red // ol.pictures li:hover .insert a { };
+        color: blue // ol:hover li span a { };
+      +in('ol.pictures li:hover ^.insert, ul[belikeol]')
+        color: red // ol.pictures li:hover .insert a, ul[belikeol] { };
 
 table
   th, td
