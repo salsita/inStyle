@@ -143,19 +143,17 @@ $__insertionTag: '^'
         $reversedParent: __reverseList($parent)
         $newParent: $reversedParent
         $lastIndex: 1 // Start indexing above current element
-        $insertions: 0 // Keep track of total insertions
         @each $compound in __reverseList($selector)
           $insertIndex: __insertionTagIndex($compound)
           @if $insertIndex > 0
             // Insertion
-            @if ($insertIndex + $lastIndex - 1) >= length($parent)
+            @if ($lastIndex + $insertIndex) > length($parent)
               @error 'OUT OF BOUNDS: \'#{str-slice($compound, $insertIndex + 1)}\' insertion outside of \'#{__reverseList($newParent)}\'.'
             @else
-              $insertions: $insertions + 1
-              $lastIndex: $insertIndex + $lastIndex - 1
+              $lastIndex: $lastIndex + $insertIndex
               // Selector validation
               $validatedCompound: __listToString(simple-selectors(str-slice($compound, $insertIndex + 1)))
-              $newParent: __insertInList($newParent, $lastIndex + $insertions, $validatedCompound)
+              $newParent: __insertInList($newParent, $lastIndex, $validatedCompound)
           @else
             // Modification
             $simple: simple-selectors($compound)
@@ -169,13 +167,13 @@ $__insertionTag: '^'
               $tryBase: __listToString($simple)
               $newState: if($i > 0, __listToString($state), '')
               // Match base to reversed parent list
-              @for $i from 1 through length($reversedParent)
-                $success: $tryBase == nth($reversedParent, $i)
-                @if $success and ($i > $lastIndex) and not $matched
+              @for $i from ($lastIndex + 1) through length($newParent)
+                $success: $tryBase == nth($newParent, $i)
+                @if $success and not $matched
                   // Save current index and enhance matched parent selector
                   $matched: true
                   $lastIndex: $i
-                  $newParent: set-nth($newParent, $lastIndex + $insertions, unquote($tryBase + $newState))
+                  $newParent: set-nth($newParent, $lastIndex, unquote($tryBase + $newState))
             @if not $matched
               @error 'OUT OF BOUNDS: \'#{$compound}\' modification outside of \'#{__reverseList($newParent)}\'.'
         // Create new selectors
