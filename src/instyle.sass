@@ -89,8 +89,8 @@ $__insertionTag: '^'
   @if str-index($string, $__insertionTag) == 1
     $index: 1
     $sum: str-length($string)
-    @for $i from 1 through $sum
-      @if str-slice($string, $i + 1, $i + 1) == $__insertionTag
+    @for $i from 2 through $sum
+      @if str-slice($string, $i, $i) == $__insertionTag
         $index: $index + 1
       @else
         @return $index
@@ -147,12 +147,12 @@ $__insertionTag: '^'
             $state: ()
             $matched: false
             // Loop compound variants
-            @for $i from 0 through length($simple) - 1
-              @if $i > 0
-                $simple: __removeFromList($simple, nth($simple, length($simple)))
+            @for $i from 1 through length($simple)
+              @if $i > 1
                 $state: join(nth($simple, length($simple)), $state)
+                $simple: __removeFromList($simple, nth($simple, length($simple)))
               $trySimple: __listToString($simple)
-              $tryState: if($i > 0, __listToString($state), '')
+              $tryState: if($i > 1, __listToString($state), '')
               // Match base to reversed parent list
               @for $i from ($lastIndex + 1) through length($newParent)
                 @if $trySimple == nth($newParent, $i) and not $matched
