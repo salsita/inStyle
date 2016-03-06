@@ -124,8 +124,8 @@ $__insertionTag: '^'
     $selector: __stringToList($selector, ' ', space)
     // Get deepest match indexes in all parents
     $depthMap: __getDepthMap($selector, $current)
-    @for $n from 1 through length($depthMap)
-      // Modify and render best matching selectors
+    @for $n from 1 through length($current)
+      // Modify and render only best matching parents
       @if nth($depthMap, $n) == max($depthMap...)
         $parent: nth($current, $n)
         $newParent: __reverseList($parent)
