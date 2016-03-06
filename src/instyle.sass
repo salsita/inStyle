@@ -106,8 +106,8 @@ $__insertionTag: '^'
       @if __insertionTagIndex($compound) == 0
         $simple: simple-selectors($compound)
         // Test all matches starting with full compound and reducing for each step
-        @for $i from 0 through length($simple) - 1
-          @if $i > 0
+        @for $i from 1 through length($simple)
+          @if $i > 1
             $simple: __removeFromList($simple, nth($simple, length($simple)))
           @if index($parent, __listToString($simple)) and length($simple) > nth($depthMap, $parentIndex)
             // Relevancy scoring
