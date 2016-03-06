@@ -135,7 +135,7 @@ $__insertionTag: '^'
           @if $insertIndex > 0
             // Insertion
             @if ($lastIndex + $insertIndex) > length($parent)
-              @error 'OUT OF BOUNDS: \'#{str-slice($compound, $insertIndex + 1)}\' insertion outside of \'#{__reverseList($newParent)}\'.'
+              @error 'OUT OF BOUNDS: \'#{str-slice($compound, $insertIndex + 1)}\' insertion outside of \'#{__reverseList($newParent)}\' (#{$lastIndex + $insertIndex} vs #{length($parent)}).'
             @else
               $lastIndex: $lastIndex + $insertIndex
               // Selector validation
@@ -162,7 +162,7 @@ $__insertionTag: '^'
                   $lastIndex: $i
                   $newParent: set-nth($newParent, $lastIndex, unquote($tryBase + $newState))
             @if not $matched
-              @error 'OUT OF BOUNDS: \'#{$compound}\' modification outside of \'#{__reverseList($newParent)}\'.'
+              @error 'OUT OF BOUNDS: \'#{$compound}\' modification not found in \'#{__reverseList($newParent)}\'.'
         // Create new selectors
         $final: append($final, __reverseList($newParent), comma)
   // Render final selectors
