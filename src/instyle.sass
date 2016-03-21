@@ -154,11 +154,11 @@ $__insertionTag: '^'
               $trySimple: __listToString($simple)
               $tryState: if($i > 1, __listToString($state), '')
               // Match base to reversed parent list
-              @for $i from ($lastIndex + 1) through length($newParent)
-                @if $trySimple == nth($newParent, $i) and not $matched
+              @for $n from ($lastIndex + 1) through length($newParent)
+                @if $n <= length($newParent) and $trySimple == nth($newParent, $n) and not $matched
                   // Save current index and enhance matched parent selector
                   $matched: true
-                  $lastIndex: $i
+                  $lastIndex: $n
                   $newParent: set-nth($newParent, $lastIndex, unquote($trySimple + $tryState))
             @if not $matched
               @error 'OUT OF BOUNDS: \'#{$compound}\' modification not found in \'#{__reverseList($newParent)}\'.'
