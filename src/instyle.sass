@@ -34,7 +34,7 @@ $__insertionTag: '^'
 @function __insertInList($list, $index, $value)
   $result: null
   @if $index > length($list)
-    @warn "List index is #{$index} but list is only #{length($list)} item long for __insertInList()."
+    @warn "List index is #{$index} but list is only #{length($list)} items long for __insertInList()."
   @else
     $result: ()
     @for $i from 1 through length($list)
