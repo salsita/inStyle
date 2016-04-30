@@ -1,23 +1,25 @@
 /*
-  inStyle™ (v1.3.3)
+  inStyle™ (v1.3.4)
   github.com/salsita/inStyle
   2016 | MIT
   ============================== */
 
 @import 'instyle'
 
+div span table tr td
+  +in('^^^^.out ^.in')
+    color: red // div .out span table tr .in td { };
+
 div
   span
     span
       a
-        color: red
         +in('span.first ^[inserted] span.second')
           color: green // div span.first [inserted] span.second a { };
 
 ol, ul
   li
     a
-      display: block
       +in('ol:hover ^span')
         color: blue // ol:hover li span a { };
       +in('ol.pictures li:hover ^.insert, ul[belikeol]')

@@ -1,5 +1,5 @@
 /*
-  inStyle™ (v1.3.3)
+  inStyle™ (v1.3.4)
   github.com/salsita/inStyle
   2016 | MIT
   ============================== */
@@ -134,8 +134,8 @@ $__insertionTag: '^'
           $insertIndex: __insertionTagIndex($compound)
           @if $insertIndex > 0
             // Insertion
-            @if ($lastIndex + $insertIndex) > length($parent)
-              @error 'OUT OF BOUNDS: \'#{str-slice($compound, $insertIndex + 1)}\' insertion outside of \'#{__reverseList($newParent)}\' (#{$lastIndex + $insertIndex} vs #{length($parent)}).'
+            @if ($lastIndex + $insertIndex) > length($newParent)
+              @error 'OUT OF BOUNDS: \'#{str-slice($compound, $insertIndex + 1)}\' insertion outside of \'#{__reverseList($newParent)}\' (#{$lastIndex + $insertIndex} vs #{length($newParent)}).'
             @else
               $lastIndex: $lastIndex + $insertIndex
               // Selector validation
