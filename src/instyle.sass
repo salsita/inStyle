@@ -1,5 +1,5 @@
 /*
-  inStyle™ (v1.3.4)
+  inStyle™ (v1.3.5)
   github.com/salsita/inStyle
   2016 | MIT
   ============================== */
@@ -78,9 +78,9 @@ $__insertionTag: '^'
   @for $i from 1 through length($list)
     $e: nth($list, $i)
     @if type-of($e) == list
-      $result: $result#{to-string($e, $glue, true)}
+      $result: unquote("#{$result}#{to-string($e, $glue, true)}")
     @else
-      $result: if($i != length($list) or $is-nested, $result#{$e}#{$glue}, $result#{$e})
+      $result: if($i != length($list) or $is-nested, unquote("#{$result}#{$e}#{$glue}"), unquote("#{$result}#{$e}"))
   @return $result
 
 // Custom helpers
