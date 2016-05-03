@@ -1,0 +1,65 @@
+@import "../src/instyle"
+
+@import "../node_modules/bootcamp/dist/bootcamp"
+
+@include runner-start
+
+@include describe("Helpers")
+  @include it("should trim a string from white spaces")
+    $string: "   span "
+    $trimmed: "span"
+    @include should(expect(__trimString($string)), to(be($trimmed)))
+
+  @include it("should convert string to list")
+    $string: "ul, li, a, span"
+    @debug __stringToList($string)
+    @include should(expect(__stringToList($string)), to(be((ul li a span))))
+
+  @include it("should convert string with custom delimiters to list")
+    $string: "ul li a span"
+    @debug __stringToList($string, ' ')
+    @include should(expect(__stringToList($string, ' ')), to(be((ul li a span))))
+
+  @include it("should insert an item in list")
+    $list: (ul li a span)
+    @include should(expect(length(__insertInList($list, 2, "i"))), to(equal(5)))
+
+  @include it("should insert an item in list in correct place")
+    $list: (ul li a span)
+    @include should(expect(__insertInList($list, 3, "i")), to(be((ul li i a span))))
+
+  @include it("should remove an item from list")
+    $list: (table thead tr th span)
+    @include should(expect(__removeFromList($list, tr)), to(be((table thead th span))))
+
+  @include it("should replace an item in list")
+    $list: (table thead tr th span)
+    @include should(expect(__replaceInList($list, th, td)), to(be((table thead tr td span))))
+
+  @include it("should replace all items in list")
+    $list: (body section div article div div p span)
+    @include should(expect(__replaceInList($list, div, span, true)), to(be((body section span article span span p span))))
+
+  @include it("should reverse a list")
+    $list: (body section div article div div p span)
+    @include should(expect(__reverseList($list)), to(be((span p div div article div section body))))
+
+  @include it("should reverse a list inside a list")
+    $list: (body section div, article div div p span)
+    @include should(expect(__reverseList($list, true)), to(be((span p div div article, div section body))))
+
+  @include it("should convert list to a string")
+    $list: (table thead tr th span)
+    @include should(expect(__listToString($list)), to(be("tabletheadtrthspan")))
+
+  @include it("should convert list to a string with specific delimiter")
+    $list: (table thead tr th span)
+    @include should(expect(__listToString($list, ' ')), to(be("table thead tr th span")))
+
+  @include it("should compute count of insertion tags in a string")
+    $string: "^^^ul li a span"
+    @include should(expect(__insertionTagIndex($string)), to(be(3)))
+
+  // TODO: Test __getDepthMap()
+
+@include runner-end
