@@ -1,12 +1,11 @@
 {
   "name": "inStyle",
-  "version": "1.3.3",
+  "version": "1.3.6",
   "description": "",
   "main": "gulpfile.js",
-  "dependencies": {
-  },
+  "dependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "sass specs/tests.sass --no-cache"
   },
   "repository": {
     "type": "git",
@@ -17,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/salsita/inStyle/issues"
   },
-  "homepage": "https://github.com/salsita/inStyle"
+  "homepage": "https://github.com/salsita/inStyle",
+  "devDependencies": {
+    "bootcamp": "^1.1.7",
+    "grunt": "^0.4.5",
+    "grunt-contrib-sass": "^0.8.1"
+  }
 }
