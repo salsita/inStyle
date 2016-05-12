@@ -1,18 +1,8 @@
 document.body.onload = createDebugger;
 
 function createDebugger() {
-  // Create debug element and style it
-  var hint = document.createElement("instyle-hint");
-  hint.style.position = 'fixed';
-  hint.style.left = hint.style.top = '50%';
-  hint.style.transform = 'translate(-50%, -50%)';
-  hint.style.padding = '10px';
-  hint.style.backgroundColor = '#e83535';
-  hint.style.color = '#fff';
-  hint.style.borderRadius = '5px';
-  hint.style.fontSize = '30px';
-  hint.style.fontFamily = 'Roboto';
-  document.body.appendChild(hint);
+  // Style body
+  document.body.style.backgroundColor = 'rgb(169, 39, 39)';
 
   // Parse the compiled stylesheet
   var styles = ''
@@ -55,14 +45,9 @@ function createDebugger() {
     var inHackString = 'codepen: debug;'
     if (splitStyles[i].indexOf(inHackString) > -1) {
       var cleanAttrs = splitStyles[i].replace(inHackString, '');
-      var block = document.createElement('span');
+      var block = document.createElement('p');
       block.innerHTML = cleanAttrs;
-      block.style.display = 'block';
-      block.style.whiteSpace = 'nowrap';
-      if (i < splitStyles.length - 1) {
-        block.style.marginBottom = '5px';
-      }
-      hint.appendChild(block);
+      document.body.appendChild(block);
     }
   }
 }
