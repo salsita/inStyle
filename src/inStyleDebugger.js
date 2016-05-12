@@ -59,9 +59,10 @@ function createDebugger() {
       content.style.fontSize = '20px';
       content.style.fontFamily = 'Source Code Pro';
       content.style.display = 'inline-block';
-      content.style.lineHeight = '30px';
+      content.style.lineHeight = '34px';
       content.style.padding = '0 10px';
       content.style.color = '#fff';
+      content.style.backgroundColor = 'rgb(169, 39, 39)';
       content.innerHTML = cleanAttrs;
       document.body.appendChild(block);
       block.appendChild(content);
