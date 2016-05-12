@@ -1,3 +1,5 @@
+document.body.onload = createDebugger;
+
 function createDebugger() {
   // Create debug element and style it
   var hint = document.createElement("instyle-hint");
@@ -13,7 +15,12 @@ function createDebugger() {
   document.body.appendChild(hint);
 
   // Parse the compiled stylesheet
-  var styles = document.querySelector('.cp-pen-styles').innerHTML;
+  var styles = ''
+  if (document.querySelector('.cp-pen-styles')) {
+    styles = document.querySelector('.cp-pen-styles').innerHTML;
+  } else {
+    styles = document.getElementsByTagName('style')[0].innerHTML;
+  }
   var commentChar = '*/';
   var codeIndex = styles.indexOf(commentChar) + commentChar.length + 1;
   var cleanStyles = styles.substring(codeIndex, styles.length);
@@ -51,6 +58,7 @@ function createDebugger() {
       var block = document.createElement('span');
       block.innerHTML = cleanAttrs;
       block.style.display = 'block';
+      block.style.whiteSpace = 'nowrap';
       if (i < splitStyles.length - 1) {
         block.style.marginBottom = '5px';
       }
