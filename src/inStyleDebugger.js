@@ -1,3 +1,5 @@
+document.body.onload = createDebugger;
+
 function createDebugger() {
   // Create debug element and style it
   var hint = document.createElement("instyle-hint");
