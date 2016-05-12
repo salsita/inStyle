@@ -1,8 +1,18 @@
 document.body.onload = createDebugger;
 
 function createDebugger() {
-  // Style body
-  document.body.style.backgroundColor = 'rgb(169, 39, 39)';
+  // Import webfont
+  WebFontConfig = {
+    google: { families: [ 'Source+Code+Pro::latin' ] }
+  };
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })();
 
   // Parse the compiled stylesheet
   var styles = ''
@@ -20,7 +30,6 @@ function createDebugger() {
   for(var i=0; i < cleanStyles.length; i++) {
     if (cleanStyles[i] === '}') indices.push(i);
   }
-
   var splitStyles = [];
   for(var i=0; i < indices.length; i++) {
     var cutFrom = null;
@@ -40,14 +49,22 @@ function createDebugger() {
     splitStyles.push(singleSelector);
   }
 
-  // Add to DOM
+  // Add only inStyle output to DOM
   for(var i=0; i < splitStyles.length; i++) {
     var inHackString = 'codepen: debug;'
     if (splitStyles[i].indexOf(inHackString) > -1) {
       var cleanAttrs = splitStyles[i].replace(inHackString, '');
       var block = document.createElement('p');
-      block.innerHTML = cleanAttrs;
+      var content = document.createElement('span');
+      content.style.fontSize = '20px';
+      content.style.fontFamily = 'Source Code Pro';
+      content.style.display = 'inline-block';
+      content.style.lineHeight = '30px';
+      content.style.padding = '0 10px';
+      content.style.color = '#fff';
+      content.innerHTML = cleanAttrs;
       document.body.appendChild(block);
+      block.appendChild(content);
     }
   }
 }
