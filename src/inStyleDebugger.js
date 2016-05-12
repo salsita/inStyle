@@ -21,7 +21,7 @@ function createDebugger() {
   notice.style.fontFamily = 'Source Code Pro';
   notice.style.fontWeight = 'bold';
   notice.style.display = 'inline-block';
-  notice.style.marginBottom = '0';
+  notice.style.margin = '0';
   document.body.appendChild(notice);
 
   // Parse the compiled stylesheet
