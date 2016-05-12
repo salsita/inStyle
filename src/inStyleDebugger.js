@@ -14,6 +14,16 @@ function createDebugger() {
     s.parentNode.insertBefore(wf, s);
   })();
 
+  // Add notice
+  var notice = document.createElement('p');
+  notice.innerHTML = 'inStyle output debugger';
+  notice.style.fontSize = '20px';
+  notice.style.fontFamily = 'Source Code Pro';
+  notice.style.fontWeight = 'bold';
+  notice.style.display = 'inline-block';
+  notice.style.marginBottom = '0';
+  document.body.appendChild(notice);
+
   // Parse the compiled stylesheet
   var styles = ''
   if (document.querySelector('.cp-pen-styles')) {
