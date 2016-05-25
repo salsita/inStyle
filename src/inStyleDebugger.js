@@ -66,10 +66,10 @@ function createDebugger() {
       var cleanAttrs = splitStyles[i].replace(inHackString, '');
       var block = document.createElement('p');
       var content = document.createElement('span');
-      content.style.fontSize = '20px';
+      content.style.fontSize = '16px';
       content.style.fontFamily = 'Source Code Pro';
       content.style.display = 'inline-block';
-      content.style.lineHeight = '34px';
+      content.style.lineHeight = '32px';
       content.style.padding = '0 10px';
       content.style.color = '#fff';
       content.style.backgroundColor = 'rgb(169, 39, 39)';
