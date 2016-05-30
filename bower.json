@@ -1,0 +1,20 @@
+{
+  "name": "inStyle",
+  "description": "A CSS authoring tool to modify or insert into the current selector.",
+  "main": "src/instyle.sass",
+  "authors": [
+    "mystrdat"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "sass",
+    "css"
+  ],
+  "homepage": "https://github.com/salsita/inStyle",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ]
+}
