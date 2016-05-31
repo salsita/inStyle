@@ -115,7 +115,7 @@ $__tagReplace: '@'
     $parentIndex: index($current, $parent)
     $depthMap: append($depthMap, 0, comma)
     @each $compound in $selector
-      @if __tagIndex($compound, $__tagInsert) == 0 and __tagIndex($compound, $__tagAppend) == 0 and __tagIndex($compound, $__tagReplace) == 0
+      @if max(__tagIndex($compound, $__tagInsert), __tagIndex($compound, $__tagAppend), __tagIndex($compound, $__tagReplace)) == 0
         $simple: simple-selectors($compound)
         // Test all matches starting with full compound and reducing for each step
         @for $i from 1 through length($simple)
@@ -136,6 +136,7 @@ $__tagReplace: '@'
     $selector: __stringToList($selector, ' ', space)
     // Get deepest match indexes in all parents
     $depthMap: __getDepthMap($selector, $current)
+    @debug $depthMap
     @for $n from 1 through length($current)
       // Render only best matching parents
       @if nth($depthMap, $n) == max($depthMap...)
