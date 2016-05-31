@@ -1,11 +1,13 @@
 /*
-  inStyle™ (v1.3.6)
+  inStyle-SASS (v1.5.2)
   github.com/salsita/inStyle
   2016 | MIT
   ============================== */
 
 // Configuration
-$__insertionTag: '^'
+$__tagAppend: '<' !default
+$__tagInsert: '^' !default
+$__tagReplace: '@' !default
 
 // String helpers
 @function __trimString($string)
@@ -83,14 +85,24 @@ $__insertionTag: '^'
       $result: if($i != length($list) or $is-nested, unquote("#{$result}#{$e}#{$glue}"), unquote("#{$result}#{$e}"))
   @return $result
 
+@function __removeDuplicatesFromList($list, $recursive: false, $separator: comma)
+  $result: ()
+  @each $item in $list
+    @if not index($result, $item)
+      @if length($item) > 1 and $recursive
+        $result: append($result, __removeDuplicatesFromList($item, $recursive), $separator)
+      @else
+        $result: append($result, $item, $separator)
+  @return $result
+
 // Custom helpers
-@function __insertionTagIndex($string)
+@function __tagIndex($string, $tag)
   $index: 0
-  @if str-index($string, $__insertionTag) == 1
+  @if str-index($string, $tag) == 1
     $index: 1
     $sum: str-length($string)
     @for $i from 2 through $sum
-      @if str-slice($string, $i, $i) == $__insertionTag
+      @if str-slice($string, $i, $i) == $tag
         $index: $index + 1
       @else
         @return $index
@@ -103,7 +115,7 @@ $__insertionTag: '^'
     $parentIndex: index($current, $parent)
     $depthMap: append($depthMap, 0, comma)
     @each $compound in $selector
-      @if __insertionTagIndex($compound) == 0
+      @if max(__tagIndex($compound, $__tagInsert), __tagIndex($compound, $__tagAppend), __tagIndex($compound, $__tagReplace)) == 0
         $simple: simple-selectors($compound)
         // Test all matches starting with full compound and reducing for each step
         @for $i from 1 through length($simple)
@@ -125,24 +137,44 @@ $__insertionTag: '^'
     // Get deepest match indexes in all parents
     $depthMap: __getDepthMap($selector, $current)
     @for $n from 1 through length($current)
-      // Modify and render only best matching parents
+      // Render only best matching parents
       @if nth($depthMap, $n) == max($depthMap...)
         $parent: nth($current, $n)
         $newParent: __reverseList($parent)
         $lastIndex: 1 // Start indexing above current element
         @each $compound in __reverseList($selector)
-          $insertIndex: __insertionTagIndex($compound)
+          $appendIndex: __tagIndex($compound, $__tagAppend)
+          $insertIndex: __tagIndex($compound, $__tagInsert)
+          $replaceIndex: __tagIndex($compound, $__tagReplace)
           @if $insertIndex > 0
-            // Insertion
+            // Insert
             @if ($lastIndex + $insertIndex) > length($newParent)
-              @error 'OUT OF BOUNDS: \'#{str-slice($compound, $insertIndex + 1)}\' insertion outside of \'#{__reverseList($newParent)}\' (#{$lastIndex + $insertIndex} vs #{length($newParent)}).'
+              @error 'OUT OF BOUNDS: \'#{str-slice($compound, $insertIndex + 1)}\' insert outside of \'#{__reverseList($newParent)}\' (#{$lastIndex + $insertIndex} vs #{length($newParent)}).'
             @else
               $lastIndex: $lastIndex + $insertIndex
-              // Selector validation
+              // Validation
               $validatedCompound: __listToString(simple-selectors(str-slice($compound, $insertIndex + 1)))
               $newParent: __insertInList($newParent, $lastIndex, $validatedCompound)
+          @else if $replaceIndex > 0
+            // Replace
+            @if ($lastIndex + $replaceIndex) > length($newParent)
+              @error 'OUT OF BOUNDS: \'#{str-slice($compound, $replaceIndex + 1)}\' replace outside of \'#{__reverseList($newParent)}\' (#{$lastIndex + $appendIndex} vs #{length($newParent)}).'
+            @else
+              $lastIndex: $lastIndex + $replaceIndex
+              // Validation
+              $validatedCompound: __listToString(simple-selectors(str-slice($compound, $replaceIndex + 1)))
+              $newParent: __replaceInList($newParent, nth($newParent, $lastIndex), $validatedCompound)
+          @else if $appendIndex > 0
+            // Append with tag
+            @if ($lastIndex + $appendIndex) > length($newParent)
+              @error 'OUT OF BOUNDS: \'#{str-slice($compound, $appendIndex + 1)}\' append outside of \'#{__reverseList($newParent)}\' (#{$lastIndex + $appendIndex} vs #{length($newParent)}).'
+            @else
+              $lastIndex: $lastIndex + $appendIndex
+              // Validation
+              $validatedCompound: nth($newParent, $lastIndex) + __listToString(simple-selectors(str-slice($compound, $appendIndex + 1)))
+              $newParent: __replaceInList($newParent, nth($newParent, $lastIndex), $validatedCompound)
           @else
-            // Modification
+            // Append with selector
             $simple: simple-selectors($compound)
             $state: ()
             $matched: false
@@ -161,9 +193,11 @@ $__insertionTag: '^'
                   $lastIndex: $n
                   $newParent: set-nth($newParent, $lastIndex, unquote($trySimple + $tryState))
             @if not $matched
-              @error 'OUT OF BOUNDS: \'#{$compound}\' modification not found in \'#{__reverseList($newParent)}\'.'
+              @error 'OUT OF BOUNDS: \'#{$compound}\' compound not found in \'#{__reverseList($newParent)}\'.'
         // Create new selectors
         $final: append($final, __reverseList($newParent), comma)
+  // Remove possible duplicates from multiselector replacement
+  $final: __removeDuplicatesFromList($final)
   // Render final selectors
   @at-root #{$final}
     codepen: debug
