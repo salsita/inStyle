@@ -1,13 +1,13 @@
 /*
-  inStyle (v1.5.2)
+  inStyle-SASS (v1.5.2)
   github.com/salsita/inStyle
   2016 | MIT
   ============================== */
 
 // Configuration
-$__tagAppend: '<'
-$__tagInsert: '^'
-$__tagReplace: '@'
+$__tagAppend: '<' !default
+$__tagInsert: '^' !default
+$__tagReplace: '@' !default
 
 // String helpers
 @function __trimString($string)
@@ -90,7 +90,7 @@ $__tagReplace: '@'
   @each $item in $list
     @if not index($result, $item)
       @if length($item) > 1 and $recursive
-        $result: append($result, remove-duplicates($item, $recursive), $separator)
+        $result: append($result, __removeDuplicatesFromList($item, $recursive), $separator)
       @else
         $result: append($result, $item, $separator)
   @return $result
