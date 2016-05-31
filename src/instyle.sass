@@ -136,7 +136,6 @@ $__tagReplace: '@'
     $selector: __stringToList($selector, ' ', space)
     // Get deepest match indexes in all parents
     $depthMap: __getDepthMap($selector, $current)
-    @debug $depthMap
     @for $n from 1 through length($current)
       // Render only best matching parents
       @if nth($depthMap, $n) == max($depthMap...)
