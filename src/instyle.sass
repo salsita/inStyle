@@ -102,11 +102,9 @@ $__inTagReplace: '@' !default
     // Save maximum length of matched compound to compare relevancy
     $parentIndex: index($current, $parent)
     $depthMap: append($depthMap, 0, comma)
-
     @each $compound in $selector
       // Check only for specific compound
       @if max(__tagIndex($compound, $__inTagInsert), __tagIndex($compound, $__inTagAppend), __tagIndex($compound, $__inTagReplace)) == 0
-
         $simple: simple-selectors($compound)
         // Test all matches starting with full compound and reducing for each step
         @for $i from 1 through length($simple)
@@ -127,7 +125,8 @@ $__inTagReplace: '@' !default
   $checkDupes: false
 
   @each $selector in $selectors
-    $selector: __removeFromList(__stringToList($selector, ' ', space), '') // Trim all extra empty spaces
+    // Trim all extra empty spaces
+    $selector: __removeFromList(__stringToList($selector, ' ', space), '')
     // Render only best matching parents in multiselectors
     $depthMap: if(length($current) == 1, 0, __getDepthMap($selector, $current))
     @for $n from 1 through length($current)
