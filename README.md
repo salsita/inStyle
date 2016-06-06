@@ -2,21 +2,22 @@
 
 `inStyle` is a CSS authoring tool to append, insert or replace elements in the current selector (`&`), giving you an intuitive way to style the current element based on parent variants without repeating complex queries. Enables fully nested CSS writing styles and wealth of one's soul.  
 
-What's new in 1.6.0:  
-- parser rewrite to a more intuitive use (RTL order of application)
+Article: https://css-tricks.com/instyle-current-selector-sass/
+
+Currently available for [SASS 3.4+](src/instyle.sass).
+
+**What's new** in 1.6.0:
+- parser rewrite with lots of improvements
+- **BREAKING** switched defaults for append to `^` and insert to `<` [reasons](//link)
 - all targets now always work from base index (vs last modified element index)
 - no restrictions on selector flow and order of modifications
 - better namespacing for config variables (`$__tagAppend` > `$__inTagAppend` etc.)
 - tolerance to extra spaces in mixin parameters
 - minor optimizations for faster compile and simplified error reporting
 
-Article: https://css-tricks.com/instyle-current-selector-sass/
-
-Currently available for [SASS 3.4+](src/instyle.sass).
-
 ## 1) Append
 
-Appending a state to an existing parent is done with the `<` special character (configurable).
+Appending a state to an existing parent is done with the `^` special character, each additional use targeting a higher parent.
 
 ```Sass
 .my-app
@@ -31,7 +32,7 @@ Appending a state to an existing parent is done with the `<` special character (
     .isIE6 &
       background-image: url("fake-borders.png")
 
-    +in('<.expanded')
+    +in('^.expanded')
       color: red // .my-app.expanded .widget { };
 
     @media (max-width: 768px)
