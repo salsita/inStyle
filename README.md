@@ -1,26 +1,18 @@
 # inStyle
 
-`inStyle` is a CSS authoring tool to append, insert or replace elements in the current selector (`&`), giving you an intuitive way to style the current element based on parent variants without repeating complex queries. Enables fully nested CSS writing styles and wealth of one's soul.
+`inStyle` is a CSS authoring tool to append, insert or replace elements in the current selector (`&`), giving you an intuitive way to style the current element based on parent variants without repeating complex queries. Enables fully nested CSS writing styles and wealth of one's soul.  
+
+What's new in 1.6.0:  
+- rewritten parser (LTR direction)
+- targets now always work from base index, not last changed element
+- no restrictions on selector flow when not using a named compound
+- better namespacing for config variables
+- no depthMap calculation for single selectors (faster compile)
+- selectors deduped only when dupe expected (faster compile)
 
 Article: https://css-tricks.com/instyle-current-selector-sass/
 
 Currently available for [SASS 3.4+](src/instyle.sass).
-
-```Sass
-.app > main article
-
-  .foo // let's nest all variations of .foo
-    color: red
-
-    &.ultimate
-      transform: rotate(9001deg)
-
-    +in('.app.unleashed <:hover')
-      color: blue // .app.unleashed > main article:hover .foo { };
-
-    +in('^.inserted')
-      zoom: 1 // .app > main article .inserted .foo { };
-```
 
 ## 1) Append
 
@@ -95,12 +87,6 @@ table
 
     +in('^thead')
       height: 50px // table thead tr { };
-
-  td
-    background-color: #fafafa
-
-    +in('table.blue-skin ^tbody')
-      background-color: blue // table.blue-skin tbody td { };
 ```
 
 ## 3) Replace
@@ -128,9 +114,9 @@ ul, ol
 
 Change any of the special characters to your preference by setting the following global variables:
 
-`$__tagAppend: '<'`  
-`$__tagInsert: '^'`  
-`$__tagReplace: '@'`
+`$__inTagAppend: '<'`  
+`$__inTagInsert: '^'`  
+`$__inTagReplace: '@'`
 
 All parameters are validated by SASS internal `selector-parse()`, so any errors in the attribute query will be reported on compilation.
 

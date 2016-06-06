@@ -1,13 +1,13 @@
 /*
-  inStyle-SASS (v1.5.2)
+  inStyle (v1.6.0)
   github.com/salsita/inStyle
   2016 | MIT
   ============================== */
 
 // Configuration
-$__tagAppend: '<' !default
-$__tagInsert: '^' !default
-$__tagReplace: '@' !default
+$__inTagAppend: '<' !default
+$__inTagInsert: '^' !default
+$__inTagReplace: '@' !default
 
 // String helpers
 @function __trimString($string)
@@ -115,7 +115,8 @@ $__tagReplace: '@' !default
     $parentIndex: index($current, $parent)
     $depthMap: append($depthMap, 0, comma)
     @each $compound in $selector
-      @if max(__tagIndex($compound, $__tagInsert), __tagIndex($compound, $__tagAppend), __tagIndex($compound, $__tagReplace)) == 0
+      // Check only for specific compound
+      @if max(__tagIndex($compound, $__inTagInsert), __tagIndex($compound, $__inTagAppend), __tagIndex($compound, $__inTagReplace)) == 0
         $simple: simple-selectors($compound)
         // Test all matches starting with full compound and reducing for each step
         @for $i from 1 through length($simple)
@@ -126,6 +127,11 @@ $__tagReplace: '@' !default
             $depthIndex: index(__reverseList($parent), __listToString($simple)) + (length($simple) / 1000)
             $depthMap: set-nth($depthMap, $parentIndex, $depthIndex)
   @return $depthMap
+
+// TODO: NO MAP FOR SINGLE SELECTOR
+// TODO: DEDUPE ONLY WHEN DUPE EXPECTED
+// TODO: MENTION TESTS IN README
+// TODO: ALLOW ANY FLEXIBILITY
 
 // In mixin
 =in($selectors)
@@ -141,38 +147,39 @@ $__tagReplace: '@' !default
       @if nth($depthMap, $n) == max($depthMap...)
         $parent: nth($current, $n)
         $newParent: __reverseList($parent)
-        $lastIndex: 1 // Start indexing above current element
-        @each $compound in __reverseList($selector)
-          $appendIndex: __tagIndex($compound, $__tagAppend)
-          $insertIndex: __tagIndex($compound, $__tagInsert)
-          $replaceIndex: __tagIndex($compound, $__tagReplace)
+        $startIndex: 1 // Start indexing above current element
+        $lastIndex: $startIndex // Track last modified index
+        $lastInsert: $startIndex // Track last insertion point
+        // Process the modifications LTR
+        @each $compound in $selector
+          $appendIndex: __tagIndex($compound, $__inTagAppend)
+          $insertIndex: __tagIndex($compound, $__inTagInsert)
+          $replaceIndex: __tagIndex($compound, $__inTagReplace)
+          $changeIndex: max($appendIndex, $insertIndex, $replaceIndex) + $startIndex
+
+          // OUT_OF_BOUNDS check
+          @if $changeIndex > length($parent)
+            @error 'OUT_OF_BOUNDS: \'#{$compound}\' modification outside of \'#{$parent} {}\' (#{$changeIndex} vs #{length($parent)}).'
+
           @if $insertIndex > 0
             // Insert
-            @if ($lastIndex + $insertIndex) > length($newParent)
-              @error 'OUT OF BOUNDS: \'#{str-slice($compound, $insertIndex + 1)}\' insert outside of \'#{__reverseList($newParent)}\' (#{$lastIndex + $insertIndex} vs #{length($newParent)}).'
-            @else
-              $lastIndex: $lastIndex + $insertIndex
-              // Validation
-              $validatedCompound: __listToString(simple-selectors(str-slice($compound, $insertIndex + 1)))
-              $newParent: __insertInList($newParent, $lastIndex, $validatedCompound)
+            $lastIndex: $lastIndex + $insertIndex
+            $lastInsert: $startIndex + $insertIndex
+            $validatedCompound: __listToString(simple-selectors(str-slice($compound, $insertIndex + 1)))
+            $newParent: __insertInList($newParent, $startIndex + $insertIndex, $validatedCompound)
+
           @else if $replaceIndex > 0
             // Replace
-            @if ($lastIndex + $replaceIndex) > length($newParent)
-              @error 'OUT OF BOUNDS: \'#{str-slice($compound, $replaceIndex + 1)}\' replace outside of \'#{__reverseList($newParent)}\' (#{$lastIndex + $appendIndex} vs #{length($newParent)}).'
-            @else
-              $lastIndex: $lastIndex + $replaceIndex
-              // Validation
-              $validatedCompound: __listToString(simple-selectors(str-slice($compound, $replaceIndex + 1)))
-              $newParent: __replaceInList($newParent, nth($newParent, $lastIndex), $validatedCompound)
+            $lastIndex: $lastIndex + $replaceIndex
+            $validatedCompound: __listToString(simple-selectors(str-slice($compound, $replaceIndex + 1)))
+            $newParent: __replaceInList($newParent, nth($newParent, $startIndex + $replaceIndex), $validatedCompound)
+
           @else if $appendIndex > 0
             // Append with tag
-            @if ($lastIndex + $appendIndex) > length($newParent)
-              @error 'OUT OF BOUNDS: \'#{str-slice($compound, $appendIndex + 1)}\' append outside of \'#{__reverseList($newParent)}\' (#{$lastIndex + $appendIndex} vs #{length($newParent)}).'
-            @else
-              $lastIndex: $lastIndex + $appendIndex
-              // Validation
-              $validatedCompound: nth($newParent, $lastIndex) + __listToString(simple-selectors(str-slice($compound, $appendIndex + 1)))
-              $newParent: __replaceInList($newParent, nth($newParent, $lastIndex), $validatedCompound)
+            $lastIndex: $lastIndex + $appendIndex
+            $validatedCompound: nth($newParent, $lastIndex) + __listToString(simple-selectors(str-slice($compound, $appendIndex + 1)))
+            $newParent: __replaceInList($newParent, nth($newParent, $appendIndex + 1), $validatedCompound)
+
           @else
             // Append with selector
             $simple: simple-selectors($compound)
@@ -193,7 +200,8 @@ $__tagReplace: '@' !default
                   $lastIndex: $n
                   $newParent: set-nth($newParent, $lastIndex, unquote($trySimple + $tryState))
             @if not $matched
-              @error 'OUT OF BOUNDS: \'#{$compound}\' compound not found in \'#{__reverseList($newParent)}\'.'
+              @error 'OUT_OF_BOUNDS: \'#{$compound}\' compound not found in \'#{__reverseList($newParent)}\'.'
+
         // Create new selectors
         $final: append($final, __reverseList($newParent), comma)
   // Remove possible duplicates from multiselector replacement
