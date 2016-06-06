@@ -3,12 +3,12 @@
 `inStyle` is a CSS authoring tool to append, insert or replace elements in the current selector (`&`), giving you an intuitive way to style the current element based on parent variants without repeating complex queries. Enables fully nested CSS writing styles and wealth of one's soul.  
 
 What's new in 1.6.0:  
-- rewritten parser (LTR direction)
-- targets now always work from base index, not last changed element
-- no restrictions on selector flow when not using a named compound
-- better namespacing for config variables
-- no depthMap calculation for single selectors (faster compile)
-- selectors deduped only when dupe expected (faster compile)
+- parser rewrite to a more intuitive use (RTL order of application)
+- all targets now always work from base index (vs last modified element index)
+- no restrictions on selector flow and order of modifications
+- better namespacing for config variables (`$__tagAppend` > `$__inTagAppend` etc.)
+- tolerance to extra spaces in mixin parameters
+- minor optimizations for faster compile and simplified error reporting
 
 Article: https://css-tricks.com/instyle-current-selector-sass/
 
