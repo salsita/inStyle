@@ -7,7 +7,7 @@ Article: https://css-tricks.com/instyle-current-selector-sass/
 Currently available for [SASS 3.4+](src/instyle.sass).
 
 **What's new** in 1.6.0:
-- parser rewrite with lots of improvements
+- parser rewrite with lots of improvements and fixes
 - **BREAKING** switched defaults for append to `^` and insert to `<` [reasons](//link)
 - all targets now always work from base index (vs last modified element index)
 - no restrictions on selector flow and order of modifications
@@ -17,7 +17,7 @@ Currently available for [SASS 3.4+](src/instyle.sass).
 
 ## 1) Append
 
-Appending a state to an existing parent is done with the `^` special character, each additional use targeting a higher parent.
+Appending a state to an existing parent is done with the `^` special character. Each additional use of this character targets a higher parent (works the same for all features).
 
 ```Sass
 .my-app
@@ -57,7 +57,7 @@ ul, ol
 
 ## 2) Insert
 
-Inserting a new selector at a certain position above the current element is done with the `^` special character.
+Inserting a new selector at a certain position above the current element is done with the `<` special character.
 
 ```Sass
 .container
@@ -69,10 +69,10 @@ Inserting a new selector at a certain position above the current element is done
     span
       color: red
 
-      +in('^.upside-down')
+      +in('<.upside-down')
         transform: rotate(180deg) // .container div .upside-down span { };
 
-      +in('^^[class^=foo]')
+      +in('<<[class^=foo]')
         content: 'bar' // .container [class^=foo] div span { };
 ```
 
@@ -86,7 +86,7 @@ table
   tr
     height: 30px
 
-    +in('^thead')
+    +in('<thead')
       height: 50px // table thead tr { };
 ```
 
@@ -110,16 +110,21 @@ ul, ol
       +in('@@.special-list')
         color: orange // .special-list li a { };
 ```
+## Features
+
+- Infinitely nestable
+- Any amount of modifications separated by a space
+- Accepts multiselectors separated by a comma
+- Validates all CSS input by SASS internal `selector-parse()`
+- Order of modifications makes no difference, RTL priority
 
 ## Options
 
 Change any of the special characters to your preference by setting the following global variables:
 
-`$__inTagAppend: '<'`  
-`$__inTagInsert: '^'`  
+`$__inTagAppend: '^'`  
+`$__inTagInsert: '<'`  
 `$__inTagReplace: '@'`
-
-All parameters are validated by SASS internal `selector-parse()`, so any errors in the attribute query will be reported on compilation.
 
 ## Installation
 
