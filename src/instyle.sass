@@ -118,12 +118,6 @@ $__inTagReplace: '@' !default
             $depthMap: set-nth($depthMap, $parentIndex, $depthIndex)
   @return $depthMap
 
-// TODO: NO MAP FOR SINGLE SELECTOR
-// TODO: MENTION TESTS IN README
-
-// TODO: NAMED SELECTOR SHOULD MATCH ALL DUPLICATE MENTIONS
-// TODO: EXACT SELECTOR SHOULD NOT
-
 // In mixin
 =in($selectors)
   $final: ()
@@ -131,15 +125,17 @@ $__inTagReplace: '@' !default
   $selectors: __stringToList($selectors)
   $startIndex: 1 // Start indexing above current element
   $checkDupes: false
+
   @each $selector in $selectors
-    $selector: __removeFromList(__stringToList($selector, ' ', space), '') // Also removes extra spaces
-    $depthMap: __getDepthMap($selector, $current) // Get deepest match indexes in all parents
+    $selector: __removeFromList(__stringToList($selector, ' ', space), '') // Trim all extra empty spaces
+    // Render only best matching parents in multiselectors
+    $depthMap: if(length($current) == 1, 0, __getDepthMap($selector, $current))
     @for $n from 1 through length($current)
-      // Render only best matching parents
       @if nth($depthMap, $n) == max($depthMap...)
         $parent: nth($current, $n)
         $newParent: __reverseList($parent)
         $insertQueue: () // Save insertions to process later
+
         // Process modifications RTL
         @each $compound in __reverseList($selector)
           $appendIndex: __tagIndex($compound, $__inTagAppend)
