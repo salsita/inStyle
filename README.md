@@ -130,7 +130,7 @@ Change any of the special characters to your preference by setting the following
 
 `@import 'instyle'` in your SASS/SCSS stylesheet.
 
-Ruby SASS compilation is required due to reliance on 3.4 features. Conversion to `libsass` should work out of the box once 3.4 is stable.
+Ruby SASS compilation is required due to reliance on v3.4 features.
 
 - Install Ruby - [Win](http://rubyinstaller.org/), [Linux](https://www.ruby-lang.org/en/documentation/installation/#package-management-systems)
 
