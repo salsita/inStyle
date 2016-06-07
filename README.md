@@ -6,7 +6,7 @@ Article: https://css-tricks.com/instyle-current-selector-sass/
 
 Currently available for [SASS 3.4+](src/instyle.sass).
 
-**What's new** in 1.6.0:
+**What's new** in 1.6.1:
 - parser rewrite with lots of improvements and fixes
 - all targets now always work from base index (vs last modified element index)
 - no restrictions on selector flow and order of modifications
