@@ -142,6 +142,11 @@ inStyle is also available on Bower and NPM:
 `npm install inStyle`  
 `bower install inStyle`
 
+## Tests
+
+`npm install`  
+`npm run test`
+
 ## Roadmap
 
 - Stylus port (blocked by [#1703](https://github.com/stylus/stylus/issues/1703))

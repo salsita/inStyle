@@ -1,11 +1,11 @@
 {
   "name": "inStyle",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "A CSS authoring tool to modify or insert into the current selector.",
   "main": "src/instyle.sass",
   "dependencies": {},
   "scripts": {
-    "test": "sass specs/tests.sass --no-cache"
+    "test": "sass test/tests.sass --no-cache"
   },
   "repository": {
     "type": "git",
