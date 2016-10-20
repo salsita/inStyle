@@ -4,7 +4,7 @@
 
 Article: https://css-tricks.com/instyle-current-selector-sass/
 
-Currently available for [SASS 3.4+](src/instyle.sass).
+Currently available for [SASS 3.4+](src/instyle.sass) and [postcss](https://github.com/salsita/postcss-inrule).
 
 **What's new** in 1.6.1:
 - parser rewrite with lots of improvements and fixes
