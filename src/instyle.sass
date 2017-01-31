@@ -98,6 +98,14 @@ $__inTagReplace: '@' !default
 
 @function __getDepthMap($selector, $current)
   $depthMap: ()
+  
+  // Make sure the $current list is correctly parsed while using libsass.
+  $currentList: ()
+  @each $parent in $current
+    $currentList: append($currentList, $parent, comma)
+  @if length($currentList) > 0
+    $current: $currentList
+    
   @each $parent in $current
     // Save maximum length of matched compound to compare relevancy
     $parentIndex: index($current, $parent)
