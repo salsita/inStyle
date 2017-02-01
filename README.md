@@ -122,17 +122,7 @@ Change any of the special characters to your preference by setting the following
 
 ## Installation
 
-`@import 'instyle'` in your SASS/SCSS stylesheet.
-
-Ruby SASS compilation is required due to reliance on v3.4 features.
-
-- Install Ruby - [Win](http://rubyinstaller.org/), [Linux](https://www.ruby-lang.org/en/documentation/installation/#package-management-systems)
-
-- `gem install sass`
-
-- `sass --watch test.sass`
-
-inStyle is also available on Bower and NPM:
+`@import 'node_modules/inStyle/src/instyle'` in your SASS/SCSS stylesheet.
 
 `npm install inStyle`
 `bower install inStyle`
