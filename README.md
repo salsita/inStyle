@@ -6,7 +6,7 @@ Article: https://css-tricks.com/instyle-current-selector-sass/
 
 Currently available for [SASS 3.4+](src/instyle.sass) and [PostCSS](https://github.com/salsita/postcss-inrule).
 
-**What's new** in 1.6.2:
+**What's new** in 1.6.3:
 - libsass 3.4+ compatibility (thanks [andrezrv](https://github.com/andrezrv))
 
 ## 1) Append
@@ -116,20 +116,20 @@ ul, ol
 
 Change any of the special characters to your preference by setting the following global variables:
 
-`$__inTagAppend: '<'`
-`$__inTagInsert: '^'`
+`$__inTagAppend: '<'`  
+`$__inTagInsert: '^'`  
 `$__inTagReplace: '@'`
 
 ## Installation
 
 `@import 'node_modules/inStyle/src/instyle'` in your SASS/SCSS stylesheet.
 
-`npm install inStyle`
+`npm install inStyle`  
 `bower install inStyle`
 
 ## Tests
 
-`npm install`
+`npm install`  
 `npm run test`
 
 ## Roadmap
