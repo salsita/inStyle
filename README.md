@@ -1,18 +1,13 @@
 # inStyle
 
-`inStyle` is a CSS authoring tool to append, insert or replace elements in the current selector (`&`), giving you an intuitive way to style the current element based on parent variants without repeating complex queries. Enables fully nested CSS writing styles and wealth of one's soul.  
+`inStyle` is a CSS authoring tool to append, insert or replace elements in the current selector (`&`), giving you an intuitive way to style the current element based on parent variants without repeating complex queries. Enables fully nested CSS writing styles and wealth of one's soul.
 
 Article: https://css-tricks.com/instyle-current-selector-sass/
 
 Currently available for [SASS 3.4+](src/instyle.sass) and [PostCSS](https://github.com/salsita/postcss-inrule).
 
-**What's new** in 1.6.1:
-- parser rewrite with lots of improvements and fixes
-- all targets now always work from base index (vs last modified element index)
-- no restrictions on selector flow and order of modifications
-- better namespacing for config variables (`$__tagAppend` > `$__inTagAppend` etc.)
-- tolerance to extra spaces in mixin parameters
-- minor optimizations for faster compile and simplified error reporting
+**What's new** in 1.6.2:
+- libsass 3.4+ compatibility (thanks [andrezrv](https://github.com/andrezrv))
 
 ## 1) Append
 
@@ -121,8 +116,8 @@ ul, ol
 
 Change any of the special characters to your preference by setting the following global variables:
 
-`$__inTagAppend: '<'`  
-`$__inTagInsert: '^'`  
+`$__inTagAppend: '<'`
+`$__inTagInsert: '^'`
 `$__inTagReplace: '@'`
 
 ## Installation
@@ -139,12 +134,12 @@ Ruby SASS compilation is required due to reliance on v3.4 features.
 
 inStyle is also available on Bower and NPM:
 
-`npm install inStyle`  
+`npm install inStyle`
 `bower install inStyle`
 
 ## Tests
 
-`npm install`  
+`npm install`
 `npm run test`
 
 ## Roadmap
